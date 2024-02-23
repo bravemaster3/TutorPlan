@@ -1,0 +1,156 @@
+:root {
+  --font-family1: "Inter", sans-serif;
+  --font-family2: "Libre Caslon Display", serif;
+
+  --page-margin: 92px;
+
+  --navbar-height: 60px;
+  --nav-font-size: 20px;
+
+  --black: black;
+}
+
+
+/******NAVBAR******/
+
+#root {
+  margin: auto var(--page-margin) auto var(--page-margin);
+}
+
+/* Media Query for screens smaller than 768px (adjust as needed) */
+@media (max-width: 767px) {
+  :root {
+    --page-margin: 30px; /* Adjust margin for smaller screens */
+  }
+}
+
+.nav-item {
+  font-family: var(--font-family1);
+  font-size: var(--nav-font-size);
+  color: var(--black);
+}
+
+.navbar {
+  height: var(--navbar-height);
+}
+
+/*******Home*********/
+
+.home-div1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: calc(100vh - var(--navbar-height));
+}
+
+.home-div1-left {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  flex: 1 1 100%; /* Take full width by default */
+  max-width: 100%; /* Ensure it doesn't exceed the container width */
+  box-sizing: border-box; /* Include padding and border in width calculations */
+}
+
+.home-div1-left button {
+  margin-right: 0; /* No margin on small screens */
+  font-family: var(--font-family1);
+  font-size: 30px;
+  font-weight: bold;
+  border: 0;
+  padding: 15px;
+}
+
+.home-div1-left h1 {
+  font-family: var(--font-family2);
+  font-size: 4rem;
+  letter-spacing: 0.5rem;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  .home-div1-left h1 {
+    font-size: 3rem;
+  }
+}
+
+.home-div1-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 100%; /* Take full width by default */
+  max-width: 100%; /* Ensure it doesn't exceed the container width */
+  box-sizing: border-box; /* Include padding and border in width calculations */
+}
+
+/* Media Query for screens larger than 768px (adjust as needed) */
+@media (min-width: 768px) {
+  .home-div1 {
+    flex-direction: row; /* Display in a row on larger screens */
+  }
+
+  .home-div1-left,
+  .home-div1-right {
+    flex: 1 1 50%; /* Take 50% width on larger screens */
+  }
+}
+
+.home-div2 {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: bisque;
+}
+
+
+/* .home-div1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: calc(100vh - var(--navbar-height));
+}
+
+.home-div1-left {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  height: 100%;
+  width: 40%;
+  min-width: 400px;
+}
+
+.home-div1-left button {
+  margin-right: 100px;
+  font-family: var(--font-family1);
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.home-div1-left h1 {
+  font-family: var(--font-family2);
+  font-size: 54px;
+  letter-spacing: 0.5rem;
+  font-weight: bold;
+}
+
+.home-div1-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 60%;
+} */
+
+.home-img {
+  width: 100%;
+}
