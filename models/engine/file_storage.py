@@ -8,7 +8,15 @@ from models.tutor import Tutor
 from models.student import Student
 from models.availability import Availability
 from models.booking import Booking
+from models.parent_model import ParentModel
 import os
+
+classes = {
+        "Student": Student, "Tutor": Tutor,
+        "Availability": Availability,
+        "Booking": Booking, "Course": Course,
+        "ParentModel": ParentModel
+        }
 
 
 class FileStorage():
@@ -66,6 +74,6 @@ class FileStorage():
             with open(self.__file_path, "r", encoding="utf-8") as file_obj:
                 all_objects = json.load(file_obj)
                 for key, value in all_objects.items():
-                    cls = eval(value.get("__class__"))
+                    cls = classes[value.get("__class__")]
                     new_obj = cls(**value)
                     self.__objects[key] = new_obj

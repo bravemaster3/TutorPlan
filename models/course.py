@@ -2,10 +2,13 @@
 """ This module contains a class (Course) which inherit from
     ParentModel class.
 """
-from models.parent_model import ParentModel
+from models.parent_model import ParentModel, Base
+from sqlalchemy import Column, String, Float, Integer, ForeignKey
+from sqlalchemy.orm import relationship, backref
+import os
 
 
-class Course(ParentModel):
+class Course(ParentModel, Base):
     """A Course class that inherit from ParentModel
 
     Class field attr:
@@ -16,18 +19,18 @@ class Course(ParentModel):
         fee: a float
         description: a string
     """
-    tutor_id = ""
-    title = ""
-    duration = ""
-    course_format = ""
-    fee = 20.33
-    description = ""
-
-
-if __name__ == "__main__":
-    obj = Course()
-    print(f'My id is {obj.id}')
-    print(f'I was created at {obj.created_at}')
-    print(f'I was updated at {obj.updated_at}')
-    obj.title = "Agriculture"
-    print(obj.to_dict())
+    if os.getenv("TUTORPLAN_TYPE_STORAGE") == "db":
+        __tablename__ = "courses"
+        title = Column("title", String(128), nullable=False)
+        tutor_id = Column("tutor_id", String(60), ForeignKey("tutors.id"), nullable=False)
+        duration = Column("duration", Integer, nullable=False)
+        course_format = Column("course_format", String(30), default="remote")
+        fee = Column("fee", Float, default=20.33)
+        description = Column("description", String(1024), nullable=True)
+    else:
+        tutor_id = ""
+        title = ""
+        duration = ""
+        course_format = ""
+        fee = 20.33
+        description = ""

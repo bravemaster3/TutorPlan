@@ -2,21 +2,13 @@
 """ This module contains a class (Tutor) which inherit from User
     Class.
 """
-from models.user import User
+from models.user import User, Base
+from sqlalchemy.orm import relationship, backref
+import os
 
 
-class Tutor(User):
+class Tutor(User, Base):
     """A Tutor class that inherit from User"""
-    pass
-
-
-
-if __name__ == "__main__":
-    obj = Tutor()
-    # print(obj)
-    # print(str(type(obj)).split(".")[1].split("'")[0].strip())
-    print(f'My id is {obj.id}')
-    print(f'I was created at {obj.created_at}')
-    print(f'I was updated at {obj.updated_at}')
-    obj.first_name = "salau"
-    print(obj.to_dict())
+    __tablename__ = "tutors"
+    if os.getenv('TUTORPLAN_TYPE_STORAGE') == 'db':
+        courses = relationship("Course", backref=backref("tutor"))
