@@ -2,11 +2,13 @@
 """ This module contains a class (Availability) which inherit from
     ParentModel class.
 """
-from models.parent_model import ParentModel
+from models.parent_model import ParentModel, Base
 import datetime
+from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime
+import os
 
 
-class Availability(ParentModel):
+class Availability(ParentModel, Base):
     """An Availability class that inherit from ParentModel
         has the following attributes
 
@@ -17,17 +19,17 @@ class Availability(ParentModel):
         end_time: a string
         booked: boolean
     """
-    course_id = ""
-    day = datetime.datetime.now().date()
-    start_time = ""
-    end_time = ""
-    booked = False
+    if os.getenv("TUTORPLAN_TYPE_STORAGE") == "db":
+        __tablename__ = "availability"
+        course_id = Column(String(60), ForeignKey("courses.id"), nullable=False)
+        day = Column(DateTime, default=datetime.datetime.utcnow)
+        start_time = Column(String(30), nullable=False)
+        end_time = Column(String(30), nullable=False)
+        booked = Column(Boolean, default=False)
+    else:
+        course_id = ""
+        day = datetime.datetime.now().date()
+        start_time = ""
+        end_time = ""
+        booked = False
 
-
-if __name__ == "__main__":
-    obj = Availability()
-    print(f'My id is {obj.id}')
-    print(f'I was created at {obj.created_at}')
-    print(f'I was updated at {obj.updated_at}')
-    print(obj.day.isoformat())
-    print(obj.to_dict())

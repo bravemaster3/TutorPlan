@@ -27,6 +27,7 @@ class Course(ParentModel, Base):
         course_format = Column("course_format", String(30), default="remote")
         fee = Column("fee", Float, default=20.33)
         description = Column("description", String(1024), nullable=True)
+        availability = relationship("Availability", uselist=False, backref=backref("course"), cascade="all, delete-orphan")
     else:
         tutor_id = ""
         title = ""

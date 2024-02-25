@@ -14,12 +14,3 @@ class Booking(ParentModel):
     """
     student_id = ""
     availability_id = ""
-
-
-if __name__ == "__main__":
-    obj = Booking()
-    print(f'My id is {obj.id}')
-    print(f'I was created at {obj.created_at}')
-    print(f'I was updated at {obj.updated_at}')
-    obj.title = "Agriculture"
-    print(obj.to_dict())

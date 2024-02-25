@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from models.student import Student
-from models.tutor import Tutor
+#from models.student import Student
+#from models.tutor import Tutor
 from models.parent_model import ParentModel
 
 

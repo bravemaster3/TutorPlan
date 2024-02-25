@@ -8,8 +8,9 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from models.parent_model import Base
 from models.course import Course
 from models.tutor import Tutor
+from models.availability import Availability
 
-ValidClasses = [Course, Tutor]
+ValidClasses = [Course, Tutor, Availability]
 
 
 class DBStorage():
