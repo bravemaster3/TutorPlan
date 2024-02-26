@@ -3,10 +3,30 @@
     ParentModel class.
 """
 from models.parent_model import ParentModel, Base
-from sqlalchemy import Column, String, Float, Integer, ForeignKey
+from sqlalchemy import Column, String, Float, Integer, ForeignKey, Table
 from sqlalchemy.orm import relationship, backref
 import os
 
+if os.getenv("TUTORPLAN_TYPE_STORAGE") == "db":
+    registration = Table(
+            "registration", Base.metadata,
+            Column(
+                "course_id", String(60),
+                ForeignKey(
+                    "courses.id", onupdate='CASCADE',
+                    ondelete="CASCADE"
+                    ),
+                primary_key=True
+                ),
+            Column(
+                "student_id", String(60),
+                ForeignKey(
+                    "students.id", onupdate="CASCADE",
+                    ondelete="CASCADE"
+                    ),
+                primary_key=True
+                )
+            )
 
 class Course(ParentModel, Base):
     """A Course class that inherit from ParentModel
@@ -27,7 +47,8 @@ class Course(ParentModel, Base):
         course_format = Column("course_format", String(30), default="remote")
         fee = Column("fee", Float, default=20.33)
         description = Column("description", String(1024), nullable=True)
-        availability = relationship("Availability", uselist=False, backref=backref("course"), cascade="all, delete-orphan")
+        availability = relationship("Availability", backref=backref("course"), cascade="all, delete-orphan")
+        students = relationship("Student", secondary=registration, viewonly=False)
     else:
         tutor_id = ""
         title = ""

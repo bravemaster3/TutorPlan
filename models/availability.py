@@ -5,6 +5,7 @@
 from models.parent_model import ParentModel, Base
 import datetime
 from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime
+from sqlalchemy.orm import relationship
 import os
 
 
@@ -26,6 +27,7 @@ class Availability(ParentModel, Base):
         start_time = Column(String(30), nullable=False)
         end_time = Column(String(30), nullable=False)
         booked = Column(Boolean, default=False)
+        booking = relationship("Booking", uselist=False, backref="availability", cascade="all, delete, delete-orphan")
     else:
         course_id = ""
         day = datetime.datetime.now().date()

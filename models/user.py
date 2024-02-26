@@ -21,7 +21,7 @@ class User(ParentModel):
     if os.getenv('TUTORPLAN_TYPE_STORAGE') == 'db':
         first_name = Column("first_name", String(128), nullable=True)
         last_name = Column("last_name", String(128), nullable=True)
-        email = Column("email", String(128), nullable=False)
+        email = Column("email", String(128), nullable=False, unique=True)
         password = Column("password", String(128), nullable=False)
         phone_number = Column("phone_number", String(128), nullable=True)
         country = Column("country", String(128), nullable=False)

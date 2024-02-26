@@ -11,4 +11,4 @@ class Tutor(User, Base):
     """A Tutor class that inherit from User"""
     __tablename__ = "tutors"
     if os.getenv('TUTORPLAN_TYPE_STORAGE') == 'db':
-        courses = relationship("Course", backref=backref("tutor"))
+        courses = relationship("Course", backref=backref("tutor"), cascade="all, delete-orphan")

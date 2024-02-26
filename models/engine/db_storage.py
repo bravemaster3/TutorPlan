@@ -9,8 +9,10 @@ from models.parent_model import Base
 from models.course import Course
 from models.tutor import Tutor
 from models.availability import Availability
+from models.booking import Booking
+from models.student import Student
 
-ValidClasses = [Course, Tutor, Availability]
+ValidClasses = [Course, Tutor, Availability, Booking, Student]
 
 
 class DBStorage():
