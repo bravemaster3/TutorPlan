@@ -46,7 +46,10 @@ class ParentModel():
     def __str__(self):
         """return the string implementation of an instance"""
         cls_name = self.__class__.__name__
-        return '[{}] ({}) {}'.format(cls_name, self.id, self.__dict__)
+        dict_copy = self.__dict__.copy()
+        if dict_copy.get("_sa_instance_state"):
+            del dict_copy["_sa_instance_state"]
+        return '[{}] ({}) {}'.format(cls_name, self.id, dict_copy)
 
     def to_dict(self):
         """convert an instance of ParentModel to a dictionary

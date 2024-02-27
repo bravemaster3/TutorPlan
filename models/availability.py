@@ -23,9 +23,9 @@ class Availability(ParentModel, Base):
     if os.getenv("TUTORPLAN_TYPE_STORAGE") == "db":
         __tablename__ = "availability"
         course_id = Column(String(60), ForeignKey("courses.id"), nullable=False)
-        day = Column(DateTime, default=datetime.datetime.utcnow)
-        start_time = Column(String(30), nullable=False)
-        end_time = Column(String(30), nullable=False)
+        day = Column(DateTime, default=datetime.datetime.now().date().isoformat())
+        start_time = Column(String(5), default=datetime.datetime.now().time().strftime("%H:%M"))
+        end_time = Column(String(5), default=datetime.datetime.now().time().strftime("%H:%M"))
         booked = Column(Boolean, default=False)
         booking = relationship("Booking", uselist=False, backref="availability", cascade="all, delete, delete-orphan")
     else:

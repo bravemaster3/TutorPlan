@@ -44,9 +44,10 @@ class Course(ParentModel, Base):
         title = Column("title", String(128), nullable=False)
         tutor_id = Column("tutor_id", String(60), ForeignKey("tutors.id"), nullable=False)
         duration = Column("duration", Integer, nullable=False)
-        course_format = Column("course_format", String(30), default="remote")
+        course_type = Column("course_format", String(30), default="remote")
         fee = Column("fee", Float, default=20.33)
         description = Column("description", String(1024), nullable=True)
+        category = Column("category", String(60), nullable=False)
         availability = relationship("Availability", backref=backref("course"), cascade="all, delete-orphan")
         students = relationship("Student", secondary=registration, viewonly=False)
     else:

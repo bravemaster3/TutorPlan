@@ -13,6 +13,11 @@ from models.booking import Booking
 from models.student import Student
 
 ValidClasses = [Course, Tutor, Availability, Booking, Student]
+classes = {
+        "Course": Course, "Tutor": Tutor,
+        "Availability": Availability, "Booking": Booking,
+        "Student": Student
+        }
 
 
 class DBStorage():
@@ -84,7 +89,7 @@ class DBStorage():
         else:
             for table in Base.registry._class_registry.values():
                 if hasattr(table, "__table__"):
-                    for obj in self.session.query(table).all():
+                    for obj in self.__session.query(table).all():
                          key = "{}.{}".format(obj.__class__.__name__, obj.id)
                          objs_dict[key] = obj
         return objs_dict
@@ -93,3 +98,28 @@ class DBStorage():
         """close the current session"""
         self.__session.remove()
 
+    def get(self, cls, id):
+        """retrive an object with the specified cls and id"""
+        if cls in classes.values():
+            all_cls = self.all(cls)
+            for key, value in classes.items():
+                if value == cls:
+                    key1 = "{}.{}".format(key, id)
+                    obj_found = all_cls.get(key1)
+                    if obj_found:
+                        return obj_found
+                    else:
+                        return None
+        else:
+            return None
+
+    def count(self, cls=None):
+        """count the number of objects in storage that belongs to cls"""
+        count = 0
+        if cls in classes.values():
+            all_cls = self.all(cls)
+        else:
+            all_cls = self.all()
+        for key in all_cls.keys():
+            count += 1
+        return count
