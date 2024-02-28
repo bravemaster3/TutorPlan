@@ -1,3 +1,4 @@
+import MyDeskTutor from "./MyDeskTutor"
 export default function MyDesk() {
-  return <>This is your personal desk</>
+  return <MyDeskTutor />
 }

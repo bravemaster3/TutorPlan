@@ -4,6 +4,7 @@ import Courses from "./components/Courses"
 import MyDesk from "./components/MyDesk"
 import About from "./components/About"
 import Login from "./components/Login"
+import SignUp from "./components/SignUp"
 import { Route, Routes } from "react-router-dom"
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/mydesk" element={<MyDesk />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </>
   )

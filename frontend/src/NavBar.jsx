@@ -1,11 +1,16 @@
-import { Link, useMatch, useResolvedPath } from "react-router-dom"
+import { Link, useMatch } from "react-router-dom"
+import CustomLink from "./components/CustomLink"
 export default function NavBar() {
   return (
-    <>
+    <div className="container-fluid navbar-container">
       <nav className="navbar bg-color-custom navbar-expand-lg">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            LOGO
+            <img
+              className="logo-img"
+              src="src/assets/images/logo.png"
+              alt="TutorPlan"
+            ></img>
           </Link>
           <button
             className="navbar-toggler"
@@ -24,29 +29,12 @@ export default function NavBar() {
               <CustomLink to="/courses">COURSES</CustomLink>
               <CustomLink to="/mydesk">MY DESK</CustomLink>
               <CustomLink to="/about">ABOUT US</CustomLink>
-              <CustomLink to="/login">SIGN IN/UP</CustomLink>
+              {/* <CustomLink to={"/login"}>SIGN IN/UP</CustomLink> */}
+              <CustomLink to={["/login", "/sign-up"]}>SIGN IN/UP</CustomLink>
             </ul>
           </div>
         </div>
       </nav>
-    </>
-  )
-}
-
-function CustomLink({ to, children, ...props }) {
-  // const path = window.location.pathname
-  const resolvedPath = useResolvedPath(to)
-  const isActive = useMatch({ path: resolvedPath.pathname, end: true })
-
-  return (
-    <li className="nav-item mx-3">
-      <Link
-        className={isActive ? "nav-link active" : "nav-link default"}
-        to={to}
-        {...props}
-      >
-        {children}
-      </Link>
-    </li>
+    </div>
   )
 }
