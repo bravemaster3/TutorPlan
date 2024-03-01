@@ -11,17 +11,17 @@ print(storage.all(Course))
 print("I would love to share the demo of our TUTORPLAN website")
 
 # create a Tutor
-tutor = Tutor(first_name="Salau", last_name="Isiaq", email="olakunleisiaq50@gmail.com", password="13323", country="Nigeria")
+tutor = Tutor(first_name="bello", last_name="imole", email="bello@gmail.com", password="13323", country="Nigeria")
 tutor.save()
 
 # create a Course
-course = Course(title="Data analytics", tutor_id=tutor.id, duration=30, category="Programming")
+course = Course(title="anp", tutor_id=tutor.id, duration=30, category="agric")
 course.save()
 
 print(f'\nI am {tutor.first_name} {tutor.last_name} who live in {tutor.country}. I teach {tutor.courses[0].title}. You can email me at {tutor.email} for more enquiries\n')
 
 # create a Student
-student1 = Student(first_name="Koffi", last_name="Nmoumi", email="koffi@gmail.com", password="3837363a", country="Sweden")
+student1 = Student(first_name="balogun", last_name="wasiu", email="wasiu@gmail.com", password="3837363a", country="Sweden")
 student1.save()
 
 # link student1 with a course
@@ -30,7 +30,7 @@ course.students.append(student1)
 print(f"\nI am {student1.first_name} {student1.last_name} who live in {student1.country}. I am learning {student1.courses_registered[0].title}\n")
 
 # create a Availability
-available = Availability(course_id=course.id, start_time="1:30", end_time="3:30")
+available = Availability(course_id=course.id, start_time="1:00", end_time="3:00")
 available.save()
 
 print(f"Hello guys! Here are the availability of {course.title}:")

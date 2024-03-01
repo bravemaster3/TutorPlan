@@ -56,6 +56,8 @@ class ParentModel():
             object
         """
         dict_attr = self.__dict__.copy()
+        if dict_attr.get("_sa_instance_state"):
+            del dict_attr["_sa_instance_state"]
         obj_class_name = str(self.__class__.__name__)
         dict_attr.update({"__class__": obj_class_name})
         dict_attr["created_at"] = self.created_at.isoformat()
