@@ -8,7 +8,7 @@ export default function NavBar() {
           <Link className="navbar-brand" to="/">
             <img
               className="logo-img"
-              src="src/assets/images/logo.png"
+              src="/src/assets/images/logo.png"
               alt="TutorPlan"
             ></img>
           </Link>
@@ -28,9 +28,24 @@ export default function NavBar() {
               <CustomLink to="/home">HOME</CustomLink>
               <CustomLink to="/courses">COURSES</CustomLink>
               <CustomLink to="/mydesk">MY DESK</CustomLink>
+              {/* <CustomLink
+                to={[
+                  "/mydesk",
+                  "/mydesk/calendar",
+                  "/mydesk/mycourses",
+                  "/mydesk/students",
+                  "/mydesk/tutors",
+                  "/mydesk/profile",
+                ]}
+              > 
+                MY DESK
+              </CustomLink>*/}
               <CustomLink to="/about">ABOUT US</CustomLink>
-              {/* <CustomLink to={"/login"}>SIGN IN/UP</CustomLink> */}
-              <CustomLink to={["/login", "/sign-up"]}>SIGN IN/UP</CustomLink>
+              <CustomLink to="/login">SIGN IN/UP</CustomLink>
+              {/* <CustomLink to={["/login", "/login/sign-up"]}>
+                SIGN IN/UP
+              </CustomLink> */}
+              {/* <CustomLink to="/login/sign-up">UP</CustomLink> */}
             </ul>
           </div>
         </div>

@@ -16,7 +16,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
 
-export default function MyDeskTutor() {
+export default function SideBar() {
   const [isCollapsed, setIsCollapsed] = useState(true)
 
   return (
@@ -43,12 +43,21 @@ export default function MyDeskTutor() {
           </div>
 
           <ul className="menu-list">
-            <MenuItem to="/calendar" icon={faCalendar} text="Calendar" />
-            <MenuItem to="/courses" icon={faBookReader} text="Courses" />
-            <MenuItem to="/students" icon={faUserGraduate} text="Students" />
-            <MenuItem to="/profile" icon={faUser} text="Profile" />
+            <MenuItem to="/mydesk/calendar" icon={faCalendar} text="Calendar" />
             <MenuItem
-              to="/booking-policy"
+              to="/mydesk/mycourses"
+              icon={faBookReader}
+              text="Courses"
+            />
+            <MenuItem
+              to="/mydesk/students"
+              icon={faUserGraduate}
+              text="Students"
+            />
+            {/* <MenuItem to="/mydesk/tutors" icon={faUserGraduate} text="Tutors" /> */}
+            <MenuItem to="/mydesk/profile" icon={faUser} text="Profile" />
+            <MenuItem
+              to="/mydesk/booking-policy"
               icon={faInfoCircle}
               text="Booking Policy"
             />
@@ -63,7 +72,7 @@ export default function MyDeskTutor() {
 
 const MenuItem = ({ to, icon, text }) => (
   <li className="menu-item">
-    <Link to={to}>
+    <Link to={to} className="menu-link">
       <FontAwesomeIcon icon={icon} className="fa-icon" />
       {text}
     </Link>

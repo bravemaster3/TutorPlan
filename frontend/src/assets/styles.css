@@ -8,6 +8,8 @@
   --navbar-height: 80px;
   --nav-font-size: 20px;
 
+  --side-nav-font-size: 30px;
+
   /* Colors */
   --primary-col: #23A064;
   --secondary-col: #77E5D2;
@@ -17,9 +19,14 @@
   --white: white;
   --grey-background: #ECF1F4;
   --grey: #F0F2F4;
+  --grey90: #e5e5e5;
+  --grey20: #333333;
 
   --form-input-height: 40px;
   --form-input-width: 350px;
+
+  --sidebar-width: 20rem;
+  --sidebar-collapsed-width: 4rem;
 }
 
 
@@ -192,7 +199,8 @@
   border: 1px solid var(--black);
 } */
 
-.login .generic-form {
+/* .login .generic-form { */
+  .generic-form {
   position: relative;
   display: flex;
   align-items: center;
@@ -458,11 +466,36 @@
   min-height: calc(100vh - var(--navbar-height));
 }  */
 
-/* styles.css */
+
+
+/*******My desk*******/
+.mydesk {
+  /* background-color: var(--tertiary-col); */
+  display: flex;
+  position: relative;
+  min-height: calc(100vh - var(--navbar-height));
+  /* width: 100vw; */
+}
+
+.mydesk-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  /* width: calc(100vw - var(--sidebar-collapsed-width)); */
+  /* background-color: red; */
+  padding-top: 15px;
+  padding-left: calc(var(--sidebar-collapsed-width));
+  /* padding-right: calc(var(--sidebar-collapsed-width)); */
+
+  /* margin-right: calc(var(--sidebar-collapsed-width) + 0.5rem); */
+}
 
 .sidebar-container {
   height: calc(100vh - var(--navbar-height));
   display: flex;
+  position: absolute;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -474,16 +507,17 @@
   padding: 1rem;
   margin: auto 0 auto;
   border-radius: 0.65rem;
-  width: 20rem;
+  width: var(--sidebar-width);
   display: flex;
   flex-direction: column;
   gap: 1rem;
   overflow: hidden;
+  z-index: 10;
   /* flex-wrap: nowrap; */
 }
 
 .sidebar.collapsed {
-  width: 4rem;
+  width: var(--sidebar-collapsed-width);
 }
 
 .header {
@@ -520,7 +554,6 @@
   gap: 1rem;
   margin: 0;
   padding: 0;
-  font-size: 35px;
   white-space: nowrap;
 }
 
@@ -529,8 +562,121 @@
   gap: 0.8rem;
   align-items: center;
   width: fit-content;
-}
+  font-family: var(--font-family1);
+  font-size: var(--side-nav-font-size);
+  color: var(--grey20);
+  }
+
+  .menu-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  .menu-link:hover {
+    /* Optional: Add styles for hover state */
+    text-decoration: underline;
+    color: #007BFF; /* Optional: Change color on hover */
+  }
 
 .sidebar .fa-icon {
   margin-right: 1.5rem;
+}
+
+/**cal**/
+
+.calendar-header {
+display: flex;
+width: 100%;
+justify-content: space-between;
+margin-top: 10px;
+margin-bottom: 10px;
+}
+
+.calendar-header button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: var(--accent-col);
+  color: var(--white);
+  font-family: var(--font-family1);
+  font-size: 22px;
+  padding: 0 30px 0 30px;
+  margin-right: 10px;
+  border-radius: 50px;
+  }
+
+.calendar {
+  height: 100%;
+  width: 100%;
+}
+/* 
+@media (max-width: 767px) {
+  .calendar {
+    height: 500px;
+    width: 100%;
+  }
+} */
+
+.calendar-event {
+  display: flex;
+  position: relative;
+}
+.delete-booking-btn {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  position: absolute;
+  
+  /* margin-left: 20px; */
+}
+
+/**mydesk courses**/
+.course-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .course-list {
+    width: 50%;
+  }
+}
+
+.course-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 20px;
+  width: 150px;
+}
+
+.course-div h5 {
+  display: block;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.course-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  border: 2px solid var(--grey);
+  border-radius: 50%;
+  font-size: 60px;
+  color: var(--grey20);
+  background-color: var(--grey);
+}
+
+.course-icon.add {
+  background-color: var(--accent-col);
+  color: var(--white);
 }
