@@ -1,6 +1,6 @@
 // App.js
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MagicMotion } from "react-magic-motion"
 import {
   faCalendar,
@@ -16,9 +16,25 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link } from "react-router-dom"
 
-export default function SideBar() {
+export default function SideBar({ authenticated }) {
   const [isCollapsed, setIsCollapsed] = useState(true)
+  const [accountType, setAccountType] = useState(
+    localStorage.getItem("accountType")
+  )
+  const [studentsOrTutors, setStudentsOrTutors] = useState("")
+  const [routeStudentsOrTutors, setRouteStudentsOrTutors] = useState("")
+  useEffect(() => {
+    if (authenticated) {
+      setAccountType(localStorage.getItem("accountType"))
+      if (accountType === "tutor") {
+        setStudentsOrTutors("Tutors")
+      } else if (accountType === "student") {
+        setStudentsOrTutors("Students")
+      }
+    }
+  }, [authenticated])
 
+  console.log(studentsOrTutors)
   return (
     <MagicMotion>
       <div className="sidebar-container">
@@ -50,9 +66,9 @@ export default function SideBar() {
               text="Courses"
             />
             <MenuItem
-              to="/mydesk/students"
+              to={`/mydesk/${studentsOrTutors.toLowerCase()}`}
               icon={faUserGraduate}
-              text="Students"
+              text={studentsOrTutors}
             />
             {/* <MenuItem to="/mydesk/tutors" icon={faUserGraduate} text="Tutors" /> */}
             <MenuItem to="/mydesk/profile" icon={faUser} text="Profile" />

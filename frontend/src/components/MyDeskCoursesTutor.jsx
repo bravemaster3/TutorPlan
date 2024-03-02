@@ -3,8 +3,16 @@ import { useEffect } from "react"
 import { useState } from "react"
 import CourseIcon from "./CourseIcon"
 import * as Icons from "react-icons/fa"
+import NewCourseTutor from "./NewCourseTutor"
+import CloseIconSimple from "./CloseIconSimple"
 
 export default function MyDeskCoursesTutor() {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
+
   const courses = [
     {
       id: 1,
@@ -15,25 +23,6 @@ export default function MyDeskCoursesTutor() {
     },
   ]
   const numberCourses = courses.length
-
-  // const [numberCourses, setNumberCourses] = useState(0)
-
-  // const [courses, setCourses] = useState([]);
-  // const [count, setCount] = useState(0);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await axios.get('Your API URL here');
-  //     setCourses(response.data);
-  //     setCount(response.data.length);
-  //   };
-
-  //   fetchData();
-  // }, []); // Empty dependency array means this effect runs once on mount
-
-  // useEffect(() => {
-  //   setCount(courses.length);
-  // }, [courses]); // This effect runs whenever 'courses' state changes
 
   return (
     <>
@@ -48,14 +37,21 @@ export default function MyDeskCoursesTutor() {
             <h5>{course.title}</h5>
           </button>
         ))}
-        <button className="course-btn">
+        <button className="course-btn" onClick={toggleModal}>
           <div className="course-icon add">
             <Icons.FaPlus />
           </div>
           <h5>Add course</h5>
         </button>
+
+        {isModalOpen && (
+          <div className="generic-form modal show">
+            <CloseIconSimple handleClose={toggleModal} />
+            <NewCourseTutor />
+            {/* <button onClick={toggleModal}>Close</button> */}
+          </div>
+        )}
       </div>
-      {/* </div> */}
     </>
   )
 }

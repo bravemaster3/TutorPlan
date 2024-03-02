@@ -5,11 +5,15 @@ import MyDesk from "./components/MyDesk"
 import About from "./components/About"
 import Login from "./components/Login"
 import SignUp from "./components/SignUp"
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 
 export default function App() {
-  const [authenticated, setAuthenticated] = useState(false)
+  const NavigateTo = useNavigate()
+
+  const [authenticated, setAuthenticated] = useState(
+    localStorage.getItem("isAuthenticated") ? true : false
+  )
   useEffect(() => {
     const updateAuth = () => {
       const authStatus = localStorage.getItem("isAuthenticated")
@@ -42,6 +46,7 @@ export default function App() {
       $('input[name="account_type"]:checked').val()
     )
     setAuthenticated(true)
+    NavigateTo("/mydesk")
   }
 
   return (

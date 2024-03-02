@@ -55,11 +55,15 @@
 }
 
 .navbar {
+  z-index: 100;
   height: var(--navbar-height);
   background-color: transparent;
   /* box-shadow: 0 8px 8px -8px rgba(0, 0, 0, 0.2); */
 }
 
+.navbar .navbar-collapse {
+  background-color: var(--white);
+}
 .logo-img {
   height: var(--navbar-height);
   padding: 10px;
@@ -101,14 +105,16 @@
   background-color: var(--primary-col);
   border: none;
   border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
 
 .navbar-nav button {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  height: 45px;
+  padding: 0;
 }
 .navbar-nav  .btn.logout {
   background-color: var(--grey90);
-  border: 1px solid var(--primary-col);
+  /* border: 1px solid var(--primary-col); */
   border-radius: 15px;
 }
 
@@ -725,4 +731,24 @@ margin-bottom: 10px;
 .course-icon.add {
   background-color: var(--accent-col);
   color: var(--white);
+}
+
+
+/* Add this to your CSS */
+.modal {
+  opacity: 0; /* Initially hide the modal */
+  /* Add other styling properties as needed */
+}
+
+.modal.show {
+  left: auto;
+  top: var(--navbar-height);
+  overflow-y: scroll;
+  background-color: white;
+  position: fixed;
+  opacity: 1;
+}
+
+.modal.show::-webkit-scrollbar {
+  display: none;
 }

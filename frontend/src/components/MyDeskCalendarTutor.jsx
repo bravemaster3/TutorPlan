@@ -9,28 +9,14 @@ import { stringToColor } from "./utils"
 export default function MyDeskCalendarTutor() {
   const localizer = momentLocalizer(moment)
 
+  const tutorName = "Johnson" // this should come from the server later
   const [bookings, setBookings] = useState([
     {
       id: 1,
-      course_title: "Piano lessons",
-      tutor_name: "John Doe",
-      start_time: "2024-02-29 13:00:00",
-      end_time: "2024-02-29 15:00:00",
-    },
-    {
-      id: 2,
-      course_title: "Fun math",
-      tutor_name: "Janette Mate",
-      start_time: "2024-03-01 09:00:00",
-      end_time: "2024-03-01 13:00:00",
-    },
-
-    {
-      id: 3,
-      course_title: "Fun math",
-      tutor_name: "Janette Mate",
-      start_time: "2024-03-02 17:00:00",
-      end_time: "2024-03-02 19:00:00",
+      course_title: "Guitar class",
+      student_name: "Alice Carter",
+      start_time: "2024-03-04 13:00:00",
+      end_time: "2024-03-04 15:00:00",
     },
   ])
 
@@ -38,7 +24,7 @@ export default function MyDeskCalendarTutor() {
     id: booking.id,
     start: new Date(booking.start_time),
     end: new Date(booking.end_time),
-    title: `${booking.course_title} with ${booking.tutor_name}`,
+    title: `${booking.course_title} | Student: ${booking.student_name}`,
     color: stringToColor(booking.course_title),
   }))
 
@@ -62,7 +48,7 @@ export default function MyDeskCalendarTutor() {
     <>
       <div className="calendar-header">
         <div className="title">
-          <h3>Hey Peter,</h3>
+          <h3>Hey {tutorName},</h3>
           <h4>Here are your appointments</h4>
         </div>
         <button>Save changes</button>
