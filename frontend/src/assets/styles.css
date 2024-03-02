@@ -76,8 +76,13 @@
   font-weight: bold;
 }
 
-.navbar-nav button .nav-link  {
+.navbar-nav .btn.sign-in .nav-link  {
   color: var(--white);
+  font-weight: bold;
+}
+
+.navbar-nav .btn.logout .nav-link  {
+  color: var(--black);
   font-weight: bold;
 }
 
@@ -92,9 +97,18 @@
   font-weight: bold;
 }
 
-.navbar-nav button {
+.navbar-nav  .btn.sign-in {
   background-color: var(--primary-col);
   border: none;
+  border-radius: 15px;
+}
+
+.navbar-nav button {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+.navbar-nav  .btn.logout {
+  background-color: var(--grey90);
+  border: 1px solid var(--primary-col);
   border-radius: 15px;
 }
 

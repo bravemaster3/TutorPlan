@@ -45,11 +45,11 @@ export default function NavBar({ authenticated, handleLogout }) {
               <CustomLink to="/mydesk">MY DESK</CustomLink>
               <CustomLink to="/about">ABOUT US</CustomLink>
               {authenticated === false ? (
-                <button>
+                <button className="btn sign-in">
                   <CustomLink to="/login">SIGN IN/UP</CustomLink>
                 </button>
               ) : (
-                <button onClick={handleLogout}>
+                <button className="btn logout" onClick={handleLogout}>
                   <CustomLink to="/home">LOGOUT</CustomLink>
                 </button>
               )}

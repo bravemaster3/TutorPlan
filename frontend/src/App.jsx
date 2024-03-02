@@ -35,9 +35,12 @@ export default function App() {
 
   const handleSignIn = (event) => {
     event.preventDefault()
-    const accountType = $('input[name="account_type"]:checked').val()
+    // const accountType = $('input[name="account_type"]:checked').val()
     localStorage.setItem("isAuthenticated", true)
-    localStorage.setItem("accountType", accountType)
+    localStorage.setItem(
+      "accountType",
+      $('input[name="account_type"]:checked').val()
+    )
     setAuthenticated(true)
   }
 
@@ -48,7 +51,10 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/mydesk/*" element={<MyDesk />}>
+        <Route
+          path="/mydesk/*"
+          element={<MyDesk authenticated={authenticated} />}
+        >
           {/* <Route path="calendar" element={<MyDesk />} /> */}
         </Route>
         <Route path="/about" element={<About />} />
