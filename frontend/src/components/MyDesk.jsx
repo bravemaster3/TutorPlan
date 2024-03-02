@@ -33,18 +33,18 @@ export default function MyDesk({ authenticated }) {
   if (accountType == "student") {
     myDeskContent = (
       <Routes>
-        <Route path="/" element={<MyDeskProfile />} />
+        <Route path="/" element={<MyDeskCalendar />} />
         <Route path="/profile" element={<MyDeskProfile />} />
         <Route path="calendar" element={<MyDeskCalendar />} />
         <Route path="mycourses" element={<MyDeskCourses />} />
-        <Route path="students" element={<MyDeskTutors />} />
+        <Route path="tutors" element={<MyDeskTutors />} />
         <Route path="booking-policy" element={<MyDeskPolicy />} />
       </Routes>
     )
   } else if (accountType == "tutor") {
     myDeskContent = (
       <Routes>
-        <Route path="/" element={<MyDeskProfileTutor />} />
+        <Route path="/" element={<MyDeskCalendarTutor />} />
         <Route path="/profile" element={<MyDeskProfileTutor />} />
         <Route path="calendar" element={<MyDeskCalendarTutor />} />
         <Route path="mycourses" element={<MyDeskCoursesTutor />} />

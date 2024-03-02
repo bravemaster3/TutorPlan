@@ -27,9 +27,9 @@ export default function SideBar({ authenticated }) {
     if (authenticated) {
       setAccountType(localStorage.getItem("accountType"))
       if (accountType === "tutor") {
-        setStudentsOrTutors("Tutors")
-      } else if (accountType === "student") {
         setStudentsOrTutors("Students")
+      } else if (accountType === "student") {
+        setStudentsOrTutors("Tutors")
       }
     }
   }, [authenticated])
