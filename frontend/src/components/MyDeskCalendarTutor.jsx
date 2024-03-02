@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { stringToColor } from "./utils"
 
-export default function MyDeskCalendar() {
+export default function MyDeskCalendarTutor() {
   const localizer = momentLocalizer(moment)
 
   const [bookings, setBookings] = useState([

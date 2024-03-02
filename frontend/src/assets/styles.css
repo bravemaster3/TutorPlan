@@ -32,8 +32,8 @@
 
 /******NAVBAR******/
 
-/* 
-#root {
+
+/* #root {
   font-family: var(--font-family1);
 } */
 
@@ -49,7 +49,7 @@
 }
 
 .nav-item {
-  font-family: var(--font-family1);
+  /* font-family: var(--font-family1); */
   font-size: var(--nav-font-size);
   color: var(--black);
 }
@@ -70,9 +70,32 @@
   font-weight: bold;
 }
 
+.navbar-nav button .nav-link:hover {
+  color: var(--secondary-col);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.navbar-nav button .nav-link  {
+  color: var(--white);
+  font-weight: bold;
+}
+
 .navbar-nav .nav-link.active  {
   color: var(--primary-col);
   font-weight: bold;
+}
+
+
+.navbar-nav button .nav-link.active  {
+  color: yellow;
+  font-weight: bold;
+}
+
+.navbar-nav button {
+  background-color: var(--primary-col);
+  border: none;
+  border-radius: 15px;
 }
 
 /*******Home*********/
@@ -116,17 +139,20 @@
   font-weight: bold;
 }
 
-.home-div1-left button {
+.home-div1-left .home-btn-tutor {
   margin-right: 50px;
   font-family: var(--font-family1);
   background-color: var(--primary-col);
   border-radius: 25px;
   font-size: 30px;
   font-weight: bold;
-  border: 0;
+  border: 2px;
+  border-color: red;
   padding: 5px 30px;
   color: var(--white);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); /* Adjust values as needed */
 }
+
 
 @media (max-width: 767px) {
   .home-div1-left h1 {
@@ -159,17 +185,21 @@
   padding: 0 var(--page-margin) 0 var(--page-margin);
 }
 
+.home-div1-left button,
 .home-div2 button {
   font-family: var(--font-family1);
-  background-color: var(--grey);
+  background-color: var(--grey90);
   border-radius: 25px;
   font-size: 30px;
   font-weight: bold;
-  border: 0;
+  border: 1px solid;
+  border-color: var(--primary-col);
   padding: 5px 30px;
   color: var(--black);
   margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
 }
+
 
 @media (max-width: 768px) {
   .home-div2 {
@@ -648,16 +678,18 @@ margin-bottom: 10px;
   }
 }
 
-.course-div {
+.course-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   margin: 20px;
   width: 150px;
+  background-color: transparent;
+  border: 0;
 }
 
-.course-div h5 {
+.course-btn h5 {
   display: block;
   text-align: center;
   word-wrap: break-word;

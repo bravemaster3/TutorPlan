@@ -4,7 +4,7 @@ import { useState } from "react"
 import CourseIcon from "./CourseIcon"
 import * as Icons from "react-icons/fa"
 
-export default function MyDeskCourses() {
+export default function MyDeskCoursesTutor() {
   const courses = [
     {
       id: 1,
@@ -12,41 +12,6 @@ export default function MyDeskCourses() {
       duration: 120,
       description:
         "In this lesson, you will learn to be a professional concert player in 2 years, thanks to my new method...",
-    },
-    {
-      id: 2,
-      title: "Fun Math",
-      duration: 90,
-      description:
-        "You didn't understand your math class? No worries. I will help you understand better than your peers...",
-    },
-    {
-      id: 3,
-      title: "Art History",
-      duration: 60,
-      description:
-        "Explore the history of art from the ancient times to the modern era...",
-    },
-    {
-      id: 4,
-      title: "Basic Cooking",
-      duration: 45,
-      description:
-        "Learn how to cook simple and delicious meals for you and your family...",
-    },
-    {
-      id: 5,
-      title: "Advanced Physics",
-      duration: 180,
-      description:
-        "Dive into the fascinating world of quantum mechanics and relativity...",
-    },
-    {
-      id: 6,
-      title: "Yoga for Beginners",
-      duration: 30,
-      description:
-        "Start your journey towards mindfulness and better health with yoga...",
     },
   ]
   const numberCourses = courses.length
@@ -73,7 +38,7 @@ export default function MyDeskCourses() {
   return (
     <>
       {/* <div className="mydesk-content"> */}
-      <h3>You are taking {numberCourses} courses</h3>
+      <h3>You are teaching {numberCourses} courses</h3>
       <div className="course-list">
         {courses.map((course) => (
           <button className="course-btn" key={course.id}>

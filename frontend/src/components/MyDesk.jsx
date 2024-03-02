@@ -5,7 +5,12 @@ import MyDeskProfile from "./MyDeskProfile"
 import MyDeskCourses from "./MyDeskCourses"
 import MyDeskPolicy from "./MyDeskPolicy"
 import MyDeskStudents from "./MyDeskStudents"
+import { useState } from "react"
 export default function MyDesk() {
+  const [accountType, setAccountType] = useState(
+    console.log(localStorage.getItem("accountType"))
+  )
+  console.log(accountType)
   return (
     <div className="mydesk">
       <SideBar />

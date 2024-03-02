@@ -1,6 +1,21 @@
 import { Link, useMatch } from "react-router-dom"
 import CustomLink from "./components/CustomLink"
-export default function NavBar() {
+import { useEffect, useState } from "react"
+export default function NavBar({ authenticated, handleLogout }) {
+  // const [authenticated, setAuthenticated] = useState(false)
+  // useEffect(() => {
+  //   const updateAuth = () => {
+  //     const authStatus = localStorage.getItem("isAuthenticated")
+  //     setAuthenticated(authStatus === null ? false : JSON.parse(authStatus))
+  //   }
+  //   updateAuth()
+  //   window.addEventListener("storage", updateAuth)
+
+  //   return () => {
+  //     window.removeEventListener("storage", updateAuth)
+  //   }
+  // }, [authenticated])
+
   return (
     <div className="container-fluid navbar-container">
       <nav className="navbar bg-color-custom navbar-expand-lg">
@@ -28,24 +43,16 @@ export default function NavBar() {
               <CustomLink to="/home">HOME</CustomLink>
               <CustomLink to="/courses">COURSES</CustomLink>
               <CustomLink to="/mydesk">MY DESK</CustomLink>
-              {/* <CustomLink
-                to={[
-                  "/mydesk",
-                  "/mydesk/calendar",
-                  "/mydesk/mycourses",
-                  "/mydesk/students",
-                  "/mydesk/tutors",
-                  "/mydesk/profile",
-                ]}
-              > 
-                MY DESK
-              </CustomLink>*/}
               <CustomLink to="/about">ABOUT US</CustomLink>
-              <CustomLink to="/login">SIGN IN/UP</CustomLink>
-              {/* <CustomLink to={["/login", "/login/sign-up"]}>
-                SIGN IN/UP
-              </CustomLink> */}
-              {/* <CustomLink to="/login/sign-up">UP</CustomLink> */}
+              {authenticated === false ? (
+                <button>
+                  <CustomLink to="/login">SIGN IN/UP</CustomLink>
+                </button>
+              ) : (
+                <button onClick={handleLogout}>
+                  <CustomLink to="/home">LOGOUT</CustomLink>
+                </button>
+              )}
             </ul>
           </div>
         </div>

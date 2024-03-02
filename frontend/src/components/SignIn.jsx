@@ -7,22 +7,34 @@ import {
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons"
 import CloseIcon from "./CloseIcon"
-
-export default function SignIn() {
+import SignInUpRadioGroup from "./SignInUpRadioGroup"
+import SignInUpButtonGroup from "./SignInUpButtonGroup"
+export default function SignIn({ handleSignIn }) {
   return (
     <>
       {/* <div className="container-fluid login"> */}
       {/* <div className="generic-form"> */}
       {/* <CloseIcon /> */}
-      <SignInForm />
+      <SignInForm handleSignIn={handleSignIn} />
       {/* </div> */}
       {/* </div> */}
     </>
   )
 }
 
-function SignInForm() {
+function SignInForm({ handleSignIn }) {
   const [showPassword, setShowPassword] = useState(false)
+  // const [accountType, setAccountType] = useState("student")
+  // const [authenticated, setAuthenticated] = useState(false)
+
+  // const handleSignIn = (event) => {
+  //   event.preventDefault()
+  //   const accountType = $('input[name="account_type"]:checked').val()
+  //   localStorage.setItem("isAuthenticated", true)
+  //   localStorage.setItem("accountType", accountType)
+  //   // setAuthenticated(true)
+  // }
+
   return (
     <>
       <div className="title">
@@ -64,16 +76,11 @@ function SignInForm() {
           </div>
         </div>
 
-        <div className="button-group">
-          <button type="submit" className="sign-in">
-            SIGN IN
-          </button>
-          <div className="separator">OR</div>
-          <button type="button" className="sign-in-g">
-            Continue with{" "}
-            <img className="google" src="/src/assets/images/google.png"></img>
-          </button>
-        </div>
+        <SignInUpRadioGroup />
+        <SignInUpButtonGroup
+          handleSignIn={handleSignIn}
+          // authenticated={authenticated}
+        />
       </form>
       <div className="sign-up">
         New to TutorPlan?{" "}
