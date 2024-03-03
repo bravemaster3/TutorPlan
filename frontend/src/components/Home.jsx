@@ -4,11 +4,11 @@ export default function Home() {
   const NavigateTo = useNavigate()
 
   const becomeTutor = () => {
-    NavigateTo("/courses")
+    NavigateTo("/login/sign-up")
   }
 
   const exploreCourses = () => {
-    NavigateTo("/login/sign-up")
+    NavigateTo("/courses")
   }
   return (
     <>

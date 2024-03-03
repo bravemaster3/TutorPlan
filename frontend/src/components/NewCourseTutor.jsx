@@ -34,12 +34,12 @@ function CourseRegistration() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="discipline">Discipline</label>
+          <label htmlFor="category">Category</label>
           <input
             type="text"
-            id="discipline"
+            id="category"
             placeholder="e.g. Languages, Mathematics"
-            name="discipline"
+            name="category"
           />
         </div>
 
@@ -51,6 +51,32 @@ function CourseRegistration() {
             placeholder="Brief description of the course"
             name="description"
           />
+        </div>
+
+        <div className="form-group">
+          <label>How will you conduct your lessons?</label>
+          <br />
+          <div className="radio-group">
+            <label htmlFor="online">Online</label>
+            <input
+              type="radio"
+              id="online"
+              name="course_type"
+              value="Online"
+              defaultChecked
+            />
+
+            <label htmlFor="physical">Physical</label>
+            <input
+              type="radio"
+              id="physical"
+              name="course_type"
+              value="Physical"
+            />
+
+            <label htmlFor="both">Both</label>
+            <input type="radio" id="both" name="course_type" value="Both" />
+          </div>
         </div>
 
         <div className="form-group">
