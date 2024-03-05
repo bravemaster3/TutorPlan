@@ -1,7 +1,7 @@
-export default function SignInUpButtonGroup({ handleSignIn, authenticated }) {
+export default function SignInUpButtonGroup({ authenticated }) {
   return (
     <div className="button-group">
-      <button type="submit" className="sign-in" onClick={handleSignIn}>
+      <button type="submit" className="sign-in">
         SIGN IN
       </button>
       <div className="separator">OR</div>

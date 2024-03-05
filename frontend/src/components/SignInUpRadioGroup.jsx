@@ -6,7 +6,12 @@ import {
   faEyeSlash,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons"
-export default function SignInUpRadioGroup() {
+export default function SignInUpRadioGroup({ setAccountTypeFun }) {
+  const handleChoice = (e) => {
+    console.log(e.target.value) // Add this line
+    console.log("HANDLECHOICE: I HAVE BEEN TRIGGERED")
+    setAccountTypeFun(e.target.value)
+  }
   return (
     <div className="form-group">
       <label>
@@ -24,10 +29,17 @@ export default function SignInUpRadioGroup() {
           name="account_type"
           value="student"
           defaultChecked
+          onChange={handleChoice}
         />
 
         <label htmlFor="tutor">Tutor</label>
-        <input type="radio" id="tutor" name="account_type" value="tutor" />
+        <input
+          type="radio"
+          id="tutor"
+          name="account_type"
+          value="tutor"
+          onChange={handleChoice}
+        />
       </div>
     </div>
   )

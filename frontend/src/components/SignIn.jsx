@@ -24,6 +24,10 @@ export default function SignIn({ handleSignIn }) {
 
 function SignInForm({ handleSignIn }) {
   const [showPassword, setShowPassword] = useState(false)
+
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [accountType, setAccountType] = useState("student")
   // const [accountType, setAccountType] = useState("student")
   // const [authenticated, setAuthenticated] = useState(false)
 
@@ -41,7 +45,10 @@ function SignInForm({ handleSignIn }) {
         <h2>Welcome back!</h2>
         <p>You are signing in as a User</p>
       </div>
-      <form className="login-form">
+      <form
+        className="login-form"
+        onSubmit={(e) => handleSignIn(e, email, password, accountType)}
+      >
         <div className="form-group">
           <label htmlFor="email">Email</label>
           <input
@@ -49,6 +56,8 @@ function SignInForm({ handleSignIn }) {
             id="email"
             placeholder="Enter your email"
             name="email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
 
@@ -60,6 +69,8 @@ function SignInForm({ handleSignIn }) {
               id="password"
               placeholder="Enter your password"
               name="password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
             <button
               type="button"
@@ -76,7 +87,7 @@ function SignInForm({ handleSignIn }) {
           </div>
         </div>
 
-        <SignInUpRadioGroup />
+        <SignInUpRadioGroup setAccountTypeFun={setAccountType} />
         <SignInUpButtonGroup
           handleSignIn={handleSignIn}
           // authenticated={authenticated}

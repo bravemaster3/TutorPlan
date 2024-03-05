@@ -8,20 +8,51 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 import CloseIcon from "./CloseIcon"
 import SignInUpRadioGroup from "./SignInUpRadioGroup"
+import { API_BASE_URL } from "../apiConfig"
+import axios from "axios"
 export default function SignUp() {
-  return (
-    <>
-      {/* <div className="container-fluid login"> */}
-      {/* <div className="generic-form"> */}
-      {/* <CloseIcon /> */}
-      <Registration />
-      {/* </div> */}
-      {/* </div> */}
-    </>
-  )
-}
+  const navigateTo = useNavigate()
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    country: "",
+    password: "",
+    account_type: "",
+  })
 
-function Registration() {
+  const [accountTypeSignUp, setAccountTypeSignUp] = useState("student")
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
+
+  const handleSignUp = (e) => {
+    e.preventDefault()
+    console.log(accountTypeSignUp) // Add this line
+    const url = `${API_BASE_URL}/${accountTypeSignUp}s`
+    console.log(url)
+    // console.log(formData)
+    const data = formData
+    axios
+      .post(url, data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        alert("An error has occured. Signup was unsuccessful")
+      })
+
+    navigateTo("/login")
+  }
+
   const [showPassword, setShowPassword] = useState(false)
   return (
     <>
@@ -29,7 +60,7 @@ function Registration() {
         <h2>Join us!</h2>
         <p>You are signing up as a User</p>
       </div>
-      <form className="login-form">
+      <form className="login-form" onSubmit={handleSignUp}>
         <div className="form-group">
           <label htmlFor="first-name">First Name</label>
           <input
@@ -37,6 +68,8 @@ function Registration() {
             id="first-name"
             placeholder="First Name"
             name="first_name"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -47,6 +80,8 @@ function Registration() {
             id="last-name"
             placeholder="Last Name"
             name="last_name"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -57,6 +92,8 @@ function Registration() {
             id="email"
             placeholder="Enter your email"
             name="email"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -67,6 +104,19 @@ function Registration() {
             id="phone-number"
             placeholder="Phone Number"
             name="phone_number"
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="country">Country</label>
+          <input
+            type="text"
+            id="country"
+            placeholder="Enter your country"
+            name="country"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -78,6 +128,8 @@ function Registration() {
               id="password"
               placeholder="Enter your password"
               name="password"
+              required
+              onChange={handleChange}
             />
             <button
               type="button"
@@ -100,10 +152,12 @@ function Registration() {
             type="password"
             id="password-confirm"
             placeholder="Confirm your password"
+            required
+            onChange={handleChange}
           />
         </div>
 
-        <SignInUpRadioGroup />
+        <SignInUpRadioGroup setAccountTypeFun={setAccountTypeSignUp} />
 
         <div className="button-group">
           <button type="submit" className="sign-in">

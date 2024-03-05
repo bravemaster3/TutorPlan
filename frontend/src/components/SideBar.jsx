@@ -34,7 +34,7 @@ export default function SideBar({ authenticated }) {
     }
   }, [authenticated])
 
-  console.log(studentsOrTutors)
+  // console.log(studentsOrTutors)
   return (
     <MagicMotion>
       <div className="sidebar-container">
