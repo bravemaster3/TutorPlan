@@ -243,7 +243,7 @@
         }
       }
     },
-    "/courses": {
+    "/api/v1/courses": {
       "get": {
         "tags": ["Courses"],
         "summary": "Get all courses",
@@ -293,7 +293,7 @@
         }
       }
     },
-    "/courses/{course_id}": {
+    "/api/v1/courses/{course_id}": {
       "parameters": [
         {
           "name": "course_id",
@@ -330,7 +330,7 @@
             "description": "Course object to be updated",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/CourseInput"
+              "$ref": "#/definitions/Course"
             }
           }
         ],
@@ -366,7 +366,7 @@
         }
       }
     },
-    "/courses/{course_id}/students": {
+    "/api/v1/courses/{course_id}/students": {
       "parameters": [
         {
           "name": "course_id",
@@ -396,7 +396,7 @@
         }
       }
     },
-    "/tutors": {
+    "/api/v1/tutors": {
       "get": {
         "summary": "Get all tutors",
         "description": "Retrieve all tutors",
@@ -446,7 +446,7 @@
         }
       }
     },
-    "/tutors/{tutor_id}": {
+    "/api/v1/tutors/{tutor_id}": {
       "parameters": [
         {
           "name": "tutor_id",
@@ -519,7 +519,7 @@
         }
       }
     },
-    "/tutors/{tutor_id}/courses": {
+    "/api/v1/tutors/{tutor_id}/courses": {
       "parameters": [
         {
           "name": "tutor_id",
@@ -549,7 +549,7 @@
         }
       }
     },
-    "/bookings": {
+    "/api/v1/bookings": {
       "get": {
         "summary": "Get all bookings",
         "description": "Retrieve all bookings",
@@ -599,7 +599,7 @@
         }
       }
     },
-    "/bookings/{student_id}/student": {
+    "/api/v1/bookings/{student_id}/student": {
       "parameters": [
         {
           "name": "student_id",
@@ -629,7 +629,7 @@
         }
       }
     },
-    "/bookings/{course_id}/course": {
+    "/api/v1/bookings/{course_id}/course": {
       "parameters": [
         {
           "name": "course_id",
@@ -659,7 +659,7 @@
         }
       }
     },
-    "/bookings/{course_id}/course/{student_id}/student": {
+    "/api/v1/bookings/{course_id}/course/{student_id}/student": {
       "parameters": [
         {
           "name": "course_id",
@@ -696,7 +696,7 @@
         }
       }
     },
-    "/bookings/{booking_id}/student/{student_id}": {
+    "/api/v1/bookings/{booking_id}/student/{student_id}": {
       "parameters": [
         {
           "name": "booking_id",
@@ -727,7 +727,7 @@
         }
       }
     },
-    "/availability": {
+    "/api/v1/availability": {
       "get": {
         "summary": "Get all availability",
         "description": "Retrieve all availability",
@@ -777,7 +777,7 @@
         }
       }
     },
-    "/availability/{course_id}/booked": {
+    "/api/v1/availability/{course_id}/booked": {
       "get": {
         "summary": "Get booked availability of a course",
         "description": "Retrieve all booked availability of a specific course",
@@ -807,7 +807,7 @@
         }
       }
     },
-    "/availability/{course_id}/unbooked": {
+    "/api/v1/availability/{course_id}/unbooked": {
       "get": {
         "summary": "Get unbooked availability of a course",
         "description": "Retrieve all unbooked availability of a specific course",
@@ -837,7 +837,7 @@
         }
       }
     },
-    "/availability/{availability_id}/course/{course_id}": {
+    "/api/v1/availability/{availability_id}/course/{course_id}": {
       "delete": {
         "summary": "Delete availability of a course",
         "description": "Delete the availability of a course if it has not been booked",

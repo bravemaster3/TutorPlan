@@ -25,6 +25,7 @@ class User(ParentModel):
         password = Column("password", String(128), nullable=False)
         phone_number = Column("phone_number", String(128), nullable=True)
         country = Column("country", String(128), nullable=False)
+        city = Column("city", String(128), nullable=False)
 
     else:
         first_name = ""
