@@ -11,8 +11,9 @@ def get_and_post_tutor():
     """This function handles an api that get all tutors
         and create a tutor
     """
+    tutors = storage.all(Tutor)
     if request.method == "GET":
-        tutors = storage.all(Tutor)
+        # tutors = storage.all(Tutor)
         tutors_list = [tutor.to_dict() for tutor in tutors.values()]
         return jsonify(tutors_list)
     elif request.method == "POST":
@@ -23,6 +24,10 @@ def get_and_post_tutor():
         for attr in must_have_attr:
             if attr not in tutor_attr.keys():
                 abort(400, description="Missing " + attr)
+        # handle the case where the email already exists
+        for tutor in tutors.values():
+            if tutor.email == tutor_attr["email"]:
+                return abort(409, description="Email already exists")
         newTutor = Tutor(**tutor_attr)
         newTutor.save()
         return jsonify(newTutor.to_dict()), 201

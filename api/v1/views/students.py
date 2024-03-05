@@ -12,8 +12,9 @@ def get_and_post_student():
     """This function handles an api that get all students
         and create a student
     """
+    students = storage.all(Student)
     if request.method == "GET":
-        students = storage.all(Student)
+        # students = storage.all(Student)
         students_list = [student.to_dict() for student in students.values()]
         return jsonify(students_list)
     elif request.method == "POST":
@@ -24,6 +25,10 @@ def get_and_post_student():
         for attr in must_have_attr:
             if attr not in student_attr.keys():
                 abort(400, description="Missing " + attr)
+        # handle the case where the email already exists
+        for student in students.values():
+            if student.email == student_attr["email"]:
+                return abort(409, description="Email already exists")
         newStudent = Student(**student_attr)
         newStudent.save()
         return jsonify(newStudent.to_dict()), 201
