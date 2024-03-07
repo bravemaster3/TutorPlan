@@ -5,6 +5,7 @@
 from models.parent_model import ParentModel, Base
 from sqlalchemy import Column, String
 import os
+import hashlib
 
 
 class User(ParentModel):
@@ -34,3 +35,11 @@ class User(ParentModel):
         password = ""
         phone_number = ""
         country = ""
+
+    """def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.hash_paswd(self.password)
+
+    def hash_paswd(self, paswd):
+        hashed_password = hashlib.md5(paswd.encode()).hexdigest()
+        self.password = hashed_password"""

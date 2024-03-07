@@ -5,7 +5,7 @@
 from models.user import User, Base
 import os
 from sqlalchemy.orm import relationship
-
+import hashlib
 
 class Student(User, Base):
     """A Student class that inherit from User"""
@@ -14,3 +14,4 @@ class Student(User, Base):
         courses_registered = relationship("Course", secondary="registration",
                 back_populates="students", viewonly=False)
         bookings = relationship("Booking", backref="student", cascade="all, delete, delete-orphan")
+

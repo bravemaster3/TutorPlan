@@ -19,7 +19,7 @@ emails = ["bello@gmail.com", "koffi@gmail.com", "isiaq@gmail.com", "balogun@gmai
 
 for i in range(10):
     # create a Tutor
-    tutor = Tutor(first_name=first_names[i], last_name=last_names[i], email=emails[i], password="13323", country="Nigeria", city="ogun", qualification="Degree")
+    tutor = Tutor(first_name=first_names[i], last_name=last_names[i], email=emails[i], password="13323", bio="I am a maths teacher", country="Nigeria", city="ogun", qualification="Degree")
     tutor.save()
 
     # create a Course
@@ -77,4 +77,5 @@ for i in range(10):
     print(storage.all(Course))
     print(storage.get("Availability", available.id))
     print(storage.count("Tutor"))
+    print(tutor.city)
     print("\n..............END.................\n")
