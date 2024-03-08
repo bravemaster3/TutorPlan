@@ -60,6 +60,7 @@ export default function App() {
       .then((response) => {
         setAuthenticated(true)
         localStorage.setItem("isAuthenticated", true)
+        localStorage.setItem("userId", response.data.id)
         localStorage.setItem(
           "accountType",
           response.data.__class__.toLowerCase()
@@ -104,21 +105,26 @@ export default function App() {
   return (
     <>
       <NavBar authenticated={authenticated} handleLogout={handleLogout} />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route
-          path="/mydesk/*"
-          element={<MyDesk authenticated={authenticated} />}
-        >
-          {/* <Route path="calendar" element={<MyDesk />} /> */}
-        </Route>
-        <Route path="/about" element={<About />} />
-        <Route path="/login/*" element={<Login handleSignIn={handleSignIn} />}>
-          <Route path="sign-up" element={<SignUp />} />
-        </Route>
-      </Routes>
+      <div className="body-container">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route
+            path="/mydesk/*"
+            element={<MyDesk authenticated={authenticated} />}
+          >
+            {/* <Route path="calendar" element={<MyDesk />} /> */}
+          </Route>
+          <Route path="/about" element={<About />} />
+          <Route
+            path="/login/*"
+            element={<Login handleSignIn={handleSignIn} />}
+          >
+            <Route path="sign-up" element={<SignUp />} />
+          </Route>
+        </Routes>
+      </div>
     </>
   )
 }

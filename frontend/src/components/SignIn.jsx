@@ -15,7 +15,9 @@ export default function SignIn({ handleSignIn }) {
       {/* <div className="container-fluid login"> */}
       {/* <div className="generic-form"> */}
       {/* <CloseIcon /> */}
+
       <SignInForm handleSignIn={handleSignIn} />
+
       {/* </div> */}
       {/* </div> */}
     </>

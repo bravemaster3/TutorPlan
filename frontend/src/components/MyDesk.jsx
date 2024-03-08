@@ -29,7 +29,7 @@ export default function MyDesk({ authenticated }) {
   }, [authenticated])
 
   const accountType = localStorage.getItem("accountType")
-  console.log(`You are logged in as a ${accountType}`)
+  // console.log(`You are logged in as a ${accountType}`)
   if (accountType == "student") {
     myDeskContent = (
       <Routes>

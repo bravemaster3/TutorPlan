@@ -5,6 +5,7 @@ import CloseIcon from "./CloseIcon"
 export default function Login({ handleSignIn }) {
   return (
     <div className="container-fluid login">
+      {/* <div className="modal-bg"> */}
       <div className="generic-form">
         <CloseIcon />
         <Routes>
@@ -13,5 +14,6 @@ export default function Login({ handleSignIn }) {
         </Routes>
       </div>
     </div>
+    // </div>
   )
 }

@@ -34,9 +34,9 @@ export default function SignUp() {
 
   const handleSignUp = (e) => {
     e.preventDefault()
-    console.log(accountTypeSignUp) // Add this line
+    // console.log(accountTypeSignUp) // Add this line
     const url = `${API_BASE_URL}/${accountTypeSignUp}s`
-    console.log(url)
+    // console.log(url)
     // console.log(formData)
     const data = formData
     axios
@@ -104,6 +104,18 @@ export default function SignUp() {
             id="phone-number"
             placeholder="Phone Number"
             name="phone_number"
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            id="city"
+            placeholder="Enter your city"
+            name="city"
+            required
             onChange={handleChange}
           />
         </div>

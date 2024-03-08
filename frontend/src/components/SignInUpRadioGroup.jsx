@@ -8,8 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons"
 export default function SignInUpRadioGroup({ setAccountTypeFun }) {
   const handleChoice = (e) => {
-    console.log(e.target.value) // Add this line
-    console.log("HANDLECHOICE: I HAVE BEEN TRIGGERED")
+    // console.log(e.target.value)
+    // console.log("HANDLECHOICE: I HAVE BEEN TRIGGERED")
     setAccountTypeFun(e.target.value)
   }
   return (
