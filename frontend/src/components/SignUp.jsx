@@ -95,7 +95,7 @@ function Registration() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Confirm Password</label>
           <input
             type="password"
             id="password-confirm"
@@ -125,3 +125,6 @@ function Registration() {
     </>
   )
 }
+
+/* TODO:
+Refactor using prop drilling */

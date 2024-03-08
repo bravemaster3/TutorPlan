@@ -94,3 +94,6 @@ const MenuItem = ({ to, icon, text }) => (
     </Link>
   </li>
 )
+
+// why not use the list items and use a mapping function to populate the list?
+// refer to Dave gray tutorial -> props drilling

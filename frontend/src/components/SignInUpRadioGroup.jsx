@@ -11,7 +11,7 @@ export default function SignInUpRadioGroup() {
     <div className="form-group">
       <label>
         Are you a tutor or a student?{" "}
-        <abbr data-title="Only Tutors can add a course">
+        <abbr data-title="Only Tutors can add a course" data-bs-toggle="tooltip">
           <FontAwesomeIcon icon={faInfoCircle} />
         </abbr>
       </label>

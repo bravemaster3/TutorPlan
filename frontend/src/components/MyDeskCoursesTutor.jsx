@@ -55,3 +55,11 @@ export default function MyDeskCoursesTutor() {
     </>
   )
 }
+
+
+/* TODO:
+create component for generating courses 
+Your are {isTutor? "teaching": "taking"} {NumberCourses} Course{numberCourses === 1? "": "s"}
+CourseIcon
+CourseTitle
+*/
