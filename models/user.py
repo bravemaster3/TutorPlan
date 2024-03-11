@@ -36,7 +36,8 @@ class User(ParentModel):
         phone_number = ""
         country = ""
 
-    """def __init__(self, *args, **kwargs):
+    """
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.hash_paswd(self.password)
 

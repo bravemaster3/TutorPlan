@@ -6,7 +6,9 @@ from models.parent_model import ParentModel, Base
 import datetime
 from sqlalchemy import Column, String, ForeignKey, Boolean, DateTime
 from sqlalchemy.orm import relationship
+# from sqlalchemy.types import TIMESTAMP
 import os
+from tzlocal import get_localzone
 
 
 class Availability(ParentModel, Base):
@@ -24,8 +26,8 @@ class Availability(ParentModel, Base):
         __tablename__ = "availability"
         course_id = Column(String(60), ForeignKey("courses.id"), nullable=False)
         day = Column(DateTime, default=datetime.datetime.now().date().strftime("%Y-%m-%d"))
-        start_time = Column(String(5), default=datetime.datetime.now().time().strftime("%H:%M"))
-        end_time = Column(String(5), default=datetime.datetime.now().time().strftime("%H:%M"))
+        start_time = Column(DateTime, default=datetime.datetime.now(get_localzone()).strftime("%Y-%m-%d %H:%M %S"))
+        end_time = Column(DateTime, default=datetime.datetime.now(get_localzone()).strftime("%Y-%m-%d %H:%M %S"))
         booked = Column(Boolean, default=False)
         booking = relationship("Booking", uselist=False, backref="availability", cascade="all, delete, delete-orphan")
     else:

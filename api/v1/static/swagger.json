@@ -837,25 +837,28 @@
         }
       }
     },
-    "/api/v1/availability/{availability_id}/course/{course_id}": {
+    "/api/v1/availability/{course_id}": {
       "delete": {
-        "summary": "Delete availability of a course",
-        "description": "Delete the availability of a course if it has not been booked",
+        "summary": "Delete availability or availabilities of a course",
+        "description": "Delete the availability  or availabilities of a course if it has not been booked",
         "tags": ["Availability"],
+        "consumes": ["application/json"],
+
         "parameters": [
           {
-            "name": "availability_id",
-            "in": "path",
-            "description": "ID of the availability",
+            "name": "availability ids",
+            "in": "body",
+            "description": "dictionary containing the list of availability ids",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "course_id",
-            "in": "path",
-            "description": "ID of the course",
-            "required": true,
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "availability_ids": {
+                  "type": "list",
+                  "example": ["aaaa11112223rf33451224", "438913477aaaaeff1498"]
+                }
+              }
+            }
           }
         ],
         "responses": {
@@ -869,7 +872,68 @@
             "description": "Availability referenced by table(s)"
           }
         }
+      },
+      "post": {
+        "summary": "Create a multiple(s) availabilities",
+        "description": "Add availability or availabilities",
+        "tags": ["Availability"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "availability",
+            "in": "body",
+            "description": "Availability object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "availability_attr": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "start_time": {
+                        "type": "string",
+                        "example": "2024-03-11 13:07:56"
+                      },
+                      "day": {
+                        "type": "string",
+                        "example": "2024-03-11"
+                      }
+                    },
+                    "required": ["start_time", "day"]
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Availability added successfully",
+            "schema": {
+              "$ref": "#/definitions/Availability"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Invalid course_id"
+          }
+        }
       }
+      
     },
     "/api/v1/status": {
       "get": {
@@ -1156,17 +1220,17 @@
         "start_time": {
           "type": "string",
           "format": "time",
-          "example": "12:30"
+          "example": "2024-02-29 12:30:00"
         },
         "end_time": {
           "type": "string",
           "format": "time",
-          "example": "2:30"
+          "example": "2024-02-29 2:30:00"
         },
         "day": {
           "type": "string",
           "format": "date",
-          "example": "2024-02-29 00:00:00"
+          "example": "2024-02-29"
         }
       }
     }

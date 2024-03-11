@@ -9,7 +9,6 @@ from models.tutor import Tutor
 from models.student import Student
 
 
-
 @app_views.route("/tutor/login/<email>/<passwd>", strict_slashes=False, methods=["GET"])
 def validate_tutor(email, passwd):
     """validate a tutor before allowing to login"""

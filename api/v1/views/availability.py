@@ -30,8 +30,8 @@ def get_and_post_availability():
             abort(404, description="Invalid course_id")
         start_time = availability_attr.get("start_time")
         duration = course.duration
-        end_time = (datetime.strptime(start_time, "%H:%M") + timedelta(minutes=duration)).time()
-        end_time = end_time.strftime("%H:%M")
+        end_time = datetime.fromisoformat(start_time) + timedelta(minutes=duration)
+        end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
         availability_attr["end_time"] = end_time
         newAvailability = Availability(**availability_attr)
         newAvailability.save()
@@ -59,23 +59,60 @@ def get_unbooked_availability(course_id):
     unbooked_availability = [available.to_dict() for available in course.availability if not available.booked]
     return jsonify(unbooked_availability)
 
-@app_views.route("/availability/<availability_id>/course/<course_id>", strict_slashes=False, methods=["DELETE"])
-def delete_course_availability(availability_id, course_id):
+@app_views.route("/availability/<course_id>", strict_slashes=False, methods=["DELETE", "POST"])
+def delete_course_availability(course_id):
     """This function handles an api that
-        Delete the availability of a course if it has not been booked.
+        Delete the availability or availabilities of a course if it has not been booked.
+        Post the multiples availability of a course
     """
-    availability = storage.get(Availability, availability_id)
     course = storage.get(Course, course_id)
-    if not availability or not course:
+    if not course:
         abort(404)
-    if availability not in course.availability:
-        return jsonify({}), 200
-    for available in course.availability:
-        if available.id == availability_id:
-            break
-    if available.booking:
-        abort(400, description="referenced by table(s)")
-    else:
-        storage.delete(available)
-        storage.save()
+    if request.method == "DELETE":
+        availability_ids = request.get_json()
+        if not availability_ids:
+            return abort(404, description="Not a json")
+        if "availability_ids" not in availability_ids.keys():
+            abort(400, description="Missing availability_ids")
+        if not availability_ids.get("availability_ids") or type(availability_ids.get("availability_ids")) != list:
+            abort(400, description="Empty list")
+        for availability_id in availability_ids.get("availability_ids"):
+            availability = storage.get(Availability, availability_id)
+            if not availability:
+                abort(404)
+            if availability not in course.availability:
+                return jsonify({}), 200
+            for available in course.availability:
+                if available.id == availability_id:
+                    break
+            if available.booking:
+                abort(400, description="referenced by table(s)")
+            else:
+                storage.delete(available)
+                storage.save()
+                continue
         return jsonify({}), 201
+    elif request.method == "POST":
+        availability_attr = request.get_json()
+        if not availability_attr:
+            return abort(404, description="Not a json")
+        must_have_attr = ["start_time", "day"]
+        if not availability_attr.get("availability_attr"):
+            abort(400, description="Missing availability_attr")
+        availabilities = availability_attr.get("availability_attr")
+        created_availabilities = []
+        for aval_attr in availabilities:
+            for attr in must_have_attr:
+                if type(aval_attr) != dict or attr not in aval_attr.keys():
+                    abort(400, description="Missing " + attr)
+            start_time = aval_attr.get("start_time")
+            duration = course.duration
+            end_time = datetime.fromisoformat(start_time) + timedelta(minutes=duration)
+            end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
+            aval_attr["end_time"] = end_time
+            aval_attr["course_id"] = course.id
+            newAvailability = Availability(**aval_attr)
+            newAvailability.save()
+            created_availabilities.append(newAvailability.to_dict())
+        return jsonify(created_availabilities), 201
+

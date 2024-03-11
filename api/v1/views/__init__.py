@@ -12,5 +12,5 @@ from api.v1.views.tutors import *
 from api.v1.views.students import *
 from api.v1.views.bookings import *
 from api.v1.views.availability import *
-from api.v1.views.tutor_login import *
+from api.v1.views.user_login import *
 

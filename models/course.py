@@ -48,6 +48,7 @@ class Course(ParentModel, Base):
         fee = Column("fee", Float, default=20.33)
         description = Column("description", String(1024), nullable=True)
         category = Column("category", String(60), nullable=False)
+        academic_level = Column("academic_level", String(128), nullable=True)
         availability = relationship("Availability", backref=backref("course"), cascade="all, delete-orphan")
         students = relationship("Student", secondary=registration, viewonly=False)
     else:
