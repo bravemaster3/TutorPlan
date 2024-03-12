@@ -16,7 +16,7 @@ def validate_tutor(email, passwd):
     for tutor in tutors.values():
         if tutor.email == email and tutor.password == passwd:
             tutor_dict = tutor.to_dict()
-            del tutor_dict["password"]
+            # del tutor_dict["password"]
             return jsonify(tutor_dict)
     abort(404, description="Not a valid tutor")
 
@@ -27,6 +27,6 @@ def validate_student(email, passwd):
     for student in students.values():
         if student.email == email and student.password == passwd:
             student_dict = student.to_dict()
-            del student_dict["password"]
+            # del student_dict["password"]
             return jsonify(student_dict)
     abort(404, description="Not a valid student")
