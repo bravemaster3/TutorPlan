@@ -838,6 +838,40 @@
       }
     },
     "/api/v1/availability/{course_id}": {
+      "get": {
+        "summary": "Get all availabilities of a course",
+        "description": "Retrieve all availabilities of a course.",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Availability"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      },      
       "delete": {
         "summary": "Delete availability or availabilities of a course",
         "description": "Delete the availability  or availabilities of a course if it has not been booked",
@@ -935,6 +969,42 @@
       }
       
     },
+    "/api/v1/availability/{tutor_id}/tutor": {
+      "get": {
+        "summary": "Get all availabilities of a tutor",
+        "description": "Retrieve all availabilities of a tutor.",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "tutor_id",
+            "in": "path",
+            "description": "ID of the tutor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Availability"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tutor not found"
+          }
+        }
+      }
+    },      
     "/api/v1/status": {
       "get": {
         "summary": "Get API status",

@@ -6,6 +6,7 @@ from models import storage
 from models.course import Course
 from models.availability import Availability
 from datetime import datetime, timedelta
+from models.tutor import Tutor
 
 
 @app_views.route("/availability", strict_slashes=False, methods=["GET", "POST"])
@@ -59,16 +60,23 @@ def get_unbooked_availability(course_id):
     unbooked_availability = [available.to_dict() for available in course.availability if not available.booked]
     return jsonify(unbooked_availability)
 
-@app_views.route("/availability/<course_id>", strict_slashes=False, methods=["DELETE", "POST"])
+@app_views.route("/availability/<course_id>", strict_slashes=False, methods=["DELETE", "POST", "GET"])
 def delete_course_availability(course_id):
     """This function handles an api that
+        Get all availabilities of a course
         Delete the availability or availabilities of a course if it has not been booked.
         Post the multiples availability of a course
     """
     course = storage.get(Course, course_id)
     if not course:
         abort(404)
-    if request.method == "DELETE":
+    if request.method == "GET":
+        availability_list = []
+        for available in course.availability:
+            availability_list.append(available.to_dict())
+        return jsonify(availability_list)
+
+    elif request.method == "DELETE":
         availability_ids = request.get_json()
         if not availability_ids:
             return abort(404, description="Not a json")
@@ -116,3 +124,17 @@ def delete_course_availability(course_id):
             created_availabilities.append(newAvailability.to_dict())
         return jsonify(created_availabilities), 201
 
+@app_views.route("/availability/<tutor_id>/tutor", strict_slashes=False, methods=["GET"])
+def get_tutor_availabilities(tutor_id):
+    """This function handles the api that
+        Get all the availabilities of a tutor
+    """
+    tutor = storage.get(Tutor, tutor_id)
+    if not tutor:
+        abort(404)
+    tutor_courses = tutor.courses
+    availability_list = []
+    for course in tutor_courses:
+        for available in course.availability:
+            availability_list.append(available.to_dict())
+    return jsonify(availability_list)
