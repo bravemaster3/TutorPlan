@@ -23,22 +23,31 @@ def get_and_post_booking():
         booking_attr = request.get_json()
         if not booking_attr:
             return abort(404, description="Not a json")
-        must_have_attr = ["availability_id", "student_id"]
+        must_have_attr = ["availability_ids", "student_id"]
         for attr in must_have_attr:
             if attr not in booking_attr.keys():
                 abort(400, description="Missing " + attr)
-        if not storage.get(Availability, booking_attr.get("availability_id")):
-                abort(404, description="Invalid availability_id")
+        availability_ids = booking_attr.get("availability_ids")
+        if not availability_ids or type(availability_ids) != list:
+            abort(400, description="Missing availability_ids")
         if not storage.get(Student, booking_attr.get("student_id")):
             abort(404, description="Invalid student_id")
-        available = storage.get(Availability, booking_attr.get("availability_id"))
-        if available.booked:
-            abort(400, description="It has already been booked")
-        available.booked = True
-        available.save()
-        newBooking = Booking(**booking_attr)
-        newBooking.save()
-        return jsonify(newBooking.to_dict()), 201
+        booking_list = []
+        for availability_id in availability_ids:
+            if not storage.get(Availability, availability_id):
+                abort(404, description="Invalid availability_id")
+            available = storage.get(Availability, availability_id)
+            if available.booked:
+                abort(400, description="It has already been booked")
+            available.booked = True
+            available.save()
+            new_dict = {"availability_id": availability_id,
+                    "student_id": booking_attr.get("student_id")
+                    }
+            newBooking = Booking(**new_dict)
+            newBooking.save()
+            booking_list.append(newBooking.to_dict())
+        return jsonify(booking_list), 201
 
 @app_views.route("/bookings/<student_id>/student", strict_slashes=False, methods=["GET"])
 def get_a_student_bookings(student_id):
@@ -87,28 +96,35 @@ def post_delete_booking(student_id, course_id):
             bookings.append(aval.booking.to_dict())
     return jsonify(bookings)
 
-@app_views.route("/bookings/<booking_id>/student/<student_id>", strict_slashes=False, methods=["DELETE"])
-def delete_booking(booking_id, student_id):
+@app_views.route("/bookings/<student_id>", strict_slashes=False, methods=["DELETE"])
+def delete_booking(student_id):
     """This function handle the api that:
-        Delete the booking of a student.
+        Delete the booking(s) of a student.
         Note: It makes the availablity booked available again if the appointment
         date has not been reached before the deletion
     """
-    booking = storage.get(Booking, booking_id)
     student = storage.get(Student, student_id)
-    if not student or not booking:
-        abort(404)
-    if booking in student.bookings:
-        for booking in student.bookings:
-            if booking.id == booking_id:
-                break
-        available = booking.availability
-        present_date = datetime.datetime.now().date()
-        if present_date < available.day.date():
-            available.booked = False
-            available.save()
-        storage.delete(booking)
-        storage.save()
-        return jsonify({}), 201
-    else:
-        return jsonify({}), 200
+    if not student:
+        abort(404, description="Invalid student_id")
+    booking_id_list = request.get_json()
+    if "booking_ids" not in booking_id_list.keys():
+        abort(400, description="Missing booking_ids")
+    booking_ids = booking_id_list.get("booking_ids")
+    for booking_id in booking_ids:
+        booking = storage.get(Booking, booking_id)
+        if not booking:
+            abort(404, description="Invalid booking_id")
+        if booking in student.bookings:
+            for booking in student.bookings:
+                if booking.id == booking_id:
+                    break
+            available = booking.availability
+            present_date = datetime.datetime.now().date()
+            if present_date < available.day.date():
+                available.booked = False
+                available.save()
+            storage.delete(booking)
+            storage.save()
+        else:
+            return jsonify({}), 200
+    return jsonify({}), 201

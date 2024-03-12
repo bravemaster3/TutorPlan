@@ -567,8 +567,8 @@
         }
       },
       "post": {
-        "summary": "Add a new booking",
-        "description": "Add a new booking",
+        "summary": "Create a booking",
+        "description": "Creates a new booking based on provided availability IDs and student ID.",
         "tags": ["Bookings"],
         "consumes": ["application/json"],
         "produces": ["application/json"],
@@ -579,25 +579,47 @@
             "description": "Booking object",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/Booking"
+              "type": "object",
+              "properties": {
+                "availability_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "e123eeaw4567890"
+                  }
+                },
+                "student_id": {
+                  "type": "string",
+                  "example": "ealkadk95843583;klas"
+                }
+              },
+              "required": ["availability_ids", "student_id"]
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Booking added successfully",
-            "schema": {
-              "$ref": "#/definitions/Booking"
+            "description": "Booking(s) created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Booking"
+                  }
+                }
+              }
             }
           },
           "400": {
-            "description": "Bad request"
+            "description": "Invalid or missing attributes in the request"
           },
           "404": {
-            "description": "Invalid availability_id or student_id"
+            "description": "Invalid availability ID or student ID"
           }
         }
       }
+      
     },
     "/api/v1/bookings/{student_id}/student": {
       "parameters": [
@@ -696,36 +718,52 @@
         }
       }
     },
-    "/api/v1/bookings/{booking_id}/student/{student_id}": {
-      "parameters": [
-        {
-          "name": "booking_id",
-          "in": "path",
-          "description": "ID of the booking",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "name": "student_id",
-          "in": "path",
-          "description": "ID of the student",
-          "required": true,
-          "type": "string"
-        }
-      ],
+    "/api/v1/bookings/{student_id}": {
       "delete": {
-        "summary": "Delete student booking",
-        "description": "Delete the booking of a student",
+        "summary": "Delete booking(s) of a student",
+        "description": "Deletes the booking(s) of a student. If the appointment date has not been reached before the deletion, it makes the availability booked available again.",
         "tags": ["Bookings"],
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "ID of the student",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "booking_ids",
+            "in": "body",
+            "description": "Dictionary containing the list of booking IDs",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "booking_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "e123eeaw4567890"
+                  }
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Booking deleted successfully"
+            "description": "Booking(s) deleted successfully"
+          },
+          "400": {
+            "description": "Missing or invalid booking_ids"
           },
           "404": {
-            "description": "Student or Booking not found"
+            "description": "Invalid student_id or booking_id"
           }
         }
-      }
+      }      
     },
     "/api/v1/availability": {
       "get": {
