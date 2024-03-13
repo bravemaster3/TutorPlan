@@ -1,77 +1,121 @@
-import CourseSingle from "./CourseSingle"
+// import React, { useState, useEffect } from "react"
+// import axios from "axios"
+// import { API_BASE_URL } from "../apiConfig"
+// import Spinner from "./Spinner"
+// import CourseSingle from "./CourseSingle"
+// import CourseSpecific from "./CourseSpecific"
+// import useCourseDetails, { useCourseForm } from "./utils"
+// import moment from "moment"
+// import { Calendar, momentLocalizer } from "react-big-calendar"
+
+// export default function Courses() {
+// const [courses, setCourses] = useState([])
+// const [loading, setLoading] = useState(true)
+// const [error, setError] = useState(null)
+// const [selectedCourse, setSelectedCourse] = useState({})
+// const [editCourse, setEditCourse] = useState(false)
+
+// const toggleModal = () => {
+//   // setSelectedCourse({})
+//   setEditCourse(false)
+//   setIsModalOpen(!isModalOpen)
+// }
+
+// const toggleEdit = () => {
+//   setEditCourse(!editCourse)
+// }
+
+// const [isModalOpen, setIsModalOpen] = useState(false)
+
+// const { formData, handleChange, handleCourseTypeChoice, handleAddCourse } =
+//   useCourseForm(toggleModal)
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       const response = await axios.get(`${API_BASE_URL}/courses`)
+//       const coursesWithTutor = await Promise.all(
+//         response.data.map(async (course) => {
+//           const tutorResponse = await axios.get(
+//             `${API_BASE_URL}/tutors/${course.tutor_id}`
+//           )
+//           return { ...course, tutor: tutorResponse.data }
+//         })
+//       )
+//       setCourses(coursesWithTutor)
+//       setLoading(false)
+//     } catch (error) {
+//       setError(error)
+//       setLoading(false)
+//     }
+//   }
+
+//   fetchData()
+// }, [])
+
+// if (loading) {
+//   return <Spinner />
+// }
+
+// if (error) {
+//   return <div>Error: {error.message}</div>
+// }
+
+import React, { useState, useEffect } from "react"
 import axios from "axios"
 import { API_BASE_URL } from "../apiConfig"
-import React, { useState, useEffect } from "react"
 import Spinner from "./Spinner"
-import CloseIconSimple from "./CloseIconSimple"
-import NewCourseTutor from "./NewCourseTutor"
-import CourseRegistration from "./CourseRegistration"
-import { useCourseForm } from "./utils"
+import CourseCard from "./CourseCard"
+import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
 import moment from "moment"
+
 import { Calendar, momentLocalizer } from "react-big-calendar"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faEdit } from "@fortawesome/free-solid-svg-icons"
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import CourseDetails from "./CourseDetails"
 
 export default function Courses() {
-  const [courses, setCourses] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [editCourse, setEditCourse] = useState(false)
-  const [selectedCourse, setSelectedCourse] = useState({})
+  // const {
+  //   isLoading,
+  //   courses,
+  //   selectedCourse,
+  //   setSelectedCourse,
+  //   isModalOpen, // Use isModalOpen from the useCourseDetails hook
+  //   toggleModal,
+  //   toggleEdit,
+  //   editCourse,
+  //   error,
+  // } = useCourseDetails()
 
-  const toggleEdit = () => {
-    setEditCourse(!editCourse)
-  }
-
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  // const [isLoading, setIsLoading] = useState(true)
-
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen)
-    setEditCourse(false)
-  }
-
-  const { formData, handleChange, handleCourseTypeChoice, handleAddCourse } =
-    useCourseForm(toggleModal)
-
+  const { isLoading, courses, error } = useFetchCourses()
+  const [numberCourses, setNumberCourses] = useState(courses.length)
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_BASE_URL}/courses`)
-        const coursesWithTutor = await Promise.all(
-          response.data.map(async (course) => {
-            const tutorResponse = await axios.get(
-              `${API_BASE_URL}/tutors/${course.tutor_id}`
-            )
-            return { ...course, tutor: tutorResponse.data }
-          })
-        )
-        setCourses(coursesWithTutor)
-        // console.log(
-        //   `This is a list of all courses: ${JSON.stringify(response.data)}`
-        // )
-        setLoading(false)
-      } catch (error) {
-        setError(error)
-        setLoading(false)
-      }
-    }
+    setNumberCourses(courses.length)
+  }, [courses])
 
-    fetchData()
-  }, []) // Empty dependency array ensures the effect runs only once when the component mounts
+  const {
+    selectedCourse,
+    setSelectedCourse,
+    toggleModal,
+    toggleEdit,
+    editCourse,
+    isModalOpen,
+  } = useCourseDetails()
 
-  if (loading) {
-    return <Spinner />
-  }
+  // console.log(isModalOpen)
 
-  if (error) {
-    return <div>Error: {error.message}</div>
-  }
+  const {
+    formData,
+    setFormData,
+    handleChange,
+    handleCourseTypeChoice,
+    handleAddCourse,
+    handleEditCourse,
+  } = useCourseForm(toggleModal)
 
-  // Set up localizer
+  // Rest of your component code...
+
   const localizer = momentLocalizer(moment)
 
-  // Define events
   const events = [
     {
       title: "Event 1",
@@ -81,13 +125,17 @@ export default function Courses() {
     // Add more events as needed
   ]
 
+  if (isLoading) {
+    return <Spinner />
+  }
+
   return (
     <>
       <div className="container-fluid courses-page">
-        <h4>Available courses</h4>
+        <h1>Browse our {numberCourses} available courses</h1>
         <div className="courses-container">
           {courses.map((course) => (
-            <CourseSingle
+            <CourseCard
               key={course.id}
               course={course}
               setSelectedCourse={setSelectedCourse}
@@ -98,42 +146,17 @@ export default function Courses() {
       </div>
 
       {isModalOpen && (
-        <div className="modal-bg">
-          <div className="generic-form modal show specific-course-popup">
-            <CloseIconSimple handleClose={toggleModal} />
-            <div className="specific-course-popup-row1">
-              <h1>Course details</h1>
-            </div>
-            <div className="specific-course-popup-row2">
-              <div>
-                <CourseRegistration
-                  formData={formData}
-                  handleChange={handleChange}
-                  handleCourseTypeChoice={handleCourseTypeChoice}
-                  handleAddCourse={handleAddCourse}
-                  formTitle={
-                    <button onClick={toggleEdit}>
-                      <FontAwesomeIcon icon={faEdit} />
-                    </button>
-                  }
-                  initialValues={selectedCourse}
-                  editMode={editCourse}
-                />
-              </div>
-
-              <div className="calendar-specific-course-div">
-                {/* <h4>Course calendar</h4> */}
-                <Calendar
-                  className="calendar-specific-course"
-                  localizer={localizer}
-                  events={events}
-                  startAccessor="start"
-                  endAccessor="end"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <CourseDetails
+          selectedCourse={selectedCourse}
+          toggleModal={toggleModal}
+          toggleEdit={toggleEdit}
+          editCourse={editCourse}
+          formData={formData}
+          setFormData={setFormData}
+          handleChange={handleChange}
+          handleCourseTypeChoice={handleCourseTypeChoice}
+          handleAddCourse={(e) => handleEditCourse(e, selectedCourse.id)}
+        />
       )}
     </>
   )

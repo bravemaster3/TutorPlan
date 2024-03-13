@@ -22,7 +22,9 @@ export default function SignInUpRadioGroup({ setAccountTypeFun }) {
       </label>
       <br />
       <div className="radio-group">
-        <label htmlFor="student">Student</label>
+        <label className="label-radiogroup" htmlFor="student">
+          Student
+        </label>
         <input
           type="radio"
           id="student"
@@ -32,7 +34,9 @@ export default function SignInUpRadioGroup({ setAccountTypeFun }) {
           onChange={handleChoice}
         />
 
-        <label htmlFor="tutor">Tutor</label>
+        <label className="label-radiogroup" htmlFor="tutor">
+          Tutor
+        </label>
         <input
           type="radio"
           id="tutor"

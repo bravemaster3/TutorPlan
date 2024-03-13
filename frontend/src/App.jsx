@@ -15,6 +15,7 @@ export default function App() {
   const [authenticated, setAuthenticated] = useState(
     localStorage.getItem("isAuthenticated") ? true : false
   )
+
   useEffect(() => {
     const updateAuth = () => {
       const authStatus = localStorage.getItem("isAuthenticated")
@@ -33,6 +34,8 @@ export default function App() {
       // console.log(localStorage.getItem("isAuthenticated"))
       localStorage.removeItem("isAuthenticated")
       localStorage.removeItem("accountType")
+      localStorage.removeItem("userId")
+      localStorage.removeItem("user")
       // console.log(localStorage.getItem("isAuthenticated"))
       setAuthenticated(false)
     }
@@ -66,6 +69,7 @@ export default function App() {
           response.data.__class__.toLowerCase()
           // $('input[name="account_type"]:checked').val()
         )
+        localStorage.setItem("user", JSON.stringify(response.data))
         NavigateTo("/mydesk")
       })
       .catch((error) => alert("wrong username, password or account type"))

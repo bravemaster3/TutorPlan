@@ -8,8 +8,11 @@ import { stringToColor } from "./utils"
 
 export default function MyDeskCalendarTutor() {
   const localizer = momentLocalizer(moment)
+  const [user, setUser] = useState(
+    localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+  )
 
-  const tutorName = "Johnson" // this should come from the server later
+  // const tutorName = "Johnson" // this should come from the server later
   const [bookings, setBookings] = useState([
     {
       id: 1,
@@ -48,7 +51,7 @@ export default function MyDeskCalendarTutor() {
     <>
       <div className="calendar-header">
         <div className="title">
-          <h3>Hey {tutorName},</h3>
+          <h3>Hey {user.first_name},</h3>
           <h4>Here are your appointments</h4>
         </div>
         <button>Save changes</button>

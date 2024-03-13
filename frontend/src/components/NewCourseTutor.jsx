@@ -9,7 +9,7 @@
 // import CloseIcon from "./CloseIcon"
 // import { API_BASE_URL } from "../apiConfig"
 // import axios from "axios"
-import CourseRegistration from "./CourseRegistration"
+import CourseAdd from "./CourseAdd"
 import { useCourseForm } from "./utils"
 
 export default function NewCourseTutor({ toggleModal }) {
@@ -18,7 +18,7 @@ export default function NewCourseTutor({ toggleModal }) {
 
   return (
     <>
-      <CourseRegistration
+      <CourseAdd
         formData={formData}
         handleChange={handleChange}
         handleCourseTypeChoice={handleCourseTypeChoice}

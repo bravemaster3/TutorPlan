@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../apiConfig";
@@ -156,5 +156,162 @@ export const useCourseForm = (toggleModal) => {
     toggleModal()
   }
 
-  return { formData, handleChange, handleCourseTypeChoice, handleAddCourse }
+  const handleEditCourse = (e, course_id) => {
+    e.preventDefault()
+    const data = {
+      ...formData,
+    }
+
+    const {id, updated_at, created_at, tutor, tutor_id, __class__, ...dataForPut}= data
+
+    const url = `${API_BASE_URL}/courses/${course_id}`
+    console.log("URL for PUT request", url)
+    console.log("Data being sent", dataForPut)
+    axios
+      .put(url, dataForPut, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        alert("An error has occurred. Read more in the console")
+        console.log(error)
+      })
+
+    toggleModal()
+  }
+
+  return { formData, setFormData, handleChange, handleCourseTypeChoice, handleAddCourse, handleEditCourse }
 }
+
+
+// export const useCourseDetails = () => {
+//   const [courses, setCourses] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [selectedCourse, setSelectedCourse] = useState({});
+//   const [editCourse, setEditCourse] = useState(false);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+
+//   const toggleModal = () => {
+//     // setSelectedCourse({});
+//     setEditCourse(false);
+//     setIsModalOpen(!isModalOpen);
+//   };
+
+//   const toggleEdit = () => {
+//     setEditCourse(!editCourse);
+//   };
+
+//   const fetchData = async () => {
+//     try {
+//       const response = await axios.get(`${API_BASE_URL}/courses`);
+//       const coursesWithTutor = await Promise.all(
+//         response.data.map(async (course) => {
+//           const tutorResponse = await axios.get(
+//             `${API_BASE_URL}/tutors/${course.tutor_id}`
+//           );
+//           return { ...course, tutor: tutorResponse.data };
+//         })
+//       );
+//       setCourses(coursesWithTutor);
+//       setLoading(false);
+//     } catch (error) {
+//       setError(error);
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchData();
+//   }, []);
+
+//   if (loading) {
+//     return { isLoading: true, courses: [], selectedCourse, toggleModal, toggleEdit };
+//   }
+
+//   if (error) {
+//     return { isLoading: false, courses: [], selectedCourse, toggleModal, toggleEdit, error: true };
+//   }
+
+//   return { isLoading: false, courses, selectedCourse, setSelectedCourse, toggleModal, toggleEdit, editCourse, isModalOpen };
+// };
+
+export const useFetchCourses = (student_id = null, tutor_id = null) => {
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const fetchData = async () => {
+    console.log("data fetched again")
+    let url
+    try {
+      if (!student_id && !tutor_id) {
+        url =`${API_BASE_URL}/courses`
+      } else if (student_id) {
+        url =`${API_BASE_URL}/students/${student_id}/courses`
+      } else if (tutor_id) {
+          url =`${API_BASE_URL}/tutors/${tutor_id}/courses`
+      }
+      const response = await axios.get(url);
+      const coursesWithTutor = await Promise.all(
+        response.data.map(async (course) => {
+          const tutorResponse = await axios.get(
+            `${API_BASE_URL}/tutors/${course.tutor_id}`
+          );
+          return { ...course, tutor: tutorResponse.data };
+        })
+      );
+      setCourses(coursesWithTutor);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);//Using courses as dependency array makes the request refresh and renders courses again, but it has a side effect, on the calendar
+
+  return { isLoading: loading, courses, error };
+};
+
+
+export const useCourseDetails = () => {
+  const [selectedCourse, setSelectedCourse] = useState({});
+  const [editCourse, setEditCourse] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setEditCourse(false);
+    setIsModalOpen(!isModalOpen);
+  };
+
+  const toggleEdit = () => {
+    setEditCourse(!editCourse);
+  };
+
+  return { selectedCourse, setSelectedCourse, toggleModal, toggleEdit, editCourse, isModalOpen };
+};
+
+
+
+// export const isStudentRegistered = async (selectedCourse) => {
+//   let idExists
+//   useEffect(() => {
+//     axios
+//       .get(`${API_BASE_URL}/courses/${selectedCourse.id}/students`)
+//       .then((response) => {
+//         const studentsInCourse = response.data
+//         idExists = studentsInCourse.some(
+//           (student) => student.id === localStorage.getItem("userId")
+//         )
+//         // console.log(selectedCourse)
+//       })
+//   }, [])
+
+//   return idExists
+// }

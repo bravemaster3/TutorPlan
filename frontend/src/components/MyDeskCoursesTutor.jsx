@@ -6,33 +6,46 @@ import * as Icons from "react-icons/fa"
 import NewCourseTutor from "./NewCourseTutor"
 import CloseIconSimple from "./CloseIconSimple"
 import { API_BASE_URL } from "../apiConfig"
+import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
+import CourseDetails from "./CourseDetails"
 
 export default function MyDeskCoursesTutor() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isModalAddOpen, setIsModalAddOpen] = useState(false)
+  // const [isLoading, setIsLoading] = useState(true)
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen)
+  const toggleModalAdd = () => {
+    setIsModalAddOpen(!isModalAddOpen)
   }
 
-  const [courses, setCourses] = useState([])
+  const { isLoading, courses, error } = useFetchCourses(
+    null,
+    localStorage.getItem("userId")
+  )
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const url = `${API_BASE_URL}/tutors/${localStorage.getItem(
-          "userId"
-        )}/courses`
-        const response = await axios.get(url)
-        setCourses(response.data)
-        setIsLoading(false)
-      } catch (error) {
-        console.log(error)
-      }
+  const {
+    selectedCourse,
+    setSelectedCourse,
+    toggleModal,
+    toggleEdit,
+    editCourse,
+    isModalOpen,
+  } = useCourseDetails()
+
+  const {
+    formData,
+    setFormData,
+    handleChange,
+    handleCourseTypeChoice,
+    handleAddCourse,
+    handleEditCourse,
+  } = useCourseForm(toggleModal)
+
+  const handleCourseClick = (course) => {
+    return () => {
+      setSelectedCourse(course)
+      toggleModal()
     }
-
-    fetchData()
-  }, [])
+  }
 
   const numberCourses = courses.length
 
@@ -43,31 +56,49 @@ export default function MyDeskCoursesTutor() {
       ) : (
         <>
           {" "}
-          <h3>You are teaching {numberCourses} courses</h3>
+          <h2>You are teaching {numberCourses} courses</h2>
           <div className="course-list">
             {courses.map((course) => (
-              <button className="course-btn" key={course.id}>
+              <button
+                className="course-btn"
+                key={course.id}
+                onClick={handleCourseClick(course)}
+              >
                 <div className="course-icon">
                   <CourseIcon title={course.title} />
                 </div>
                 <h5>{course.title}</h5>
               </button>
             ))}
-            <button className="course-btn" onClick={toggleModal}>
+            <button className="course-btn" onClick={toggleModalAdd}>
               <div className="course-icon add">
                 <Icons.FaPlus />
               </div>
               <h5>Add course</h5>
             </button>
 
-            {isModalOpen && (
+            {isModalAddOpen && (
               <div className="modal-bg">
                 <div className="generic-form modal show">
-                  <CloseIconSimple handleClose={toggleModal} />
-                  <NewCourseTutor toggleModal={toggleModal} />
+                  <CloseIconSimple handleClose={toggleModalAdd} />
+                  <NewCourseTutor toggleModal={toggleModalAdd} />
                   {/* <button onClick={toggleModal}>Close</button> */}
                 </div>
               </div>
+            )}
+
+            {isModalOpen && (
+              <CourseDetails
+                selectedCourse={selectedCourse}
+                toggleModal={toggleModal}
+                toggleEdit={toggleEdit}
+                editCourse={editCourse}
+                formData={formData}
+                setFormData={setFormData}
+                handleChange={handleChange}
+                handleCourseTypeChoice={handleCourseTypeChoice}
+                handleAddCourse={(e) => handleEditCourse(e, selectedCourse.id)}
+              />
             )}
           </div>
         </>

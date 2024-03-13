@@ -10,6 +10,7 @@ import CloseIcon from "./CloseIcon"
 import SignInUpRadioGroup from "./SignInUpRadioGroup"
 import { API_BASE_URL } from "../apiConfig"
 import axios from "axios"
+import md5 from "md5"
 export default function SignUp() {
   const navigateTo = useNavigate()
   const [formData, setFormData] = useState({
@@ -26,10 +27,17 @@ export default function SignUp() {
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }))
+    if (name === "password") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: md5(value),
+      }))
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }))
+    }
   }
 
   const handleSignUp = (e) => {
@@ -48,6 +56,7 @@ export default function SignUp() {
       })
       .catch((error) => {
         alert("An error has occured. Signup was unsuccessful")
+        console.log(error)
       })
 
     navigateTo("/login")
@@ -58,7 +67,7 @@ export default function SignUp() {
     <>
       <div className="title">
         <h2>Join us!</h2>
-        <p>You are signing up as a User</p>
+        <p>You are signing up as a {accountTypeSignUp}</p>
       </div>
       <form className="login-form" onSubmit={handleSignUp}>
         <div className="form-group">

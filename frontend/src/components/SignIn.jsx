@@ -9,6 +9,7 @@ import {
 import CloseIcon from "./CloseIcon"
 import SignInUpRadioGroup from "./SignInUpRadioGroup"
 import SignInUpButtonGroup from "./SignInUpButtonGroup"
+import md5 from "md5"
 export default function SignIn({ handleSignIn }) {
   return (
     <>
@@ -45,7 +46,7 @@ function SignInForm({ handleSignIn }) {
     <>
       <div className="title">
         <h2>Welcome back!</h2>
-        <p>You are signing in as a User</p>
+        <p>You are signing in as a {accountType}</p>
       </div>
       <form
         className="login-form"
@@ -71,7 +72,8 @@ function SignInForm({ handleSignIn }) {
               id="password"
               placeholder="Enter your password"
               name="password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(md5(e.target.value))}
+              // onChange={(e) => setPassword(e.target.value)}
               required
             />
             <button

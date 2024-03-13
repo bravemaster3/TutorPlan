@@ -1,7 +1,8 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
-export default function CourseRegistration({
+export default function CourseAdd({
   formData,
+  setFormData,
   handleChange,
   handleCourseTypeChoice,
   handleAddCourse,
@@ -9,7 +10,16 @@ export default function CourseRegistration({
   initialValues,
   editMode,
 }) {
+  // const [formData, setFormData] = useState(initialValues);
   const [showPassword, setShowPassword] = useState(false)
+
+  if (setFormData) {
+    useEffect(() => {
+      if (editMode) {
+        setFormData(initialValues)
+      }
+    }, [editMode, initialValues])
+  }
 
   return (
     <>
@@ -25,6 +35,7 @@ export default function CourseRegistration({
               id="title"
               placeholder="e.g. Piano, Guitar, English"
               name="title"
+              // defaultValue={initialValues.title}
               onChange={handleChange}
               required
               value={formData.title}
@@ -64,7 +75,7 @@ export default function CourseRegistration({
               placeholder="Brief description of the course"
               name="description"
               onChange={handleChange}
-              value={formData.description}
+              value={formData.description ? formData.description : ""}
             />
           ) : (
             <span>
@@ -124,7 +135,7 @@ export default function CourseRegistration({
         </div>
 
         <div className="form-group">
-          <label htmlFor="duration">Duration</label>
+          <label htmlFor="duration">Duration (min)</label>
           {editMode ? (
             <input
               type="number"
@@ -143,7 +154,7 @@ export default function CourseRegistration({
         </div>
 
         <div className="form-group">
-          <label htmlFor="fee">Fee</label>
+          <label htmlFor="fee">Fee ($)</label>
           {editMode ? (
             <input
               type="number"
