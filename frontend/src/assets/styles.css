@@ -770,7 +770,8 @@ margin-bottom: 10px;
 } */
 
 .delete-booking-btn {
-  background-color: red;
+  background-color: var(--white);
+  color: red;
   border: none;
   display: flex;
   justify-content: start;
@@ -1435,6 +1436,9 @@ overflow: hidden;
   border: none;
 }
 
+.rbc-event-label {
+  display: none;
+}
 
 /* .rbc-header{
   background-color: var(--primary-col);

@@ -1,24 +1,7 @@
-import React, { useEffect, useRef, useState } from "react"
-import CloseIconSimple from "./CloseIconSimple"
-import moment from "moment"
-
-// import { DndProvider } from "react-dnd"
-import { Calendar, momentLocalizer } from "react-big-calendar"
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
-// import { HTML5Backend } from "react-dnd-html5-backend"
-
-import "react-big-calendar/lib/css/react-big-calendar.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faDeleteLeft,
-  faEdit,
-  faSave,
-  faTrash,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons"
-import CourseAdd from "./CourseAdd"
+import React, { useEffect, useState } from "react"
 import axios from "axios"
 import { API_BASE_URL } from "../apiConfig"
+import CourseDetailsUI from "./CourseDetailsUI"
 import Spinner from "./Spinner"
 import { useNavigate } from "react-router-dom"
 
@@ -32,24 +15,18 @@ export default function CourseDetails({
   handleChange,
   handleCourseTypeChoice,
   handleAddCourse,
+  // Other props...
 }) {
-  // console.log(selectedCourse)
-  const DnDCalendar = withDragAndDrop(Calendar)
-  // Set up localizer
-  const localizer = momentLocalizer(moment)
-  const navigateTo = useNavigate()
-
   const [isCourseTutor, setIsCourseTutor] = useState(false)
   const [isEnrolled, setIsEnrolled] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
-  // useEffect(() => {
-  //   const isTheTutor =
-  //     selectedCourse.tutor_id === localStorage.getItem("userId")
-  //   setIsCourseTutor(isTheTutor)
-  //   setSeesCalendar(isTheTutor)
-  // }, [selectedCourse])
-
   const [seesCalendar, setSeesCalendar] = useState(false)
+  const [events, setEvents] = useState([])
+  const [bookings, setBookings] = useState([])
+  const navigateTo = useNavigate()
+  const [updateOnSave, setUpdateOnSave] = useState(false)
+  const [initialAvails, setInitialAvails] = useState([])
+
   useEffect(() => {
     let idExists
     axios
@@ -109,8 +86,6 @@ export default function CourseDetails({
     }
   }
   // This should come from the database, to start from the existing
-  const [events, setEvents] = useState([])
-  const [bookings, setBookings] = useState([])
   const fetchAvail = async () => {
     const url = `${API_BASE_URL}/availability/${selectedCourse.id}/unbooked`
     // console.log(url)
@@ -132,6 +107,7 @@ export default function CourseDetails({
           }
         })
         setEvents(InitialAvailabilities)
+        setInitialAvails(InitialAvailabilities)
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
@@ -141,83 +117,14 @@ export default function CourseDetails({
 
   useEffect(() => {
     fetchAvail()
-    // console.log("is this fetched?", events)
-    // }, [selectedCourse.id])
   }, [])
-
-  // if (seesCalendar && !isCourseTutor) {
-  //   const fetchBookings = async () => {
-  //     console.log("reached here")
-  //     const url = `${API_BASE_URL}/bookings/${
-  //       selectedCourse.id
-  //     }/course/${JSON.parse(
-  //       localStorage.getItem("user")
-  //     ).__class__.toLowerCase()}`
-  //     console.log("bookings", url)
-  //     axios
-  //       .get(url)
-  //       .then((response) => {
-  //         console.log("initiall bookings", response.data)
-  //         const InitialBookings = response.data.filter((booking) => {
-  //           return events.some((event) => event.id === booking.availability_id)
-  //         })
-  //         setBookings(InitialBookings)
-  //       })
-  //       .catch((error) => {
-  //         alert("An error has occurred. Read more in the console")
-  //         console.log(error)
-  //       })
-  //   }
-
-  //   useEffect(() => {
-  //     fetchBookings()
-  //     // console.log("Bookings were fetched?", bookings)
-  //   }, [])
-  // }
-
-  // const fetchBookings = async () => {
-  //   try {
-  //     const url = `${API_BASE_URL}/bookings/${selectedCourse.id}/course/${
-  //       JSON.parse(localStorage.getItem("user")).id
-  //     }/student`
-  //     console.log("bookings", url)
-
-  //     const response = await axios.get(url)
-
-  //     console.log("initial bookings", response.data)
-
-  //     const InitialBookings = response.data.filter((booking) => {
-  //       return events.some((event) => event.id === booking.availability_id)
-  //     })
-
-  //     setBookings(InitialBookings)
-  //   } catch (error) {
-  //     alert("An error has occurred. Read more in the console")
-  //     console.log(error)
-  //   }
-  // }
-
-  // // Now, you need to call and await fetchBookings inside an async function
-  // const handleFetchBookings = async () => {
-  //   await fetchBookings()
-  //   console.log("Bookings were fetched?", bookings)
-  //   // The rest of your code that depends on the fetched bookings
-  // }
-
-  // if (seesCalendar && !isCourseTutor) {
-  //   console.log("reached here") // This line should be executed
-
-  //   handleFetchBookings()
-  // }
 
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        // console.log("reached here") // This line should be executed
         const url = `${API_BASE_URL}/bookings/${selectedCourse.id}/course/${
           JSON.parse(localStorage.getItem("user")).id
         }/student`
-        // console.log("bookings", url)
 
         const response = await axios.get(url)
 
@@ -237,25 +144,17 @@ export default function CourseDetails({
     const handleFetchBookings = async () => {
       await fetchBookings()
       console.log("Bookings were fetched?", bookings)
-      // The rest of your code that depends on the fetched bookings
     }
 
     if (seesCalendar && !isCourseTutor) {
-      console.log("reached here") // This line should be executed
+      console.log("reached here")
       handleFetchBookings()
     }
   }, [seesCalendar, isCourseTutor, selectedCourse.id, events])
-  // }, [seesCalendar, isCourseTutor])
-
-  //**********************************************//
-  // useEffect(() => {
-  //   console.log("Events state:", events)
-  // }, [events])
 
   const [autoId, setAutoId] = useState(0)
 
   const handleSelect = ({ start, end }) => {
-    // const title = (window.prompt("New Event name") || "").trim() || "Available"
     if (isCourseTutor) {
       const title = "Available"
       setAutoId(autoId + 1)
@@ -272,7 +171,6 @@ export default function CourseDetails({
           },
         ])
     }
-    // console.log("new events", events)
   }
 
   const moveEvent = ({ event, start, end }) => {
@@ -298,52 +196,74 @@ export default function CourseDetails({
   const [defaultView, setDefaultView] = useState("month") // Initial default view
 
   const handleViewChange = (view) => {
-    // Handle the view change event and update the default view
     setDefaultView(view)
   }
 
   const handleEventDelete = (eventId) => {
-    // setEvents(events.filter((event) => event.autoId !== eventId))
     setEvents(events.filter((event) => event.id !== eventId))
   }
 
-  const EventComponent = ({ event }) => (
-    <div className="calendar-event">
-      {event.title}
-      {isCourseTutor ? (
-        <button
-          className="delete-booking-btn"
-          // onClick={() => handleEventDelete(event.autoId)}
-          onClick={() => handleEventDelete(event.id)}
-        >
-          <FontAwesomeIcon icon={faTrash} size="sm"></FontAwesomeIcon>
-        </button>
-      ) : (
-        ""
-      )}
+  //   const EventComponent = ({ event }) => (
+  //     <div className="calendar-event">
+  //       {event.title}
+  //       {isCourseTutor ? (
+  //         <button
+  //           className="delete-booking-btn"
+  //           onClick={() => handleEventDelete(event.id)}
+  //         >
+  //           <FontAwesomeIcon icon={faTrash} size="sm"></FontAwesomeIcon>
+  //         </button>
+  //       ) : (
+  //         ""
+  //       )}
 
-      {seesCalendar && !isCourseTutor ? (
-        <input
-          type="checkbox"
-          className="select-slot-checkbox"
-          checked={bookings.some(
-            (booking) => booking.availability_id === event.id
-          )}
-          onChange={(e) => handleCheckboxChange(e.target.checked, event.id)}
-        />
-      ) : (
-        ""
-      )}
-    </div>
-  )
+  //       {seesCalendar && !isCourseTutor ? (
+  //         <input
+  //           type="checkbox"
+  //           className="select-slot-checkbox"
+  //           checked={bookings.some(
+  //             (booking) => booking.availability_id === event.id
+  //           )}
+  //           onChange={(e) => handleCheckboxChange(e.target.checked, event.id)}
+  //         />
+  //       ) : (
+  //         ""
+  //       )}
+  //     </div>
+  //   )
 
-  const postMultipleGeneric = (url, data) => {
+  const postMultipleGeneric = (url, data, type = null) => {
     axios
       .post(url, data, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
         console.log(response)
+        if (response.status.toString().startsWith("2")) {
+          type !== null
+            ? alert(`${type} were saved successfully`)
+            : alert("Operation was successful")
+        }
+      })
+      .catch((error) => {
+        alert("An error has occurred. Read more in the console")
+        console.log(error)
+      })
+  }
+
+  const deleteMultipleGeneric = (url, data, type = null) => {
+    axios
+      .delete(url, {
+        headers: { "Content-Type": "application/json" },
+        data: data,
+      })
+      .then((response) => {
+        console.log(response)
+        if (response.status.toString().startsWith("2")) {
+          type !== null
+            ? alert(`${type} were deleted successfully`)
+            : alert("Operation was successful")
+        }
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
@@ -354,50 +274,59 @@ export default function CourseDetails({
   const handleCalendarSave = () => {
     // console.log(events)
     if (isCourseTutor) {
-      const listAvail = events.map((event) => {
-        const day = event.start.toISOString().split("T")[0] // Extract YYYY-mm-dd from the date
-        const course_id = selectedCourse.id
-        const start_time = event.start
-          .toISOString()
-          .split(".")[0]
-          .replace("T", " ")
-        return { course_id, day, start_time }
-      })
-      const url = `${API_BASE_URL}/availability/${selectedCourse.id}`
-      const data = { availability_attr: listAvail }
-      console.log(data)
-      postMultipleGeneric(url, data)
+      console.log("Availabilities before preparation", events)
+
+      //Getting the new availabilities
+      const newAvails = events
+        .filter(
+          (event) => !initialAvails.some((avail) => event.start === avail.start)
+        )
+        .map((event) => {
+          const day = event.start.toISOString().split("T")[0] // Extract YYYY-mm-dd from the date
+          const course_id = selectedCourse.id
+          const start_time = event.start
+            .toISOString()
+            .split(".")[0]
+            .replace("T", " ")
+          return { course_id, day, start_time }
+        })
+      const urlPost = `${API_BASE_URL}/availability/${selectedCourse.id}`
+      const newAvailsData = { availability_attr: newAvails }
+      console.log("ready to post availabilities", newAvailsData)
+      console.log("unchanged initials", initialAvails)
+      if (newAvailsData.availability_attr.length > 0) {
+        postMultipleGeneric(urlPost, newAvailsData, "Availabilities")
+      }
+
+      // getting the deleted availabilities
+      const missingIds = initialAvails
+        .filter(
+          (initialAvail) =>
+            !events.some((event) => event.start === initialAvail.start)
+        )
+        .map((missingAvail) => missingAvail.id)
+
+      const delAvailsData = { availability_ids: missingIds }
+      const urlDel = `${API_BASE_URL}/availability/${selectedCourse.id}`
+      if (delAvailsData.availability_ids.length > 0) {
+        deleteMultipleGeneric(urlDel, delAvailsData, "Availabilities")
+      }
     }
 
     if (seesCalendar && !isCourseTutor) {
-      // const listAvail = events.map((event) => {
-      //   const day = event.start.toISOString().split("T")[0] // Extract YYYY-mm-dd from the date
-      //   const course_id = selectedCourse.id
-      //   const start_time = event.start
-      //     .toISOString()
-      //     .split(".")[0]
-      //     .replace("T", " ")
-      //   return { course_id, day, start_time }
-      // })
-      // // console.log("reshaped events", listAvail)
-      // const url = `${API_BASE_URL}/availability/${selectedCourse.id}`
-      // // console.log(url)
-      // // for (const data of listAvail) {
-      // //   console.log(data)
-      // //   postAvailabilitySingle(url, data)
-      // // }
-      // const data = { availability_attr: listAvail }
-      // console.log(data)
-      // postAllAvailabilities(url, data)
       const data = {
         availability_ids: bookings.map((booking) => booking.availability_id),
-        student_id: bookings[0].student_id,
+        student_id: JSON.parse(localStorage.getItem("user")).id, //bookings[0].student_id,
       }
       console.log("ready to post bookings", data)
       const url = `${API_BASE_URL}/bookings`
 
-      postMultipleGeneric(url, data)
+      if (data.availability_ids.length > 0) {
+        postMultipleGeneric(url, data, "Bookings")
+      }
     }
+
+    setUpdateOnSave(!updateOnSave)
   }
 
   const handleCheckboxChange = (isChecked, eventId) => {
@@ -422,100 +351,35 @@ export default function CourseDetails({
     }
   }
 
-  //**********************************************//
-  // const modalRef = useRef(null) ///THIS REF IS NOT WORKING YET
-  // useEffect(() => {
-  //   if (modalRef.current) {
-  //     modalRef.current.scrollIntoView({ behavior: "smooth" })
-  //     console.log("I eventually got here")
-  //     modalRef.current.focus()
-  //   }
-  // }, [toggleModal])
-
   if (isLoading) {
     return <Spinner />
   }
-  return (
-    <div className="modal-bg">
-      <div
-        className="generic-form modal show specific-course-popup"
-        tabIndex={0}
-        // ref={modalRef}
-      >
-        <CloseIconSimple handleClose={toggleModal} />
-        <div className="specific-course-popup-row1">
-          <h1>Course details</h1>
-          {/* {isCourseTutor ? (
-            <FontAwesomeIcon icon={faSave} size="lg"></FontAwesomeIcon>
-          ) : (
-            ""
-          )} */}
-        </div>
-        <div className="specific-course-popup-row2">
-          <div>
-            <CourseAdd
-              formData={formData}
-              setFormData={setFormData}
-              handleChange={handleChange}
-              handleCourseTypeChoice={handleCourseTypeChoice}
-              handleAddCourse={handleAddCourse}
-              formTitle={
-                isCourseTutor ? (
-                  <button onClick={toggleEdit}>
-                    <FontAwesomeIcon icon={faEdit} />
-                  </button>
-                ) : (
-                  ""
-                )
-              }
-              initialValues={selectedCourse}
-              editMode={editCourse}
-            />
-          </div>
 
-          <div className="calendar-specific-course-div">
-            {/* <h4>Course calendar</h4> */}
-            {seesCalendar ? (
-              // <DndProvider backend={HTML5Backend}>
-              <DnDCalendar
-                className="calendar-specific-course"
-                localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
-                // titleAccessor="title"
-                selectable
-                onSelectSlot={handleSelect}
-                // onEventDrop={moveEvent}
-                // resizable
-                // onEventResize={resizeEvent}
-                views={["month", "week", "day", "agenda"]}
-                defaultView={defaultView}
-                onView={handleViewChange}
-                step={selectedCourse.duration}
-                components={{
-                  event: EventComponent,
-                }}
-              />
-            ) : (
-              // </DndProvider>
-              <button className="enroll-btn" onClick={handleEnrollment}>
-                <h2>Enroll to view calendar</h2>
-              </button>
-            )}
-            {seesCalendar ? (
-              <button
-                className="save-calendar-btn"
-                onClick={handleCalendarSave}
-              >
-                SAVE CHANGES
-              </button>
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
+  return (
+    <CourseDetailsUI
+      selectedCourse={selectedCourse}
+      toggleModal={toggleModal}
+      toggleEdit={toggleEdit}
+      editCourse={editCourse}
+      formData={formData}
+      setFormData={setFormData}
+      handleChange={handleChange}
+      handleCourseTypeChoice={handleCourseTypeChoice}
+      handleAddCourse={handleAddCourse}
+      seesCalendar={seesCalendar}
+      isCourseTutor={isCourseTutor}
+      events={events}
+      handleSelect={handleSelect}
+      moveEvent={moveEvent}
+      resizeEvent={resizeEvent}
+      defaultView={defaultView}
+      handleViewChange={handleViewChange}
+      isLoading={isLoading}
+      handleEnrollment={handleEnrollment}
+      handleCalendarSave={handleCalendarSave}
+      bookings={bookings}
+      handleEventDelete={handleEventDelete}
+      handleCheckboxChange={handleCheckboxChange}
+    />
   )
 }
