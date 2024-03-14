@@ -95,6 +95,7 @@ export default function MyDeskCalendarTutor() {
         components={{
           event: EventComponent,
         }}
+        defaultView="agenda"
       />
       {isLoading && <Spinner text={"Fetching your appointments"} />}
     </>
