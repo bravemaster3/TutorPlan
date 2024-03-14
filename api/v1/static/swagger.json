@@ -815,6 +815,33 @@
         }
       }
     },
+    "/api/v1/availability/{availability_id}": {
+      "parameters": [
+        {
+          "name": "availability_id",
+          "in": "path",
+          "description": "ID of the availability to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get an availability",
+        "description": "Get details of a particular availability",
+        "tags": ["Availability"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Availability"
+            }
+          },
+          "404": {
+            "description": "Availability not found"
+          }
+        }
+      }
+    },
     "/api/v1/availability/{course_id}/booked": {
       "get": {
         "summary": "Get booked availability of a course",
