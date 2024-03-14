@@ -30,7 +30,7 @@ const CourseCalendar = ({
   const EventComponent = ({ event }) => (
     <div className="calendar-event">
       {event.title}
-      {isCourseTutor ? (
+      {isCourseTutor && !event.booked ? (
         <button
           className="delete-booking-btn"
           // onClick={() => handleEventDelete(event.autoId)}

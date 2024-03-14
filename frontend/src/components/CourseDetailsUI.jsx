@@ -55,20 +55,27 @@ const CourseDetailsUI = ({
             />
           </div>
           <div className="calendar-specific-course-div">
-            <CourseCalendar
-              events={events}
-              selectedCourse={selectedCourse}
-              handleSelect={handleSelect}
-              moveEvent={moveEvent}
-              resizeEvent={resizeEvent}
-              defaultView={defaultView}
-              handleViewChange={handleViewChange}
-              seesCalendar={seesCalendar}
-              isCourseTutor={isCourseTutor}
-              bookings={bookings}
-              handleCheckboxChange={handleCheckboxChange}
-              handleEventDelete={handleEventDelete}
-            />
+            {seesCalendar ? (
+              <CourseCalendar
+                events={events}
+                selectedCourse={selectedCourse}
+                handleSelect={handleSelect}
+                moveEvent={moveEvent}
+                resizeEvent={resizeEvent}
+                defaultView={defaultView}
+                handleViewChange={handleViewChange}
+                seesCalendar={seesCalendar}
+                isCourseTutor={isCourseTutor}
+                bookings={bookings}
+                handleCheckboxChange={handleCheckboxChange}
+                handleEventDelete={handleEventDelete}
+              />
+            ) : (
+              // </DndProvider>
+              <button className="enroll-btn" onClick={handleEnrollment}>
+                <h2>Enroll to view calendar</h2>
+              </button>
+            )}
             {seesCalendar ? (
               <button
                 className="save-calendar-btn"
