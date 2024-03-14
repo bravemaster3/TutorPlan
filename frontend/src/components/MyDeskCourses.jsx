@@ -114,7 +114,7 @@ export default function MyDeskCourses() {
   return (
     <>
       {isLoading ? (
-        <div className="spinner"></div>
+        <Spinner text={"Loading your courses"} />
       ) : (
         <>
           {/* <div className="mydesk-content"> */}

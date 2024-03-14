@@ -126,7 +126,7 @@ export default function Courses() {
   ]
 
   if (isLoading) {
-    return <Spinner />
+    return <Spinner text={"Loading courses"} />
   }
 
   return (
