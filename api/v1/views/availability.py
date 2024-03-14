@@ -38,7 +38,7 @@ def get_and_post_availability():
         newAvailability.save()
         return jsonify(newAvailability.to_dict()), 201
 
-@app_views.route("/availability/<availability_id>", strict_slashes=False, methods=["GET"])
+@app_views.route("/availability/<availability_id>/available", strict_slashes=False, methods=["GET"])
 def get_availability(availability_id):
     """This function handles an api that:
         Get the availability that belongs to the availability_id

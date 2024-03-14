@@ -815,7 +815,7 @@
         }
       }
     },
-    "/api/v1/availability/{availability_id}": {
+    "/api/v1/availability/{availability_id}/available": {
       "parameters": [
         {
           "name": "availability_id",
