@@ -1,0 +1,1346 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "TutorPlan Website RestFul API",
+    "version": "1.0.0"
+  },
+  "basePath": "/",
+  "tags": [
+      {
+        "name": "Courses",
+        "description": "Operations related to courses"
+      },
+      {
+          "name": "Students",
+          "description": "Operations related to students"
+      },
+      {
+        "name": "Tutors",
+        "description": "Operations related to tutors"
+      },
+      {
+          "name": "Bookings",
+          "description": "Operations related to bookings"
+      },
+      {
+          "name": "Availability",
+          "description": "Operations related to availability"
+      },
+      {
+        "name": "Status",
+        "description": "Status of the API"
+      },
+      {
+        "name": "Statistics",
+        "description": "Operations related to API statistics"
+      },
+      {
+        "name": "Authentication",
+        "description": "Operations related to user authentication"
+      }
+    ],
+  "paths": {
+    "/api/v1/students": {
+      "get": {
+          "tags": ["Students"],
+        "summary": "Get all students",
+        "description": "Retrieve all students",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+          "tags": ["Students"],
+        "summary": "Add a new student",
+        "description": "Add a new student",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "student",
+            "in": "body",
+            "description": "Student object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Student added successfully",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Email already exists"
+          }
+        }
+      }
+    },
+    "/api/v1/students/{student_id}": {
+      "parameters": [
+        {
+          "name": "student_id",
+          "in": "path",
+          "description": "ID of the student to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": ["Students"],
+        "summary": "Get a student",
+        "description": "Get details of a particular student",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      },
+      "put": {
+          "tags": ["Students"],
+        "summary": "Update a student",
+        "description": "Update details of a particular student",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "student",
+            "description": "Student object to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "404": {
+            "description": "Student not found"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+          "tags": ["Students"],
+        "summary": "Delete a student",
+        "description": "Delete a particular student",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Student is referenced by other entities"
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      }
+    },
+    "/api/v1/students/{student_id}/courses": {
+      "parameters": [
+        {
+          "name": "student_id",
+          "in": "path",
+          "description": "ID of the student to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": ["Students"],
+        "summary": "Get courses",
+        "description": "Get all courses of a particular student",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      }
+    },
+    "/api/v1/students/{student_id}/courses/{course_id}": {
+      "parameters": [
+        {
+          "name": "student_id",
+          "in": "path",
+          "description": "ID of the student",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "course_id",
+          "in": "path",
+          "description": "ID of the course",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "post": {
+          "tags": ["Students"],
+        "summary": "Post/Register a student under a course",
+        "description": "Register a student under a course",
+        "responses": {
+          "200": {
+            "description": "Student already registered under the course",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "201": {
+            "description": "Student registered under the course",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "404": {
+            "description": "Student or Course not found"
+          }
+        }
+      },
+      "delete": {
+          "tags": ["Students"],
+        "summary": "Delete/Remove a student from a course",
+        "description": "Remove a student from a course",
+        "responses": {
+          "200": {
+            "description": "Student removed from the course"
+          },
+          "404": {
+            "description": "Student or Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/courses": {
+      "get": {
+        "tags": ["Courses"],
+        "summary": "Get all courses",
+        "description": "Retrieve all courses",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Courses"],
+        "summary": "Create a new course",
+        "description": "Create a new course",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "course",
+            "in": "body",
+            "description": "Course object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CourseInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Course created successfully",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Invalid tutor ID"
+          }
+        }
+      }
+    },
+    "/api/v1/courses/{course_id}": {
+      "parameters": [
+        {
+          "name": "course_id",
+          "in": "path",
+          "description": "ID of the course to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get a course",
+        "description": "Get details of a particular course",
+        "tags": ["Courses"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a course",
+        "description": "Update details of a particular course",
+        "tags": ["Courses"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "course",
+            "description": "Course object to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Course"
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a course",
+        "description": "Delete a particular course",
+        "tags": ["Courses"],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Course is referenced by other entities"
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/courses/{course_id}/students": {
+      "parameters": [
+        {
+          "name": "course_id",
+          "in": "path",
+          "description": "ID of the course to retrieve students from",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get course students",
+        "description": "Retrieve all students that belong to a particular course",
+        "tags": ["Courses"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/tutors": {
+      "get": {
+        "summary": "Get all tutors",
+        "description": "Retrieve all tutors",
+        "tags": ["Tutors"],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Tutor"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a new tutor",
+        "description": "Add a new tutor",
+        "tags": ["Tutors"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "tutor",
+            "in": "body",
+            "description": "Tutor object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Tutor added successfully",
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Email already exists"
+          }
+        }
+      }
+    },
+    "/api/v1/tutors/{tutor_id}": {
+      "parameters": [
+        {
+          "name": "tutor_id",
+          "in": "path",
+          "description": "ID of the tutor to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get tutor",
+        "description": "Get details of a particular tutor",
+        "tags": ["Tutors"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          },
+          "404": {
+            "description": "Tutor not found"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update tutor",
+        "description": "Update details of a particular tutor",
+        "tags": ["Tutors"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "tutor",
+            "description": "Tutor object to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Tutor"
+            }
+          },
+          "404": {
+            "description": "Tutor not found"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete tutor",
+        "description": "Delete a particular tutor",
+        "tags": ["Tutors"],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Tutor is referenced by other entities"
+          },
+          "404": {
+            "description": "Tutor not found"
+          }
+        }
+      }
+    },
+    "/api/v1/tutors/{tutor_id}/courses": {
+      "parameters": [
+        {
+          "name": "tutor_id",
+          "in": "path",
+          "description": "ID of the tutor",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get tutor courses",
+        "description": "Get all courses belonging to a particular tutor",
+        "tags": ["Tutors"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Course"
+              }
+            }
+          },
+          "404": {
+            "description": "Tutor not found"
+          }
+        }
+      }
+    },
+    "/api/v1/bookings": {
+      "get": {
+        "summary": "Get all bookings",
+        "description": "Retrieve all bookings",
+        "tags": ["Bookings"],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Booking"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a booking",
+        "description": "Creates a new booking based on provided availability IDs and student ID.",
+        "tags": ["Bookings"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "booking",
+            "in": "body",
+            "description": "Booking object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "availability_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "e123eeaw4567890"
+                  }
+                },
+                "student_id": {
+                  "type": "string",
+                  "example": "ealkadk95843583;klas"
+                }
+              },
+              "required": ["availability_ids", "student_id"]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Booking(s) created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Booking"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid or missing attributes in the request"
+          },
+          "404": {
+            "description": "Invalid availability ID or student ID"
+          }
+        }
+      }
+      
+    },
+    "/api/v1/bookings/{student_id}/student": {
+      "parameters": [
+        {
+          "name": "student_id",
+          "in": "path",
+          "description": "ID of the student",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get student bookings",
+        "description": "Get all bookings of a student",
+        "tags": ["Bookings"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Booking"
+              }
+            }
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      }
+    },
+    "/api/v1/bookings/{course_id}/course": {
+      "parameters": [
+        {
+          "name": "course_id",
+          "in": "path",
+          "description": "ID of the course",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get course bookings",
+        "description": "Get all bookings of a course",
+        "tags": ["Bookings"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Booking"
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/bookings/{course_id}/course/{student_id}/student": {
+      "parameters": [
+        {
+          "name": "course_id",
+          "in": "path",
+          "description": "ID of the course",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "student_id",
+          "in": "path",
+          "description": "ID of the student",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "summary": "Get student bookings for a course",
+        "description": "Get the bookings made by a student for a particular course",
+        "tags": ["Bookings"],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Booking"
+              }
+            }
+          },
+          "404": {
+            "description": "Student or Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/bookings/{student_id}": {
+      "delete": {
+        "summary": "Delete booking(s) of a student",
+        "description": "Deletes the booking(s) of a student. If the appointment date has not been reached before the deletion, it makes the availability booked available again.",
+        "tags": ["Bookings"],
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "ID of the student",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "booking_ids",
+            "in": "body",
+            "description": "Dictionary containing the list of booking IDs",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "booking_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "example": "e123eeaw4567890"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Booking(s) deleted successfully"
+          },
+          "400": {
+            "description": "Missing or invalid booking_ids"
+          },
+          "404": {
+            "description": "Invalid student_id or booking_id"
+          }
+        }
+      }      
+    },
+    "/api/v1/availability": {
+      "get": {
+        "summary": "Get all availability",
+        "description": "Retrieve all availability",
+        "tags": ["Availability"],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Availability"
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new availability",
+        "description": "Add a new availability",
+        "tags": ["Availability"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "availability",
+            "in": "body",
+            "description": "Availability object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Availability"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Availability added successfully",
+            "schema": {
+              "$ref": "#/definitions/Availability"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Invalid course_id"
+          }
+        }
+      }
+    },
+    "/api/v1/availability/{course_id}/booked": {
+      "get": {
+        "summary": "Get booked availability of a course",
+        "description": "Retrieve all booked availability of a specific course",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Availability"
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/availability/{course_id}/unbooked": {
+      "get": {
+        "summary": "Get unbooked availability of a course",
+        "description": "Retrieve all unbooked availability of a specific course",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Availability"
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      }
+    },
+    "/api/v1/availability/{course_id}": {
+      "get": {
+        "summary": "Get all availabilities of a course",
+        "description": "Retrieve all availabilities of a course.",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Availability"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Course not found"
+          }
+        }
+      },      
+      "delete": {
+        "summary": "Delete availability or availabilities of a course",
+        "description": "Delete the availability  or availabilities of a course if it has not been booked",
+        "tags": ["Availability"],
+        "consumes": ["application/json"],
+
+        "parameters": [
+          {
+            "name": "availability ids",
+            "in": "body",
+            "description": "dictionary containing the list of availability ids",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "availability_ids": {
+                  "type": "list",
+                  "example": ["aaaa11112223rf33451224", "438913477aaaaeff1498"]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Availability deleted successfully"
+          },
+          "404": {
+            "description": "Availability or Course not found"
+          },
+          "400": {
+            "description": "Availability referenced by table(s)"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a multiple(s) availabilities",
+        "description": "Add availability or availabilities",
+        "tags": ["Availability"],
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "availability",
+            "in": "body",
+            "description": "Availability object",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "availability_attr": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "start_time": {
+                        "type": "string",
+                        "example": "2024-03-11 13:07:56"
+                      },
+                      "day": {
+                        "type": "string",
+                        "example": "2024-03-11"
+                      }
+                    },
+                    "required": ["start_time", "day"]
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Availability added successfully",
+            "schema": {
+              "$ref": "#/definitions/Availability"
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Invalid course_id"
+          }
+        }
+      }
+      
+    },
+    "/api/v1/availability/{tutor_id}/tutor": {
+      "get": {
+        "summary": "Get all availabilities of a tutor",
+        "description": "Retrieve all availabilities of a tutor.",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "tutor_id",
+            "in": "path",
+            "description": "ID of the tutor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Availability"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Tutor not found"
+          }
+        }
+      }
+    },      
+    "/api/v1/status": {
+      "get": {
+        "summary": "Get API status",
+        "description": "Return the status of the API",
+        "tags": ["Status"],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "example": "OK"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/stats": {
+      "get": {
+        "summary": "Get statistics of all classes",
+        "description": "Return the statistics of all classes",
+        "tags": ["Statistics"],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "Availability": {
+                  "type": "integer",
+                  "example": 0
+                },
+                "Booking": {
+                  "type": "integer",
+                  "example": 0
+                },
+                "Course": {
+                  "type": "integer",
+                  "example": 0
+                },
+                "Student": {
+                  "type": "integer",
+                  "example": 0
+                },
+                "Tutor": {
+                  "type": "integer",
+                  "example": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tutor/login/{email}/{passwd}": {
+      "get": {
+        "summary": "Validate tutor login credentials",
+        "description": "Validate a tutor before allowing to login",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "Tutor email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "passwd",
+            "in": "path",
+            "description": "Tutor password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "id": "123",
+                "email": "example@tutor.com",
+                "country": "USA",
+                "first_name": "John",
+                "last_name": "Doe"
+              }
+            }
+          },
+          "404": {
+            "description": "Not a valid tutor"
+          }
+        }
+      }
+    },
+    "/student/login/{email}/{passwd}": {
+      "get": {
+        "summary": "Validate student login credentials",
+        "description": "Validate a student before allowing to login",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "description": "Student email",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "passwd",
+            "in": "path",
+            "description": "Student password",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "country": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "id": "456",
+                "email": "example@student.com",
+                "country": "USA",
+                "first_name": "Alice",
+                "last_name": "Smith"
+              }
+            }
+          },
+          "404": {
+            "description": "Not a valid student"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Student": {
+      "type": "object",
+      "required": ["email", "password", "country"],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "IsiaqKoffiPatience@gmail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "mypaswd1"
+        },
+        "country": {
+          "type": "string",
+          "example": "Nigeria"
+        },
+        "first_name": {
+          "type": "string",
+          "example": "Salau"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Isiaq"
+        }
+      }
+    },
+    "Course": {
+      "type": "object",
+      "required": ["tutor_id", "title", "duration", "fee", "course_type", "category"],
+      "properties": {
+        "tutor_id": {
+          "type": "string",
+          "example": "1234567890"
+        },
+        "title": {
+          "type": "string",
+          "example": "Algebra"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int64",
+          "example": 60
+        },
+        "fee": {
+          "type": "number",
+          "format": "float",
+          "example": 100.22
+        },
+        "course_type": {
+          "type": "string",
+          "example": "remote/physical"
+        },
+        "category": {
+          "type": "string",
+          "example": "Mathematics"
+        }
+      }
+    },
+    "Tutor": {
+      "required": ["email", "password", "country"],
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "tutor@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "password"
+        },
+        "country": {
+          "type": "string",
+          "example": "United States"
+        },
+        "first_name": {
+          "type": "string",
+          "example": "Salau"
+        },
+        "last_name": {
+          "type": "string",
+          "example": "Isiaq"
+        }
+      }
+    },
+    "Booking": {
+      "type": "object",
+      "properties": {
+        "availability_id": {
+          "type": "string",
+          "example": "0987654321"
+        },
+        "student_id": {
+          "type": "string",
+          "example": "5678901234"
+        }
+      },
+      "required": ["availability_id", "student_id"]
+    },
+    "Availability": {
+      "type": "object",
+      "required": ["course_id", "start_time", "day"],
+      "properties": {
+        "course_id": {
+          "type": "string",
+          "example": "1234567890"
+        },
+        "start_time": {
+          "type": "string",
+          "format": "time",
+          "example": "2024-02-29 12:30:00"
+        },
+        "end_time": {
+          "type": "string",
+          "format": "time",
+          "example": "2024-02-29 2:30:00"
+        },
+        "day": {
+          "type": "string",
+          "format": "date",
+          "example": "2024-02-29"
+        }
+      }
+    }
+  }
+}

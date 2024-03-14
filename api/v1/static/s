@@ -1,0 +1,229 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "title": "TutorPlan Website RestFul API",
+      "version": "1.0.0"
+    },
+    "basePath": "/",
+    "paths": {
+      "/api/v1/students": {
+        "get": {
+          "summary": "Get all students",
+          "description": "Retrieve all students",
+          "responses": {
+            "200": {
+              "description": "Successful response",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Student"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Add a new student",
+          "description": "Add a new student",
+          "consumes": ["application/json"],
+          "produces": ["application/json"],
+          "parameters": [
+            {
+              "name": "student",
+              "in": "body",
+              "description": "Student object",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Student added successfully",
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            },
+            "400": {
+              "description": "Bad request"
+            },
+            "409": {
+              "description": "Email already exists"
+            }
+          }
+        }
+      },
+      "/api/v1/students/{student_id}": {
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "ID of the student to manipulate",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get a student",
+          "description": "Get details of a particular student",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            },
+            "404": {
+              "description": "Student not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a student",
+          "description": "Update details of a particular student",
+          "parameters": [
+            {
+              "in": "body",
+              "name": "student",
+              "description": "Student object to be updated",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            },
+            "404": {
+              "description": "Student not found"
+            },
+            "400": {
+              "description": "Bad request"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a student",
+          "description": "Delete a particular student",
+          "responses": {
+            "200": {
+              "description": "Successful operation"
+            },
+            "400": {
+              "description": "Student is referenced by other entities"
+            },
+            "404": {
+              "description": "Student not found"
+            }
+          }
+        }
+      },
+      "/api/v1/students/{student_id}/courses": {
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "ID of the student to manipulate",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "get": {
+          "summary": "Get courses",
+          "description": "Get all courses of a particular student",
+          "responses": {
+            "200": {
+              "description": "Successful operation",
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            },
+            "404": {
+              "description": "Student not found"
+            }
+          }
+        }
+    },
+    "/students/{student_id}/courses/{course_id}": {
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "ID of the student",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "course_id",
+            "in": "path",
+            "description": "ID of the course",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "post": {
+          "summary": "Post/Register a student under a course",
+          "description": "Register a student under a course",
+          "responses": {
+            "200": {
+              "description": "Student already registered under the course",
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            },
+            "201": {
+              "description": "Student registered under the course",
+              "schema": {
+                "$ref": "#/definitions/Student"
+              }
+            },
+            "404": {
+              "description": "Student or Course not found"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete/Remove a student from a course",
+          "description": "Remove a student from a course",
+          "responses": {
+            "200": {
+              "description": "Student removed from the course"
+            },
+            "404": {
+              "description": "Student or Course not found"
+            }
+          }
+        }
+      }    
+},
+    "definitions": {
+      "Student": {
+        "type": "object",
+        "required": ["email", "password", "country"],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string"
+          },
+          "last_name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+  
