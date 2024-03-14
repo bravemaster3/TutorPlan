@@ -419,12 +419,12 @@ export default function CourseDetails({
             .replace("T", " ")
           return { course_id, day, start_time }
         })
-      const urlPost = `${API_BASE_URL}/availability/${selectedCourse.id}`
+      const newAvailsUrl = `${API_BASE_URL}/availability/${selectedCourse.id}`
       const newAvailsData = { availability_attr: newAvails }
       console.log("ready to post availabilities", newAvailsData)
       console.log("unchanged initials", initialAvails)
       if (newAvailsData.availability_attr.length > 0) {
-        postMultipleGeneric(urlPost, newAvailsData, "Availabilities")
+        postMultipleGeneric(newAvailsUrl, newAvailsData, "Availabilities")
       }
 
       // getting the deleted availabilities
@@ -436,24 +436,57 @@ export default function CourseDetails({
         .map((missingAvail) => missingAvail.id)
 
       const delAvailsData = { availability_ids: missingIds }
-      const urlDel = `${API_BASE_URL}/availability/${selectedCourse.id}`
+      const delAvailsUrl = `${API_BASE_URL}/availability/${selectedCourse.id}`
       if (delAvailsData.availability_ids.length > 0) {
-        deleteMultipleGeneric(urlDel, delAvailsData, "Availabilities")
+        deleteMultipleGeneric(delAvailsUrl, delAvailsData, "Availabilities")
       }
     }
 
     if (seesCalendar && !isCourseTutor) {
-      const data = {
-        availability_ids: bookings.map((booking) => booking.availability_id),
-        student_id: JSON.parse(localStorage.getItem("user")).id, //bookings[0].student_id,
+      // posting new bookings if any
+      const newBookings = bookings.filter(
+        (booking) =>
+          !initialBookings.some(
+            (initialBooking) => booking.id === initialBooking.id
+          )
+      )
+      const newBookingsData = {
+        availability_ids: newBookings.map((booking) => booking.availability_id),
+        student_id: JSON.parse(localStorage.getItem("user")).id,
       }
-      console.log("ready to post bookings", data)
-      const url = `${API_BASE_URL}/bookings`
+      const newBookingsUrl = `${API_BASE_URL}/bookings`
+      console.log("ready to post NEW BOOKINGS", newBookingsData)
+      if (newBookingsData.availability_ids.length > 0) {
+        postMultipleGeneric(newBookingsUrl, newBookingsData, "Bookings")
+      }
+      // deleting unchecked bookings
+      const missingBookingIds = initialBookings
+        .filter(
+          (initialBooking) =>
+            !bookings.some((booking) => booking.id === initialBooking.id)
+        )
+        .map((booking) => booking.id)
+      const delBookingsData = { booking_ids: missingBookingIds }
+      const delBookingsUrl = `${API_BASE_URL}/bookings/${
+        JSON.parse(localStorage.getItem("user")).id
+      }`
+      console.log("ready to post DELETE BOOKINGS", delBookingsData)
+      if (delBookingsData.booking_ids.length > 0) {
+        deleteMultipleGeneric(delBookingsUrl, delBookingsData, "Bookings")
+      }
+      /*** */
+      // const data = {
+      //   availability_ids: bookings.map((booking) => booking.availability_id),
+      //   student_id: JSON.parse(localStorage.getItem("user")).id, //bookings[0].student_id,
+      // }
+      // console.log("ready to post bookings", data)
+      // const url = `${API_BASE_URL}/bookings`
 
-      if (data.availability_ids.length > 0) {
-        postMultipleGeneric(url, data, "Bookings")
-      }
+      // if (data.availability_ids.length > 0) {
+      //   postMultipleGeneric(url, data, "Bookings")
+      // }
     }
+    /*** */
 
     setUpdateOnSave(!updateOnSave)
   }
