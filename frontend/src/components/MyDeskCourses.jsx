@@ -6,6 +6,7 @@ import * as Icons from "react-icons/fa"
 import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
 import CourseDetails from "./CourseDetails"
 import { useNavigate } from "react-router-dom"
+import Spinner from "./Spinner"
 
 export default function MyDeskCourses() {
   const navigateTo = useNavigate()
@@ -114,7 +115,7 @@ export default function MyDeskCourses() {
   return (
     <>
       {isLoading ? (
-        <div className="spinner"></div>
+        <Spinner text={"Loading your courses"} />
       ) : (
         <>
           {/* <div className="mydesk-content"> */}

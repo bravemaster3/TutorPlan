@@ -8,6 +8,7 @@ import CloseIconSimple from "./CloseIconSimple"
 import { API_BASE_URL } from "../apiConfig"
 import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
 import CourseDetails from "./CourseDetails"
+import Spinner from "./Spinner"
 
 export default function MyDeskCoursesTutor() {
   const [isModalAddOpen, setIsModalAddOpen] = useState(false)
@@ -52,7 +53,7 @@ export default function MyDeskCoursesTutor() {
   return (
     <>
       {isLoading ? (
-        <div className="spinner"></div>
+        <Spinner text={"Loading your courses"} />
       ) : (
         <>
           {" "}
