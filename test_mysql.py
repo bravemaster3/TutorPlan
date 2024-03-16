@@ -8,6 +8,7 @@ from models.booking import Booking
 from models import storage
 from datetime import datetime, timedelta
 import random
+import hashlib
 from tzlocal import get_localzone
 
 
@@ -27,7 +28,7 @@ for name in Tfirst_names:
 
 Semails = []
 for name in Sfirst_names:
-    email = name + "@gmial.com"
+    email = name + "@gmail.com"
     Semails.append(email)
 
 duration = list(range(20, 90, 5))
@@ -50,19 +51,23 @@ Scities = ["Paris", "Sydney", "Rio de Janeiro", "Berlin", "Mumbai", "Rome", "Joh
 
 academic_levels = ["high school", "University"]
 
+# hashed both tutor and student password
+T_hashed_paswd = hashlib.md5("13323".encode()).hexdigest()
+S_hashed_paswd = hashlib.md5("133acd23".encode()).hexdigest()
+
 for i in range(10):
     # create a Tutor
-    tutor = Tutor(first_name=Tfirst_names[i], last_name=Tlast_names[i], email=Temails[i], password="13323", bio=bios[i], country=Tcountries[i], city=Tcities[i])
+    tutor = Tutor(first_name=Tfirst_names[i], last_name=Tlast_names[i], email=Temails[i], password=T_hashed_paswd, bio=bios[i], country=Tcountries[i], city=Tcities[i])
     tutor.save()
 
     # create a Course
-    course = Course(title=titles[i], tutor_id=tutor.id, duration=duration[i], category=categories[i], academic_level=random.choice(academic_levels))
+    course = Course(title=titles[i], tutor_id=tutor.id, duration=duration[i], fee=random.randint(20, 50), category=categories[i], academic_level=random.choice(academic_levels))
     course.save()
 
     print(f'\nI am {tutor.first_name} {tutor.last_name} who live in {tutor.country}. I teach {tutor.courses[0].title}. You can email me at {tutor.email} for more enquiries\n')
 
     # create a Student
-    student1 = Student(first_name=Sfirst_names[i], last_name=Slast_names[i], email=Semails[i], password="133acd23", country=Scountries[i], city=Scities[i])
+    student1 = Student(first_name=Sfirst_names[i], last_name=Slast_names[i], email=Semails[i], password=S_hashed_paswd, country=Scountries[i], city=Scities[i])
     student1.save()
 
     # link student1 with a course
