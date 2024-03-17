@@ -41,7 +41,7 @@ export default function MyDeskCalendar() {
         // Fetch availability details for each booking
         const bookingsWithAvailabilityDetails = await Promise.all(
           initialBookings.map(async (booking) => {
-            const availabilityUrl = `${API_BASE_URL}/availability/${booking.availability_id}/av`
+            const availabilityUrl = `${API_BASE_URL}/availability/${booking.availability_id}/available`
             const availabilityResponse = await axios.get(availabilityUrl)
             const availabilityDetails = availabilityResponse.data
 

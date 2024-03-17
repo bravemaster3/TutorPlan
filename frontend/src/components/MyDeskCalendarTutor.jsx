@@ -8,6 +8,7 @@ import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons"
 import { stringToColor } from "./utils"
 import { API_BASE_URL } from "../apiConfig"
 import Spinner from "./Spinner"
+import MyDeskCalendarTutorStudentCard from "./MyDeskCalendarTutorStudentCard"
 
 export default function MyDeskCalendarTutor() {
   const localizer = momentLocalizer(moment)
@@ -16,6 +17,20 @@ export default function MyDeskCalendarTutor() {
   )
   const [availabilities, setAvailabilities] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [selectedStudent, setSelectedStudent] = useState({})
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen)
+  }
+  const handleEventClick = (event) => {
+    setSelectedEvent(event) // Set the selected event in state
+    setSelectedStudent(event.student)
+    // console.log(event)
+    toggleModal()
+    // alert(`selected: ${event.title}`)
+  }
 
   useEffect(() => {
     const fetchAvailabilities = async () => {
@@ -24,7 +39,9 @@ export default function MyDeskCalendarTutor() {
           `${API_BASE_URL}/availability/${user.id}/tutor`
         )
         console.log("Availabilities response:", response.data)
-        const initialAvailabilities = response.data
+        const initialAvailabilities = response.data.filter(
+          (avail) => avail.booked === true
+        )
         // Fetch details for each availability
         const availWithDetails = await Promise.all(
           initialAvailabilities.map(async (avail) => {
@@ -33,14 +50,20 @@ export default function MyDeskCalendarTutor() {
             )
             const courseDetails = courseResponse.data
             // Fetch booking details if needed
-            // const bookingsResponse = await axios.get(`${API_BASE_URL}/bookings/${avail.course_id}/course`);
-            // const bookingDetails = bookingsResponse.data.find((booking) => booking.availability_id === avail.id);
-            // const studentDetails = bookingDetails ? await axios.get(`${API_BASE_URL}/students/${bookingDetails.student_id}`) : null;
+            const bookingsResponse = await axios.get(
+              `${API_BASE_URL}/bookings/${avail.course_id}/course`
+            )
+            const bookingDetails = bookingsResponse.data.find(
+              (booking) => booking.availability_id === avail.id
+            )
+            const studentDetails = await axios.get(
+              `${API_BASE_URL}/students/${bookingDetails.student_id}`
+            )
             return {
               ...avail,
               courseDetails,
-              // bookingDetails,
-              // studentDetails: studentDetails ? studentDetails.data : null,
+              bookingDetails,
+              studentDetails: studentDetails.data, // ? studentDetails.data : null,
             }
           })
         )
@@ -63,9 +86,11 @@ export default function MyDeskCalendarTutor() {
     start: new Date(avail.start_time),
     end: new Date(avail.end_time),
     // title: "Available?",
-    title: `${avail.courseDetails.title}`, //`with ${avail.studentDetails.first_name} ${avail.studentDetails.last_name}`,
+    title: `${avail.courseDetails.title} with ${avail.studentDetails.first_name} ${avail.studentDetails.last_name}`,
     color: stringToColor(avail.courseDetails.title),
     course: avail.courseDetails,
+    booking: avail.bookingDetails,
+    student: avail.studentDetails,
   }))
 
   const EventComponent = ({ event }) => (
@@ -92,12 +117,21 @@ export default function MyDeskCalendarTutor() {
             backgroundColor: event.color,
           },
         })}
+        onSelectEvent={handleEventClick}
         components={{
           event: EventComponent,
         }}
         defaultView="agenda"
       />
       {isLoading && <Spinner text={"Fetching your appointments"} />}
+
+      {isModalOpen && (
+        <MyDeskCalendarTutorStudentCard
+          toggleModal={toggleModal}
+          selectedStudent={selectedStudent}
+          event={selectedEvent}
+        />
+      )}
     </>
   )
 }

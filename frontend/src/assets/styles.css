@@ -23,6 +23,7 @@
   --grey20: #333333;
   --sharuco-bg: rgb(15,23,42, 0.9);
   --modal-bg-color: rgba(86, 169, 187, 0.9);/*rgb(15,23,42, 1);*/  /* --modal-bg-color: var(--white); */
+  /* --modal-bg-color: rgb(15,23,42, 1); */
   --form-input-height: 40px;
   --form-input-width: 350px;
 
@@ -762,6 +763,10 @@ margin-bottom: 10px;
   z-index: 10;
 }
 
+.calendar-event:not(.modal) {
+  z-index: 0;
+}
+
 /* .delete-booking-btn {
   background-color: transparent;
   border: none;
@@ -1470,11 +1475,16 @@ overflow: hidden;
 
 .rbc-event-label {
   display: none;
+  background-color: red !important;
 }
 
 .rbc-event-content {
   z-index: 10;
 }
+
+/* .rbc-event-content {
+  z-index: 10;
+} */
 /* .rbc-event {
   z-index: 10;
 } */
@@ -1563,3 +1573,78 @@ width: fit-content;
 } */
 
 
+
+/****************************STUDENT CARD*****************/
+.specific-booking {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 600px;
+}
+
+.student-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* border: 1px solid #ddd; */
+  padding: 10px;
+  /* margin: 10px; */
+  border-radius: 5px;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); */
+}
+
+.photo-personal-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 500px;
+  /* justify-content: space-between; */
+  margin: auto;
+  /* border: 1px solid red; */
+}
+/* .photo-bio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+} */
+
+.profile-photo-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+}
+.profile-photo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+/* .bio {
+  color: #666;
+  display: flex;
+  justify-content: center;
+} */
+
+.personal-info {
+  /* flex-grow: 1; */
+display: flex;
+flex-direction: column;
+margin-left: 50px;
+}
+
+.time-slot-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 100px;
+  width: 100%;
+  font-size: 17px;
+}
+
+.time-slot-info h4{
+  color: var(--primary-col);
+  font-size: 20px;
+  font-weight: 800;
+}
