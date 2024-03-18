@@ -1,9 +1,10 @@
 // CourseDetailsUI.jsx
 
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
 import CourseCalendar from "./CourseDetailsCalendar"
 import CourseDetailsForm from "./CourseDetailsForm"
-import CloseIconSimple from "./CloseIconSimple"
+import CloseIconSimple from "components/otherComponents/CloseIconSimple"
+import CopyToClipboard from "../otherComponents/CopyToClipboard"
 
 const CourseDetailsUI = ({
   seesCalendar,
@@ -30,9 +31,24 @@ const CourseDetailsUI = ({
   handleEventDelete,
   handleCheckboxChange,
 }) => {
+  // console.log("SELECTED COURSE", selectedCourse)
+  // const modalRef = useRef()
+
+  // useEffect(() => {
+  //   modalRef.current.focus()
+  // }, [])
+
+  // const [tutor, setTutor] = useState({})
+  // useEffect(() => {
+  //   setTutor(selectedCourse.tutor)
+  // }, [selectedCourse])
+
+  // console.log("SELECTED NOW", selectedCourse)
+
   return (
     <div className="modal-bg">
       <div
+        // ref={modalRef}
         className="generic-form modal show specific-course-popup"
         tabIndex={0}
       >
@@ -53,6 +69,27 @@ const CourseDetailsUI = ({
               editCourse={editCourse}
               isCourseTutor={isCourseTutor}
             />
+            {seesCalendar && !isCourseTutor ? (
+              <>
+                <hr />
+                <span>
+                  <label>Tutor's name:</label> {selectedCourse.tutor.first_name}{" "}
+                  {selectedCourse.tutor.last_name}
+                </span>
+                <hr />
+                <span>
+                  <label>Tutor's email: </label> {selectedCourse.tutor.email}
+                </span>
+                <hr />
+                <span>
+                  <label>Tutor's phone: </label>{" "}
+                  {selectedCourse.tutor.phone_number}{" "}
+                  <CopyToClipboard text={selectedCourse.tutor.phone_number} />
+                </span>
+              </>
+            ) : (
+              ""
+            )}
           </div>
           <div className="calendar-specific-course-div">
             {seesCalendar ? (

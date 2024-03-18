@@ -1,5 +1,5 @@
 import { Link, useMatch } from "react-router-dom"
-import CustomLink from "./components/CustomLink"
+import CustomLink from "components/otherComponents/CustomLink"
 import { useEffect, useState } from "react"
 export default function NavBar({ authenticated, handleLogout }) {
   // const [authenticated, setAuthenticated] = useState(false)

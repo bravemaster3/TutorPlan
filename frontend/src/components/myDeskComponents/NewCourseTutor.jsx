@@ -10,7 +10,7 @@
 // import { API_BASE_URL } from "../apiConfig"
 // import axios from "axios"
 import CourseAdd from "./CourseAdd"
-import { useCourseForm } from "./utils"
+import { useCourseForm } from "components/utils"
 
 export default function NewCourseTutor({ toggleModal }) {
   const { formData, handleChange, handleCourseTypeChoice, handleAddCourse } =

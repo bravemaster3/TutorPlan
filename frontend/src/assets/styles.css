@@ -881,6 +881,27 @@ margin-bottom: 10px;
 
 
 /***********COURSES************/
+.search-bar {
+  width: 50%;
+  height: 60px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 20px;
+  background-color: white;
+  background-image: url('src/assets/images/search_icon.png');
+  background-position: 10px 10px; 
+  background-size: 40px 40px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 60px; /* Size of the search icon + 10px */
+  margin-bottom: 15px;
+  transition: width 0.4s ease-in-out;
+}
+
+.search-bar:focus {
+  width: 70%;
+}
+
 
 .courses-page {
   display: flex;

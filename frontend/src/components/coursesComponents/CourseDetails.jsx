@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { API_BASE_URL } from "../apiConfig"
+import { API_BASE_URL } from "src/apiConfig"
 import CourseDetailsUI from "./CourseDetailsUI"
-import Spinner from "./Spinner"
+import Spinner from "src/components/otherComponents/Spinner.jsx"
 import { useNavigate } from "react-router-dom"
 
 export default function CourseDetails({

@@ -1,14 +1,14 @@
 import NavBar from "./NavBar"
-import Home from "./components/Home"
-import Courses from "./components/Courses"
-import MyDesk from "./components/MyDesk"
-import About from "./components/About"
-import Login from "./components/Login"
-import SignUp from "./components/SignUp"
+import Home from "pages/Home"
+import Courses from "pages/Courses"
+import MyDesk from "pages/MyDesk"
+import About from "pages/About"
+import Login from "pages/Login"
+import SignUp from "components/loginComponents/SignUp"
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { API_BASE_URL } from "./apiConfig"
+import { API_BASE_URL } from "src/apiConfig"
 export default function App() {
   const NavigateTo = useNavigate()
 

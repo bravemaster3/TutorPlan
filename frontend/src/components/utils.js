@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
+import { API_BASE_URL } from "src/apiConfig";
 
 // export function stringToColor(str) {
 //     let hash = 0
@@ -357,6 +357,63 @@ export const useCourseDetails = () => {
 
   return { selectedCourse, setSelectedCourse, toggleModal, toggleEdit, editCourse, isModalOpen };
 };
+
+
+const useFetchAvailabilities = (userId) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [availabilities, setAvailabilities] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAvailabilities = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/availability/${userId}/tutor`
+        );
+        const initialAvailabilities = response.data.filter(
+          (avail) => avail.booked === true
+        );
+        const availWithDetails = await Promise.all(
+          initialAvailabilities.map(async (avail) => {
+            const courseResponse = await axios.get(
+              `${API_BASE_URL}/courses/${avail.course_id}`
+            );
+            const courseDetails = courseResponse.data;
+            const bookingsResponse = await axios.get(
+              `${API_BASE_URL}/bookings/${avail.course_id}/course`
+            );
+            const bookingDetails = bookingsResponse.data.find(
+              (booking) => booking.availability_id === avail.id
+            );
+            const studentDetails = await axios.get(
+              `${API_BASE_URL}/students/${bookingDetails.student_id}`
+            );
+            return {
+              ...avail,
+              courseDetails,
+              bookingDetails,
+              studentDetails: studentDetails.data,
+            };
+          })
+        );
+        setAvailabilities(availWithDetails);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching availabilities:", error);
+        setError(error);
+        setIsLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchAvailabilities();
+    }
+  }, [userId]);
+
+  return { isLoading, availabilities, error };
+};
+
+export default useFetchAvailabilities;
 
 
 

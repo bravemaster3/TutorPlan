@@ -5,18 +5,19 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 import moment from "moment"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons"
-import { stringToColor } from "./utils"
-import { API_BASE_URL } from "../apiConfig"
-import Spinner from "./Spinner"
+import { stringToColor } from "components/utils"
+import { API_BASE_URL } from "src/apiConfig"
+import Spinner from "components/otherComponents/Spinner"
 import MyDeskCalendarTutorStudentCard from "./MyDeskCalendarTutorStudentCard"
+import useFetchAvailabilities from "../utils"
 
 export default function MyDeskCalendarTutor() {
   const localizer = momentLocalizer(moment)
   const [user, setUser] = useState(
     localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
   )
-  const [availabilities, setAvailabilities] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  // const [availabilities, setAvailabilities] = useState([])
+  // const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedEvent, setSelectedEvent] = useState(null)
   const [selectedStudent, setSelectedStudent] = useState({})
@@ -32,54 +33,56 @@ export default function MyDeskCalendarTutor() {
     // alert(`selected: ${event.title}`)
   }
 
-  useEffect(() => {
-    const fetchAvailabilities = async () => {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/availability/${user.id}/tutor`
-        )
-        console.log("Availabilities response:", response.data)
-        const initialAvailabilities = response.data.filter(
-          (avail) => avail.booked === true
-        )
-        // Fetch details for each availability
-        const availWithDetails = await Promise.all(
-          initialAvailabilities.map(async (avail) => {
-            const courseResponse = await axios.get(
-              `${API_BASE_URL}/courses/${avail.course_id}`
-            )
-            const courseDetails = courseResponse.data
-            // Fetch booking details if needed
-            const bookingsResponse = await axios.get(
-              `${API_BASE_URL}/bookings/${avail.course_id}/course`
-            )
-            const bookingDetails = bookingsResponse.data.find(
-              (booking) => booking.availability_id === avail.id
-            )
-            const studentDetails = await axios.get(
-              `${API_BASE_URL}/students/${bookingDetails.student_id}`
-            )
-            return {
-              ...avail,
-              courseDetails,
-              bookingDetails,
-              studentDetails: studentDetails.data, // ? studentDetails.data : null,
-            }
-          })
-        )
-        console.log("Availabilities with details:", availWithDetails)
-        setAvailabilities(availWithDetails)
-        setIsLoading(false)
-      } catch (error) {
-        console.error("Error fetching availabilities:", error)
-        setIsLoading(false)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchAvailabilities = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${API_BASE_URL}/availability/${user.id}/tutor`
+  //       )
+  //       console.log("Availabilities response:", response.data)
+  //       const initialAvailabilities = response.data.filter(
+  //         (avail) => avail.booked === true
+  //       )
+  //       // Fetch details for each availability
+  //       const availWithDetails = await Promise.all(
+  //         initialAvailabilities.map(async (avail) => {
+  //           const courseResponse = await axios.get(
+  //             `${API_BASE_URL}/courses/${avail.course_id}`
+  //           )
+  //           const courseDetails = courseResponse.data
+  //           // Fetch booking details if needed
+  //           const bookingsResponse = await axios.get(
+  //             `${API_BASE_URL}/bookings/${avail.course_id}/course`
+  //           )
+  //           const bookingDetails = bookingsResponse.data.find(
+  //             (booking) => booking.availability_id === avail.id
+  //           )
+  //           const studentDetails = await axios.get(
+  //             `${API_BASE_URL}/students/${bookingDetails.student_id}`
+  //           )
+  //           return {
+  //             ...avail,
+  //             courseDetails,
+  //             bookingDetails,
+  //             studentDetails: studentDetails.data, // ? studentDetails.data : null,
+  //           }
+  //         })
+  //       )
+  //       console.log("Availabilities with details:", availWithDetails)
+  //       setAvailabilities(availWithDetails)
+  //       setIsLoading(false)
+  //     } catch (error) {
+  //       console.error("Error fetching availabilities:", error)
+  //       setIsLoading(false)
+  //     }
+  //   }
 
-    if (user.id) {
-      fetchAvailabilities()
-    }
-  }, [user.id])
+  //   if (user.id) {
+  //     fetchAvailabilities()
+  //   }
+  // }, [user.id])
+
+  const { isLoading, availabilities, error } = useFetchAvailabilities(user.id)
 
   const events = availabilities.map((avail) => ({
     id: avail.id,
