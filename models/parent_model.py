@@ -27,8 +27,14 @@ class ParentModel():
             save: save an object to a file
     """
     id = Column(String(60), nullable=False, unique=True, primary_key=True)
-    created_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow())
-    updated_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow())
+    created_at = Column(
+            DateTime, nullable=False,
+            default=datetime.datetime.utcnow()
+            )
+    updated_at = Column(
+            DateTime, nullable=False,
+            default=datetime.datetime.utcnow()
+            )
 
     def __init__(self, *arg, **kwargs):
         """init constructor of an object"""

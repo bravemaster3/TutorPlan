@@ -20,17 +20,25 @@ def get_and_post_course():
         course_attr = request.get_json()
         if not course_attr:
             return abort(404, description="Not a json")
-        must_have_attr = ["tutor_id", "title", "duration", "fee", "course_type", "category"]
+        must_have_attr = [
+                "tutor_id", "title",
+                "duration", "fee", "course_type",
+                "category"
+                ]
         for attr in must_have_attr:
             if attr not in course_attr.keys():
                 abort(400, description="Missing " + attr)
         if not storage.get(Tutor, course_attr.get("tutor_id")):
-                abort(404, description="Invalid tutor_id")
+            abort(404, description="Invalid tutor_id")
         newCourse = Course(**course_attr)
         newCourse.save()
         return jsonify(newCourse.to_dict()), 201
 
-@app_views.route("/courses/<course_id>", strict_slashes=False, methods=["GET", "PUT", "DELETE"])
+
+@app_views.route(
+        "/courses/<course_id>", strict_slashes=False,
+        methods=["GET", "PUT", "DELETE"]
+        )
 def get_put_delete_course(course_id):
     """This function handles an api that:
         Get a partcular course that belongs to the course id
@@ -60,7 +68,11 @@ def get_put_delete_course(course_id):
         else:
             abort(400, description="referenced by table(s)")
 
-@app_views.route("/courses/<course_id>/students", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/courses/<course_id>/students",
+        strict_slashes=False, methods=["GET"]
+        )
 def get_course_students(course_id):
     """This function handles an api that
         Get all students that belong to a partcular course

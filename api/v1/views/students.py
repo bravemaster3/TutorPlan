@@ -33,7 +33,12 @@ def get_and_post_student():
         newStudent.save()
         return jsonify(newStudent.to_dict()), 201
 
-@app_views.route("/students/<student_id>", strict_slashes=False, methods=["GET", "PUT", "DELETE"])
+
+@app_views.route(
+        "/students/<student_id>",
+        strict_slashes=False,
+        methods=["GET", "PUT", "DELETE"]
+        )
 def get_put_delete_student(student_id):
     """This function handles an api that:
         Get a partcular student that belongs to the student id
@@ -63,7 +68,11 @@ def get_put_delete_student(student_id):
         else:
             abort(400, description="referenced by table(s)")
 
-@app_views.route("/students/<student_id>/courses", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/students/<student_id>/courses",
+        strict_slashes=False, methods=["GET"]
+        )
 def get_student_courses(student_id):
     """This function handles an api that:
         Get all courses that belong to the student id
@@ -74,7 +83,11 @@ def get_student_courses(student_id):
     courses = [obj.to_dict() for obj in student.courses_registered]
     return jsonify(courses)
 
-@app_views.route("/students/<student_id>/courses/<course_id>", strict_slashes=False, methods=["POST", "DELETE"])
+
+@app_views.route(
+        "/students/<student_id>/courses/<course_id>",
+        strict_slashes=False, methods=["POST", "DELETE"]
+        )
 def post_delete_student(student_id, course_id):
     """This function handle the api that:
         Post/Register a student under a course

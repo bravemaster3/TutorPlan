@@ -28,7 +28,7 @@ def get_and_post_booking():
             if attr not in booking_attr.keys():
                 abort(400, description="Missing " + attr)
         availability_ids = booking_attr.get("availability_ids")
-        if not availability_ids or type(availability_ids) != list:
+        if not availability_ids or type(availability_ids) is not list:
             abort(400, description="Missing availability_ids")
         if not storage.get(Student, booking_attr.get("student_id")):
             abort(404, description="Invalid student_id")
@@ -41,7 +41,8 @@ def get_and_post_booking():
                 abort(400, description="It has already been booked")
             available.booked = True
             available.save()
-            new_dict = {"availability_id": availability_id,
+            new_dict = {
+                    "availability_id": availability_id,
                     "student_id": booking_attr.get("student_id")
                     }
             newBooking = Booking(**new_dict)
@@ -49,7 +50,11 @@ def get_and_post_booking():
             booking_list.append(newBooking.to_dict())
         return jsonify(booking_list), 201
 
-@app_views.route("/bookings/<student_id>/student", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/bookings/<student_id>/student",
+        strict_slashes=False, methods=["GET"]
+        )
 def get_a_student_bookings(student_id):
     """This function handles an api that:
         Get all bookings of a student
@@ -60,7 +65,11 @@ def get_a_student_bookings(student_id):
     bookings_list = [booking.to_dict() for booking in student.bookings]
     return jsonify(bookings_list)
 
-@app_views.route("/bookings/<course_id>/course", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/bookings/<course_id>/course",
+        strict_slashes=False, methods=["GET"]
+        )
 def get_a_course_bookings(course_id):
     """This function handles an api that:
         Get all bookings of a course
@@ -77,7 +86,11 @@ def get_a_course_bookings(course_id):
         bookings.append(aval.booking.to_dict())
     return jsonify(bookings)
 
-@app_views.route("/bookings/<course_id>/course/<student_id>/student", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/bookings/<course_id>/course/<student_id>/student",
+        strict_slashes=False, methods=["GET"]
+        )
 def post_delete_booking(student_id, course_id):
     """This function handle the api that:
         Get the bookings made by a student for a particular course
@@ -96,12 +109,17 @@ def post_delete_booking(student_id, course_id):
             bookings.append(aval.booking.to_dict())
     return jsonify(bookings)
 
-@app_views.route("/bookings/<student_id>", strict_slashes=False, methods=["DELETE"])
+
+@app_views.route(
+        "/bookings/<student_id>",
+        strict_slashes=False, methods=["DELETE"]
+        )
 def delete_booking(student_id):
     """This function handle the api that:
         Delete the booking(s) of a student.
-        Note: It makes the availablity booked available again if the appointment
-        date has not been reached before the deletion
+        Note: It makes the availablity booked available
+            again if the appointment date has not been
+            reached before the deletion
     """
     student = storage.get(Student, student_id)
     if not student:

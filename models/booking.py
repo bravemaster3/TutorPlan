@@ -6,6 +6,7 @@ from models.parent_model import ParentModel, Base
 from sqlalchemy import Column, String, ForeignKey
 import os
 
+
 class Booking(ParentModel, Base):
     """A Booking class that inherit from ParentModel
 
@@ -13,10 +14,9 @@ class Booking(ParentModel, Base):
         student_id: a string
         availability_id: a string
     """
-    if os.getenv("TUTORPLAN_TYPE_STORAGE") == "db":
-        __tablename__ = "bookings"
-        student_id = Column(String(60), ForeignKey("students.id"), nullable=False)
-        availability_id = Column(String(60), ForeignKey("availability.id"), nullable=False)
-    else:
-        student_id = ""
-        availability_id = ""
+    __tablename__ = "bookings"
+    student_id = Column(String(60), ForeignKey("students.id"), nullable=False)
+    availability_id = Column(
+            String(60), ForeignKey("availability.id"),
+            nullable=False
+            )

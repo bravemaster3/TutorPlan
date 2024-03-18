@@ -13,8 +13,8 @@ app.register_blueprint(app_views)
 cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
-SWAGGER_URL="/swagger"
-API_URL="/static/swagger.json"
+SWAGGER_URL = "/swagger"
+API_URL = "/static/swagger.json"
 
 swagger_ui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
@@ -30,6 +30,7 @@ app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 def close_session(exception):
     """close session after each request"""
     storage.close()
+
 
 @app.errorhandler(404)
 def page_not_found(error):

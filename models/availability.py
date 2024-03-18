@@ -10,6 +10,13 @@ from sqlalchemy.orm import relationship
 import os
 from tzlocal import get_localzone
 
+start_def = datetime.datetime.now(
+        get_localzone()
+        ).strftime("%Y-%m-%d %H:%M %S")
+end_def = datetime.datetime.now(
+        get_localzone()
+        ).strftime("%Y-%m-%d %H:%M %S")
+
 
 class Availability(ParentModel, Base):
     """An Availability class that inherit from ParentModel
@@ -22,18 +29,22 @@ class Availability(ParentModel, Base):
         end_time: a string
         booked: boolean
     """
-    if os.getenv("TUTORPLAN_TYPE_STORAGE") == "db":
-        __tablename__ = "availability"
-        course_id = Column(String(60), ForeignKey("courses.id"), nullable=False)
-        day = Column(DateTime, default=datetime.datetime.now().date().strftime("%Y-%m-%d"))
-        start_time = Column(DateTime, default=datetime.datetime.now(get_localzone()).strftime("%Y-%m-%d %H:%M %S"))
-        end_time = Column(DateTime, default=datetime.datetime.now(get_localzone()).strftime("%Y-%m-%d %H:%M %S"))
-        booked = Column(Boolean, default=False)
-        booking = relationship("Booking", uselist=False, backref="availability", cascade="all, delete, delete-orphan")
-    else:
-        course_id = ""
-        day = datetime.datetime.now().date()
-        start_time = ""
-        end_time = ""
-        booked = False
-
+    __tablename__ = "availability"
+    course_id = Column(String(60), ForeignKey("courses.id"), nullable=False)
+    day = Column(
+            DateTime,
+            default=datetime.datetime.now().date().strftime("%Y-%m-%d")
+            )
+    start_time = Column(
+            DateTime,
+            default=start_def
+            )
+    end_time = Column(
+            DateTime,
+            default=end_def
+            )
+    booked = Column(Boolean, default=False)
+    booking = relationship(
+            "Booking", uselist=False,
+            backref="availability", cascade="all, delete, delete-orphan"
+            )

@@ -9,7 +9,10 @@ from models.tutor import Tutor
 from models.student import Student
 
 
-@app_views.route("/tutor/login/<email>/<passwd>", strict_slashes=False, methods=["GET"])
+@app_views.route(
+        "/tutor/login/<email>/<passwd>",
+        strict_slashes=False, methods=["GET"]
+        )
 def validate_tutor(email, passwd):
     """validate a tutor before allowing to login"""
     tutors = storage.all(Tutor)
@@ -20,7 +23,11 @@ def validate_tutor(email, passwd):
             return jsonify(tutor_dict)
     abort(404, description="Not a valid tutor")
 
-@app_views.route("/student/login/<email>/<passwd>", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/student/login/<email>/<passwd>",
+        strict_slashes=False, methods=["GET"]
+        )
 def validate_student(email, passwd):
     """validate a student before allowing to login"""
     students = storage.all(Student)

@@ -19,22 +19,13 @@ class User(ParentModel):
         phone_number: a string
         country: a string
     """
-    if os.getenv('TUTORPLAN_TYPE_STORAGE') == 'db':
-        first_name = Column("first_name", String(128), nullable=True)
-        last_name = Column("last_name", String(128), nullable=True)
-        email = Column("email", String(128), nullable=False, unique=True)
-        password = Column("password", String(128), nullable=False)
-        phone_number = Column("phone_number", String(128), nullable=True)
-        country = Column("country", String(128), nullable=False)
-        city = Column("city", String(128), nullable=False)
-
-    else:
-        first_name = ""
-        last_name = ""
-        email = ""
-        password = ""
-        phone_number = ""
-        country = ""
+    first_name = Column("first_name", String(128), nullable=True)
+    last_name = Column("last_name", String(128), nullable=True)
+    email = Column("email", String(128), nullable=False, unique=True)
+    password = Column("password", String(128), nullable=False)
+    phone_number = Column("phone_number", String(128), nullable=True)
+    country = Column("country", String(128), nullable=False)
+    city = Column("city", String(128), nullable=False)
 
     """
     def __init__(self, *args, **kwargs):

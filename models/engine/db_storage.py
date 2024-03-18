@@ -45,14 +45,18 @@ class DBStorage():
             dialect: mysql
             driver: mysqldb
         """
-        # retrive all environment variables that is neccessary to connect to the
-        # tutorplan mysql server
+        # retrive all environment variables that is neccessary to
+        # connect to the tutorplan mysql server
         USER = os.getenv("TUTORPLAN_MYSQL_USER")
-        PASSWD = os.getenv("TUTORPLAN_MYSQL_PWD")
+        PASWD = os.getenv("TUTORPLAN_MYSQL_PWD")
         HOST = os.getenv("TUTORPLAN_MYSQL_HOST")
-        DB_NAME = os.getenv("TUTORPLAN_MYSQL_DB")
-        # create an instance of create_engine that link to the tutorplan mysql server
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'.format(USER, PASSWD, HOST, DB_NAME), pool_pre_ping=True)
+        DB = os.getenv("TUTORPLAN_MYSQL_DB")
+        # create an instance of create_engine that link to
+        # the tutorplan mysql server
+        self.__engine = create_engine(
+                'mysql+mysqldb://{}:{}@{}/{}'.format(USER, PASWD, HOST, DB),
+                pool_pre_ping=True
+                )
 
         # drop all tables if the TUTORPLAN_ENV is "test"
         if os.getenv("TUTORPLAN_ENV") == "test":
@@ -61,7 +65,10 @@ class DBStorage():
     def reload(self):
         """Create all tables in the database and enable the self.__session"""
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(
+                bind=self.__engine,
+                expire_on_commit=False
+                )
         self.__session = scoped_session(session_factory)
 
     def new(self, obj):
@@ -78,20 +85,20 @@ class DBStorage():
             self.__session.delete(obj)
 
     def all(self, cls=None):
-        """return all objects of each classes otherwise return objects that belongs
-            to cls if it's not None
+        """return all objects of each classes otherwise
+            return objects that belongs to cls if it's not None
         """
         objs_dict = {}
         if cls in ValidClasses:
             for obj in self.__session.query(cls).all():
-                 key = "{}.{}".format(obj.__class__.__name__, obj.id)
-                 objs_dict[key] = obj
+                key = "{}.{}".format(obj.__class__.__name__, obj.id)
+                objs_dict[key] = obj
         else:
             for table in Base.registry._class_registry.values():
                 if hasattr(table, "__table__"):
                     for obj in self.__session.query(table).all():
-                         key = "{}.{}".format(obj.__class__.__name__, obj.id)
-                         objs_dict[key] = obj
+                        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+                        objs_dict[key] = obj
         return objs_dict
 
     def close(self):

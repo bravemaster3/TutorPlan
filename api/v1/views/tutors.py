@@ -32,7 +32,11 @@ def get_and_post_tutor():
         newTutor.save()
         return jsonify(newTutor.to_dict()), 201
 
-@app_views.route("/tutors/<tutor_id>", strict_slashes=False, methods=["GET", "PUT", "DELETE"])
+
+@app_views.route(
+        "/tutors/<tutor_id>", strict_slashes=False,
+        methods=["GET", "PUT", "DELETE"]
+        )
 def get_put_delete_tutor(tutor_id):
     """This function handles an api that:
         Get a partcular tutor that belongs to the tutor id
@@ -62,7 +66,11 @@ def get_put_delete_tutor(tutor_id):
         else:
             abort(400, description="referenced by table(s)")
 
-@app_views.route("/tutors/<tutor_id>/courses", strict_slashes=False, methods=["GET"])
+
+@app_views.route(
+        "/tutors/<tutor_id>/courses", strict_slashes=False,
+        methods=["GET"]
+        )
 def get_tutor_courses(tutor_id):
     """This function handles an api that:
         Get all courses that belong to the tutor id

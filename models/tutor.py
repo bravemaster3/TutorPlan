@@ -11,6 +11,8 @@ from sqlalchemy import Column, String
 class Tutor(User, Base):
     """A Tutor class that inherit from User"""
     __tablename__ = "tutors"
-    if os.getenv('TUTORPLAN_TYPE_STORAGE') == 'db':
-        bio = Column("bio", String(1024), nullable=True)
-        courses = relationship("Course", backref=backref("tutor"), cascade="all, delete-orphan")
+    bio = Column("bio", String(1024), nullable=True)
+    courses = relationship(
+            "Course", backref=backref("tutor"),
+            cascade="all, delete-orphan"
+            )
