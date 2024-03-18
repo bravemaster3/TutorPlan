@@ -1,11 +1,10 @@
 import { Routes, Route } from "react-router-dom"
-import SignIn from "./SignIn"
-import SignUp from "./SignUp"
-import CloseIcon from "./CloseIcon"
+import SignIn from "components/loginComponents/SignIn"
+import SignUp from "components/loginComponents/SignUp"
+import CloseIcon from "components/otherComponents/CloseIcon"
 export default function Login({ handleSignIn }) {
   return (
     <div className="container-fluid login">
-      {/* <div className="modal-bg"> */}
       <div className="generic-form">
         <CloseIcon />
         <Routes>
@@ -14,6 +13,5 @@ export default function Login({ handleSignIn }) {
         </Routes>
       </div>
     </div>
-    // </div>
   )
 }

@@ -4,11 +4,15 @@ import { useState } from "react"
 import CourseIcon from "./CourseIcon"
 import * as Icons from "react-icons/fa"
 import NewCourseTutor from "./NewCourseTutor"
-import CloseIconSimple from "./CloseIconSimple"
-import { API_BASE_URL } from "../apiConfig"
-import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
-import CourseDetails from "./CourseDetails"
-import Spinner from "./Spinner"
+import CloseIconSimple from "components/otherComponents/CloseIconSimple"
+import { API_BASE_URL } from "src/apiConfig"
+import {
+  useCourseDetails,
+  useCourseForm,
+  useFetchCourses,
+} from "components/utils"
+import CourseDetails from "components/coursesComponents/CourseDetails"
+import Spinner from "components/otherComponents/Spinner"
 
 export default function MyDeskCoursesTutor() {
   const [isModalAddOpen, setIsModalAddOpen] = useState(false)

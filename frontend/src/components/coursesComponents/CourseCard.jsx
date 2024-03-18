@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { API_BASE_URL } from "../apiConfig"
+import { API_BASE_URL } from "src/apiConfig"
+// import { API_BASE_URL } from "../apiConfig"
 
 export default function CourseCard({ course, setSelectedCourse, toggleModal }) {
   const [tutor, setTutor] = useState([])

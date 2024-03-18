@@ -4,17 +4,21 @@ import moment from "moment"
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCross, faXmark } from "@fortawesome/free-solid-svg-icons"
-import { stringToColor } from "./utils"
-import { API_BASE_URL } from "../apiConfig"
+import { stringToColor } from "src/components/utils"
+import { API_BASE_URL } from "src/apiConfig"
 import axios from "axios"
 
 import CourseIcon from "./CourseIcon"
 import * as Icons from "react-icons/fa"
-import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
-import CourseDetails from "./CourseDetails"
-import CloseIconSimple from "./CloseIconSimple"
+import {
+  useCourseDetails,
+  useCourseForm,
+  useFetchCourses,
+} from "src/components/utils"
+import CourseDetails from "src/components/coursesComponents/CourseDetails"
+import CloseIconSimple from "src/components/otherComponents/CloseIconSimple"
 import NewCourseTutor from "./NewCourseTutor"
-import Spinner from "./Spinner"
+import Spinner from "src/components/otherComponents/Spinner"
 
 export default function MyDeskCalendar() {
   const localizer = momentLocalizer(moment)
@@ -41,7 +45,7 @@ export default function MyDeskCalendar() {
         // Fetch availability details for each booking
         const bookingsWithAvailabilityDetails = await Promise.all(
           initialBookings.map(async (booking) => {
-            const availabilityUrl = `${API_BASE_URL}/availability/${booking.availability_id}/av`
+            const availabilityUrl = `${API_BASE_URL}/availability/${booking.availability_id}/available`
             const availabilityResponse = await axios.get(availabilityUrl)
             const availabilityDetails = availabilityResponse.data
 
@@ -86,7 +90,8 @@ export default function MyDeskCalendar() {
     end: new Date(booking.availabilityDetails.end_time),
     title: `${booking.courseDetails.title} with ${booking.tutorDetails.first_name} ${booking.tutorDetails.last_name}`,
     color: stringToColor(booking.courseDetails.title),
-    course: booking.courseDetails,
+    course: { ...booking.courseDetails, tutor: { ...booking.tutorDetails } },
+    // tutor: booking.tutorDetails,
   }))
 
   const handleEventDelete = (eventId) => {
