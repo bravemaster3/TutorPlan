@@ -6,9 +6,9 @@ import {
   faEyeSlash,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons"
-import CloseIcon from "./CloseIcon"
+import CloseIcon from "src/components/otherComponents/CloseIcon"
 import SignInUpRadioGroup from "./SignInUpRadioGroup"
-import { API_BASE_URL } from "../apiConfig"
+import { API_BASE_URL } from "src/apiConfig"
 import axios from "axios"
 import md5 from "md5"
 export default function SignUp() {

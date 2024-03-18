@@ -6,7 +6,7 @@ import {
   faEyeSlash,
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons"
-import CloseIcon from "./CloseIcon"
+import CloseIcon from "src/components/otherComponents/CloseIcon"
 import SignInUpRadioGroup from "./SignInUpRadioGroup"
 import SignInUpButtonGroup from "./SignInUpButtonGroup"
 import md5 from "md5"

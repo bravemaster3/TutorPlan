@@ -1,7 +1,7 @@
 // CourseDetailsForm.jsx
 
 import React from "react"
-import CourseAdd from "./CourseAdd"
+import CourseAdd from "src/components/myDeskComponents/CourseAdd"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faEdit } from "@fortawesome/free-solid-svg-icons"
 

@@ -1,11 +1,16 @@
 import axios from "axios"
 import { useEffect } from "react"
 import { useState } from "react"
-import CourseIcon from "./CourseIcon"
 import * as Icons from "react-icons/fa"
-import { useCourseDetails, useCourseForm, useFetchCourses } from "./utils"
-import CourseDetails from "./CourseDetails"
 import { useNavigate } from "react-router-dom"
+import {
+  useCourseDetails,
+  useCourseForm,
+  useFetchCourses,
+} from "components/utils"
+import CourseIcon from "./CourseIcon"
+import CourseDetails from "components/coursesComponents/CourseDetails"
+import Spinner from "components/otherComponents/Spinner"
 
 export default function MyDeskCourses() {
   const navigateTo = useNavigate()
@@ -114,7 +119,7 @@ export default function MyDeskCourses() {
   return (
     <>
       {isLoading ? (
-        <div className="spinner"></div>
+        <Spinner text={"Loading your courses"} />
       ) : (
         <>
           {/* <div className="mydesk-content"> */}

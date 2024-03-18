@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { API_BASE_URL } from "../apiConfig"
+import { API_BASE_URL } from "src/apiConfig"
 import CourseDetailsUI from "./CourseDetailsUI"
-import Spinner from "./Spinner"
+import Spinner from "src/components/otherComponents/Spinner.jsx"
 import { useNavigate } from "react-router-dom"
 
 export default function CourseDetails({
@@ -21,11 +21,12 @@ export default function CourseDetails({
   const [isEnrolled, setIsEnrolled] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [seesCalendar, setSeesCalendar] = useState(false)
+  const [initialAvails, setInitialAvails] = useState([])
   const [events, setEvents] = useState([])
+  const [initialBookings, setInitialBookings] = useState([])
   const [bookings, setBookings] = useState([])
   const navigateTo = useNavigate()
   const [updateOnSave, setUpdateOnSave] = useState(false)
-  const [initialAvails, setInitialAvails] = useState([])
 
   useEffect(() => {
     let idExists
@@ -86,16 +87,119 @@ export default function CourseDetails({
     }
   }
   // This should come from the database, to start from the existing
-  const fetchAvail = async () => {
-    const url = `${API_BASE_URL}/availability/${selectedCourse.id}/unbooked`
-    // console.log(url)
+  /************** */
+  // const fetchAvail = async () => {
+  //   // const url = `${API_BASE_URL}/availability/${selectedCourse.id}/unbooked`
+  //   const url = `${API_BASE_URL}/availability/${selectedCourse.id}`
+
+  //   // console.log(url)
+  //   axios
+  //     .get(url)
+  //     .then((response) => {
+  //       console.log("initiall availabilities", response.data)
+  //       const InitialAvailabilities = response.data.map((availability) => {
+  //         // const startDate = new Date(availability.day)
+  //         // console.log("date format received", new Date(availability.start_time))
+  //         const startTime = new Date(availability.start_time)
+  //         const endTime = new Date(availability.end_time)
+  //         const title = availability.booked ? "Taken " : "Available "
+  //         return {
+  //           id: availability.id,
+  //           title,
+  //           start: startTime,
+  //           end: endTime,
+  //           booked: availability.booked,
+  //         }
+  //       })
+
+  //       if (isCourseTutor) {
+  //         setEvents(InitialAvailabilities)
+  //       } else if (seesCalendar && !isCourseTutor) {
+  //         // const bookings = await fetchBookings();
+  //         setEvents(
+  //           InitialAvailabilities.filter(
+  //             (avail) =>
+  //               !avail.booked ||
+  //               initialBookings.some(
+  //                 (booking) => booking.availability_id === avail.id
+  //               )
+  //           )
+  //         )
+  //       }
+
+  //       // if (isCourseTutor) {
+  //       //   setEvents(InitialAvailabilities)
+  //       // } else if (seesCalendar && !isCourseTutor) {
+  //       //   console.log("InitialAvailabilities:", InitialAvailabilities)
+  //       //   console.log("Bookings:", bookings)
+
+  //       //   setEvents(
+  //       //     InitialAvailabilities.filter((avail) => {
+  //       //       const matchingBooking = bookings.find(
+  //       //         (booking) => booking.availability_id === avail.id
+  //       //       )
+  //       //       console.log("Availability ID:", avail.id)
+  //       //       console.log("Matching Booking:", matchingBooking)
+  //       //       return !avail.booked || matchingBooking
+  //       //     })
+  //       //   )
+  //       // }
+
+  //       console.log("initial bookings now", initialBookings)
+  //       // setEvents(InitialAvailabilities)
+  //       setInitialAvails(InitialAvailabilities)
+  //     })
+  //     .catch((error) => {
+  //       alert("An error has occurred. Read more in the console")
+  //       console.log(error)
+  //     })
+  // }
+
+  // useEffect(() => {
+  //   fetchAvail()
+  // }, [seesCalendar, isCourseTutor, selectedCourse.id, events, initialBookings])
+
+  // useEffect(() => {
+  //   const fetchBookings = async () => {
+  //     try {
+  //       const url = `${API_BASE_URL}/bookings/${selectedCourse.id}/course/${
+  //         JSON.parse(localStorage.getItem("user")).id
+  //       }/student`
+
+  //       const response = await axios.get(url)
+
+  //       console.log("initial bookings", response.data)
+
+  //       const InitialBookings = response.data.filter((booking) => {
+  //         return events.some((event) => event.id === booking.availability_id)
+  //       })
+  //       setInitialBookings(InitialBookings)
+  //       setBookings(InitialBookings)
+  //     } catch (error) {
+  //       alert("An error has occurred. Read more in the console")
+  //       console.log(error)
+  //     }
+  //   }
+
+  //   const handleFetchBookings = async () => {
+  //     await fetchBookings()
+  //     console.log("Bookings were fetched?", initialBookings)
+  //   }
+
+  //   if (seesCalendar && !isCourseTutor) {
+  //     console.log("reached here")
+  //     handleFetchBookings()
+  //   }
+  // }, [seesCalendar, isCourseTutor, selectedCourse.id, events])
+
+  const fetchAvail = () => {
+    const url = `${API_BASE_URL}/availability/${selectedCourse.id}`
     axios
       .get(url)
       .then((response) => {
-        console.log("initiall availabilities", response.data)
+        console.log("initial availabilities", response.data)
+
         const InitialAvailabilities = response.data.map((availability) => {
-          // const startDate = new Date(availability.day)
-          // console.log("date format received", new Date(availability.start_time))
           const startTime = new Date(availability.start_time)
           const endTime = new Date(availability.end_time)
           const title = availability.booked ? "Taken " : "Available "
@@ -104,10 +208,33 @@ export default function CourseDetails({
             title,
             start: startTime,
             end: endTime,
+            booked: availability.booked,
           }
         })
-        setEvents(InitialAvailabilities)
+
         setInitialAvails(InitialAvailabilities)
+
+        if (isCourseTutor) {
+          setEvents(InitialAvailabilities)
+        } else if (seesCalendar && !isCourseTutor) {
+          fetchBookings()
+            .then((initialBookings) => {
+              // setBookings(bookings)
+              console.log("BOOKINGS", initialBookings)
+              const filteredEvents = InitialAvailabilities.filter(
+                (avail) =>
+                  !avail.booked ||
+                  initialBookings.some(
+                    (booking) => booking.availability_id === avail.id
+                  )
+              )
+              setEvents(filteredEvents)
+              console.log("filtered events with BOOKING", filteredEvents)
+            })
+            .catch((error) => {
+              console.log(error)
+            })
+        }
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
@@ -117,41 +244,42 @@ export default function CourseDetails({
 
   useEffect(() => {
     fetchAvail()
-  }, [])
+  }, [seesCalendar, isCourseTutor, selectedCourse.id]) //events is now deleted
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        const url = `${API_BASE_URL}/bookings/${selectedCourse.id}/course/${
-          JSON.parse(localStorage.getItem("user")).id
-        }/student`
+  const fetchBookings = () => {
+    return new Promise((resolve, reject) => {
+      const url = `${API_BASE_URL}/bookings/${selectedCourse.id}/course/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/student`
 
-        const response = await axios.get(url)
+      axios
+        .get(url)
+        .then((response) => {
+          console.log("initial bookings", response.data)
 
-        console.log("initial bookings", response.data)
-
-        const InitialBookings = response.data.filter((booking) => {
-          return events.some((event) => event.id === booking.availability_id)
+          // const InitialBookings = response.data.filter((booking) =>
+          //   events.some((event) => event.id === booking.availability_id)
+          // )
+          // console.log("INITIAL BOOKINGS AT LOAD:", InitialBookings)
+          setInitialBookings(response.data)
+          setBookings(response.data)
+          // resolve(InitialBookings)
+          resolve(response.data)
         })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  }
 
-        setBookings(InitialBookings)
-      } catch (error) {
-        alert("An error has occurred. Read more in the console")
-        console.log(error)
-      }
-    }
+  // useEffect(() => {
+  //   fetchAvail()
+  //   if (seesCalendar && !isCourseTutor) {
+  //     fetchBookings()
+  //   }
+  // }, [seesCalendar, isCourseTutor, selectedCourse.id, events])
 
-    const handleFetchBookings = async () => {
-      await fetchBookings()
-      console.log("Bookings were fetched?", bookings)
-    }
-
-    if (seesCalendar && !isCourseTutor) {
-      console.log("reached here")
-      handleFetchBookings()
-    }
-  }, [seesCalendar, isCourseTutor, selectedCourse.id, events])
-
+  /************* */
   const [autoId, setAutoId] = useState(0)
 
   const handleSelect = ({ start, end }) => {
@@ -168,6 +296,7 @@ export default function CourseDetails({
             start,
             end,
             title,
+            booked: false,
           },
         ])
     }
@@ -290,12 +419,12 @@ export default function CourseDetails({
             .replace("T", " ")
           return { course_id, day, start_time }
         })
-      const urlPost = `${API_BASE_URL}/availability/${selectedCourse.id}`
+      const newAvailsUrl = `${API_BASE_URL}/availability/${selectedCourse.id}`
       const newAvailsData = { availability_attr: newAvails }
       console.log("ready to post availabilities", newAvailsData)
       console.log("unchanged initials", initialAvails)
       if (newAvailsData.availability_attr.length > 0) {
-        postMultipleGeneric(urlPost, newAvailsData, "Availabilities")
+        postMultipleGeneric(newAvailsUrl, newAvailsData, "Availabilities")
       }
 
       // getting the deleted availabilities
@@ -307,29 +436,63 @@ export default function CourseDetails({
         .map((missingAvail) => missingAvail.id)
 
       const delAvailsData = { availability_ids: missingIds }
-      const urlDel = `${API_BASE_URL}/availability/${selectedCourse.id}`
+      const delAvailsUrl = `${API_BASE_URL}/availability/${selectedCourse.id}`
       if (delAvailsData.availability_ids.length > 0) {
-        deleteMultipleGeneric(urlDel, delAvailsData, "Availabilities")
+        deleteMultipleGeneric(delAvailsUrl, delAvailsData, "Availabilities")
       }
     }
 
     if (seesCalendar && !isCourseTutor) {
-      const data = {
-        availability_ids: bookings.map((booking) => booking.availability_id),
-        student_id: JSON.parse(localStorage.getItem("user")).id, //bookings[0].student_id,
+      // posting new bookings if any
+      const newBookings = bookings.filter(
+        (booking) =>
+          !initialBookings.some(
+            (initialBooking) => booking.id === initialBooking.id
+          )
+      )
+      const newBookingsData = {
+        availability_ids: newBookings.map((booking) => booking.availability_id),
+        student_id: JSON.parse(localStorage.getItem("user")).id,
       }
-      console.log("ready to post bookings", data)
-      const url = `${API_BASE_URL}/bookings`
+      const newBookingsUrl = `${API_BASE_URL}/bookings`
+      console.log("ready to post NEW BOOKINGS", newBookingsData)
+      if (newBookingsData.availability_ids.length > 0) {
+        postMultipleGeneric(newBookingsUrl, newBookingsData, "Bookings")
+      }
+      // deleting unchecked bookings
+      const missingBookingIds = initialBookings
+        .filter(
+          (initialBooking) =>
+            !bookings.some((booking) => booking.id === initialBooking.id)
+        )
+        .map((booking) => booking.id)
+      const delBookingsData = { booking_ids: missingBookingIds }
+      const delBookingsUrl = `${API_BASE_URL}/bookings/${
+        JSON.parse(localStorage.getItem("user")).id
+      }`
+      console.log("ready to post DELETE BOOKINGS", delBookingsData)
+      if (delBookingsData.booking_ids.length > 0) {
+        deleteMultipleGeneric(delBookingsUrl, delBookingsData, "Bookings")
+      }
+      /*** */
+      // const data = {
+      //   availability_ids: bookings.map((booking) => booking.availability_id),
+      //   student_id: JSON.parse(localStorage.getItem("user")).id, //bookings[0].student_id,
+      // }
+      // console.log("ready to post bookings", data)
+      // const url = `${API_BASE_URL}/bookings`
 
-      if (data.availability_ids.length > 0) {
-        postMultipleGeneric(url, data, "Bookings")
-      }
+      // if (data.availability_ids.length > 0) {
+      //   postMultipleGeneric(url, data, "Bookings")
+      // }
     }
+    /*** */
 
     setUpdateOnSave(!updateOnSave)
   }
 
   const handleCheckboxChange = (isChecked, eventId) => {
+    console.log("BOOKINGS WHEN CHECKING", bookings)
     if (isChecked) {
       // Handle checked state
       console.log(`Checkbox checked for event ${eventId}`)

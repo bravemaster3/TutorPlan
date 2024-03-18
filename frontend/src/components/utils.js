@@ -1,20 +1,81 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
+import { API_BASE_URL } from "src/apiConfig";
+
+// export function stringToColor(str) {
+//     let hash = 0
+//     for (let i = 0; i < str.length; i++) {
+//       hash = str.charCodeAt(i) + ((hash << 5) - hash)
+//     }
+//     let color = "#"
+//     for (let i = 0; i < 3; i++) {
+//       const value = (hash >> (i * 8)) & 0xff
+//       color += ("00" + value.toString(16)).substr(-2)
+//     }
+//     return color
+//   }
+
 
 export function stringToColor(str) {
-    let hash = 0
-    for (let i = 0; i < str.length; i++) {
-      hash = str.charCodeAt(i) + ((hash << 5) - hash)
-    }
-    let color = "#"
-    for (let i = 0; i < 3; i++) {
-      const value = (hash >> (i * 8)) & 0xff
-      color += ("00" + value.toString(16)).substr(-2)
-    }
-    return color
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
+  let color = "#";
+  for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xff;
+      color += ("00" + value.toString(16)).substr(-2);
+  }
+
+  // Convert the color to RGB
+  const r = parseInt(color.substr(1, 2), 16);
+  const g = parseInt(color.substr(3, 2), 16);
+  const b = parseInt(color.substr(5, 2), 16);
+
+  // Calculate the perceived brightness using the formula: (0.299*R + 0.587*G + 0.114*B)
+  const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
+
+  // Adjust the color to have good contrast with black
+  if (brightness < 128) {
+      // If the color is dark, make it lighter
+      color = lightenColor(color);
+  } else {
+      // If the color is light, make it darker
+      color = darkenColor(color);
+  }
+
+  return color;
+}
+
+function lightenColor(color) {
+  // Increase each component of the color to lighten it
+  let r = parseInt(color.substr(1, 2), 16);
+  let g = parseInt(color.substr(3, 2), 16);
+  let b = parseInt(color.substr(5, 2), 16);
+
+  r = Math.min(r + 100, 255);
+  g = Math.min(g + 100, 255);
+  b = Math.min(b + 100, 255);
+
+  // Convert back to hex
+  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+}
+
+function darkenColor(color) {
+  // Decrease each component of the color to darken it
+  let r = parseInt(color.substr(1, 2), 16);
+  let g = parseInt(color.substr(3, 2), 16);
+  let b = parseInt(color.substr(5, 2), 16);
+
+  r = Math.max(r - 100, 0);
+  g = Math.max(g - 100, 0);
+  b = Math.max(b - 100, 0);
+
+  // Convert back to hex
+  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+}
+
 
 export function  handleAddCourse (e, toggleModal) {
     e.preventDefault()
@@ -296,6 +357,63 @@ export const useCourseDetails = () => {
 
   return { selectedCourse, setSelectedCourse, toggleModal, toggleEdit, editCourse, isModalOpen };
 };
+
+
+const useFetchAvailabilities = (userId) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [availabilities, setAvailabilities] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchAvailabilities = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/availability/${userId}/tutor`
+        );
+        const initialAvailabilities = response.data.filter(
+          (avail) => avail.booked === true
+        );
+        const availWithDetails = await Promise.all(
+          initialAvailabilities.map(async (avail) => {
+            const courseResponse = await axios.get(
+              `${API_BASE_URL}/courses/${avail.course_id}`
+            );
+            const courseDetails = courseResponse.data;
+            const bookingsResponse = await axios.get(
+              `${API_BASE_URL}/bookings/${avail.course_id}/course`
+            );
+            const bookingDetails = bookingsResponse.data.find(
+              (booking) => booking.availability_id === avail.id
+            );
+            const studentDetails = await axios.get(
+              `${API_BASE_URL}/students/${bookingDetails.student_id}`
+            );
+            return {
+              ...avail,
+              courseDetails,
+              bookingDetails,
+              studentDetails: studentDetails.data,
+            };
+          })
+        );
+        setAvailabilities(availWithDetails);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching availabilities:", error);
+        setError(error);
+        setIsLoading(false);
+      }
+    };
+
+    if (userId) {
+      fetchAvailabilities();
+    }
+  }, [userId]);
+
+  return { isLoading, availabilities, error };
+};
+
+export default useFetchAvailabilities;
 
 
 
