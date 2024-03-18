@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "hash": "3e976680",
   "configHash": "f7e1a464",
   "lockfileHash": "13938bad",
@@ -52,4 +53,12 @@
       "file": "chunk-CEQRFMJQ.js"
     }
   }
+=======
+  "hash": "b5effbbe",
+  "configHash": "b2de21fb",
+  "lockfileHash": "c1f8b187",
+  "browserHash": "2ea0b343",
+  "optimized": {},
+  "chunks": {}
+>>>>>>> cc5e166c652a6aeff91f246dfb285a039a6a5c70
 }
