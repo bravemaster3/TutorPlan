@@ -6,29 +6,70 @@ import {
   faEyeSlash,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons"
-import CloseIcon from "./CloseIcon"
+import CloseIcon from "src/components/otherComponents/CloseIcon"
+import SignInUpRadioGroup from "./SignInUpRadioGroup"
+import { API_BASE_URL } from "src/apiConfig"
+import axios from "axios"
+import md5 from "md5"
 export default function SignUp() {
-  return (
-    <>
-      <div className="container-fluid login">
-        <div className="generic-form">
-          <CloseIcon />
-          <Registration />
-        </div>
-      </div>
-    </>
-  )
-}
+  const navigateTo = useNavigate()
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    country: "",
+    password: "",
+    account_type: "",
+  })
 
-function Registration() {
+  const [accountTypeSignUp, setAccountTypeSignUp] = useState("student")
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    if (name === "password") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: md5(value),
+      }))
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }))
+    }
+  }
+
+  const handleSignUp = (e) => {
+    e.preventDefault()
+    // console.log(accountTypeSignUp) // Add this line
+    const url = `${API_BASE_URL}/${accountTypeSignUp}s`
+    // console.log(url)
+    // console.log(formData)
+    const data = formData
+    axios
+      .post(url, data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        alert("An error has occured. Signup was unsuccessful")
+        console.log(error)
+      })
+
+    navigateTo("/login")
+  }
+
   const [showPassword, setShowPassword] = useState(false)
   return (
     <>
       <div className="title">
         <h2>Join us!</h2>
-        <p>You are signing up as a User</p>
+        <p>You are signing up as a {accountTypeSignUp}</p>
       </div>
-      <form className="login-form">
+      <form className="login-form" onSubmit={handleSignUp}>
         <div className="form-group">
           <label htmlFor="first-name">First Name</label>
           <input
@@ -36,6 +77,8 @@ function Registration() {
             id="first-name"
             placeholder="First Name"
             name="first_name"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -46,6 +89,8 @@ function Registration() {
             id="last-name"
             placeholder="Last Name"
             name="last_name"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -56,16 +101,48 @@ function Registration() {
             id="email"
             placeholder="Enter your email"
             name="email"
+            required
+            onChange={handleChange}
           />
         </div>
 
         <div className="form-group">
-          <label htmlFor="phone-number">Phone Number</label>
+          <label htmlFor="phone-number">
+            Phone Number{" "}
+            <abbr data-title="Whatsapp preferably">
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </abbr>
+          </label>
           <input
             type="text"
             id="phone-number"
             placeholder="Phone Number"
             name="phone_number"
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="city">City</label>
+          <input
+            type="text"
+            id="city"
+            placeholder="Enter your city"
+            name="city"
+            required
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="country">Country</label>
+          <input
+            type="text"
+            id="country"
+            placeholder="Enter your country"
+            name="country"
+            required
+            onChange={handleChange}
           />
         </div>
 
@@ -77,6 +154,8 @@ function Registration() {
               id="password"
               placeholder="Enter your password"
               name="password"
+              required
+              onChange={handleChange}
             />
             <button
               type="button"
@@ -99,31 +178,12 @@ function Registration() {
             type="password"
             id="password-confirm"
             placeholder="Confirm your password"
+            required
+            onChange={handleChange}
           />
         </div>
 
-        <div className="form-group">
-          <label>
-            Are you a tutor or a student?{" "}
-            <abbr data-title="Only Tutors can add a course">
-              <FontAwesomeIcon icon={faInfoCircle} />
-            </abbr>
-          </label>
-          <br />
-          <div className="radio-group">
-            <label htmlFor="student">Student</label>
-            <input
-              type="radio"
-              id="student"
-              name="account_type"
-              value="student"
-              defaultChecked
-            />
-
-            <label htmlFor="tutor">Tutor</label>
-            <input type="radio" id="tutor" name="account_type" value="tutor" />
-          </div>
-        </div>
+        <SignInUpRadioGroup setAccountTypeFun={setAccountTypeSignUp} />
 
         <div className="button-group">
           <button type="submit" className="sign-in">
@@ -132,7 +192,7 @@ function Registration() {
           <div className="separator">OR</div>
           <button type="button" className="sign-in-g">
             Continue with{" "}
-            <img className="google" src="src/assets/images/google.png"></img>
+            <img className="google" src="/src/assets/images/google.png"></img>
           </button>
         </div>
       </form>

@@ -1,6 +1,21 @@
 import { Link, useMatch } from "react-router-dom"
-import CustomLink from "./components/CustomLink"
-export default function NavBar() {
+import CustomLink from "components/otherComponents/CustomLink"
+import { useEffect, useState } from "react"
+export default function NavBar({ authenticated, handleLogout }) {
+  // const [authenticated, setAuthenticated] = useState(false)
+  // useEffect(() => {
+  //   const updateAuth = () => {
+  //     const authStatus = localStorage.getItem("isAuthenticated")
+  //     setAuthenticated(authStatus === null ? false : JSON.parse(authStatus))
+  //   }
+  //   updateAuth()
+  //   window.addEventListener("storage", updateAuth)
+
+  //   return () => {
+  //     window.removeEventListener("storage", updateAuth)
+  //   }
+  // }, [authenticated])
+
   return (
     <div className="container-fluid navbar-container">
       <nav className="navbar bg-color-custom navbar-expand-lg">
@@ -8,7 +23,7 @@ export default function NavBar() {
           <Link className="navbar-brand" to="/">
             <img
               className="logo-img"
-              src="src/assets/images/logo.png"
+              src="/src/assets/images/logo.png"
               alt="TutorPlan"
             ></img>
           </Link>
@@ -29,8 +44,15 @@ export default function NavBar() {
               <CustomLink to="/courses">COURSES</CustomLink>
               <CustomLink to="/mydesk">MY DESK</CustomLink>
               <CustomLink to="/about">ABOUT US</CustomLink>
-              {/* <CustomLink to={"/login"}>SIGN IN/UP</CustomLink> */}
-              <CustomLink to={["/login", "/sign-up"]}>SIGN IN/UP</CustomLink>
+              {authenticated === false ? (
+                <button className="btn sign-in">
+                  <CustomLink to="/login">SIGN IN/UP</CustomLink>
+                </button>
+              ) : (
+                <button className="btn logout" onClick={handleLogout}>
+                  <CustomLink to="/home">LOGOUT</CustomLink>
+                </button>
+              )}
             </ul>
           </div>
         </div>
