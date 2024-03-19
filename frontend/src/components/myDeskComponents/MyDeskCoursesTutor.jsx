@@ -69,7 +69,7 @@ export default function MyDeskCoursesTutor() {
                 key={course.id}
                 onClick={handleCourseClick(course)}
               >
-                <div className="course-icon">
+                <div className="hover-group  course-icon">
                   <CourseIcon title={course.title} />
                 </div>
                 <h5>{course.title}</h5>

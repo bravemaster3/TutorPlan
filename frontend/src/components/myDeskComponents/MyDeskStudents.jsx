@@ -59,7 +59,7 @@ export default function MyDeskStudents() {
                 key={student.id}
                 onClick={handleCourseClick(student)}
               >
-                <div className="course-icon">
+                <div className="hover-group course-icon">
                   <CourseIcon
                     title={`${student.first_name} ${student.last_name}`}
                   />

@@ -57,7 +57,7 @@ const CourseDetailsUI = ({
           <h1>Course details</h1>
         </div>
         <div className="specific-course-popup-row2">
-          <div>
+          <div className="form">
             <CourseDetailsForm
               formData={formData}
               setFormData={setFormData}

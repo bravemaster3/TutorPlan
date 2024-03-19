@@ -335,7 +335,7 @@ export const useFetchCourses = (student_id = null, tutor_id = null) => {
 
   useEffect(() => {
     fetchData();
-  }, []);//Using courses as dependency array makes the request refresh and renders courses again, but it has a side effect, on the calendar
+  }, [courses]);//Using courses as dependency array makes the request refresh and renders courses again, but it has a side effect, on the calendar
 
   return { isLoading: loading, courses, error };
 };

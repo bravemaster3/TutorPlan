@@ -1,4 +1,8 @@
 import { useNavigate } from "react-router-dom"
+import FeaturedCourses from "src/components/homeComponents/FeaturedCourses"
+import Features from "src/components/homeComponents/Features"
+import { featuredCourses } from "src/constants"
+import { features } from "src/constants"
 
 export default function Home() {
   const NavigateTo = useNavigate()
@@ -22,16 +26,15 @@ export default function Home() {
             <button onClick={exploreCourses}>Explore courses</button>
           </div>
         </div>
-        {/* <div className="col-md-7 home-div1-right">
-          <img
-            className="home-img"
-            src="src/assets/images/home.png"
-            alt="TutorPlan"
-          ></img>
-        </div> */}
       </div>
       <div className="row-md-12 home-div2">
         <button onClick={exploreCourses}>Explore Courses</button>
+      </div>
+      <div className="row-md-12">
+        <Features />
+      </div>
+      <div className="row-md-12 featured-courses-div">
+        <FeaturedCourses />
       </div>
     </>
   )

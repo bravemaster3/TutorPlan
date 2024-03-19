@@ -67,7 +67,8 @@ const CourseCalendar = ({
       selectable
       onSelectSlot={handleSelect}
       views={["month", "week", "day", "agenda"]}
-      defaultView={defaultView}
+      // defaultView={defaultView}
+      defaultView="week"
       onView={handleViewChange}
       components={{
         event: EventComponent,

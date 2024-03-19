@@ -107,7 +107,12 @@ export default function SignUp() {
         </div>
 
         <div className="form-group">
-          <label htmlFor="phone-number">Phone Number</label>
+          <label htmlFor="phone-number">
+            Phone Number{" "}
+            <abbr data-title="Whatsapp preferably">
+              <FontAwesomeIcon icon={faInfoCircle} />
+            </abbr>
+          </label>
           <input
             type="text"
             id="phone-number"

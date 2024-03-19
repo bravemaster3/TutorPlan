@@ -14,6 +14,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar"
 import "react-big-calendar/lib/css/react-big-calendar.css"
 import CourseDetails from "components/coursesComponents/CourseDetails"
 import SearchBar from "src/components/coursesComponents/SearchBar"
+import { useLocation } from "react-router-dom"
 
 export default function Courses() {
   const { isLoading, courses, error } = useFetchCourses()
@@ -55,7 +56,10 @@ export default function Courses() {
     // Add more events as needed
   ]
 
-  const [searchTerm, setSearchTerm] = useState("")
+  const location = useLocation()
+  const queryParams = new URLSearchParams(location.search)
+  const initialSearchTerm = queryParams.get("search") || ""
+  const [searchTerm, setSearchTerm] = useState(initialSearchTerm)
 
   const filteredCourses = courses.filter((course) => {
     return (
@@ -74,6 +78,13 @@ export default function Courses() {
     )
   })
 
+  // const [numberFilteredCourses, setNumberFilteredCourses] = useState(
+  //   filteredCourses.length
+  // )
+  // useEffect(() => {
+  //   setNumberFilteredCourses(filteredCourses.length)
+  // }, filteredCourses)
+
   if (isLoading) {
     return <Spinner text={"Loading courses"} />
   }
@@ -82,6 +93,7 @@ export default function Courses() {
     <>
       <div className="container-fluid courses-page">
         <h1>Browse our {numberCourses} available courses</h1>
+        {/* <h3>Filtered {numberFilteredCourses} courses</h3> */}
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <div className="courses-container">
           {filteredCourses.map((course) => (

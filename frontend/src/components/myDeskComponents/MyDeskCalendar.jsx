@@ -37,10 +37,6 @@ export default function MyDeskCalendar() {
         console.log("URL", url)
         console.log("Student's bookings", response)
 
-        // const InitialBookings = response.data.filter((booking) => {
-        //   return events.some((event) => event.id === booking.availability_id)
-        // })
-
         const initialBookings = response.data
         // Fetch availability details for each booking
         const bookingsWithAvailabilityDetails = await Promise.all(
