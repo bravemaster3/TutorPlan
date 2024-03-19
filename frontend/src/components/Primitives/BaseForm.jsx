@@ -15,8 +15,10 @@ const BaseForm = (
 ) => {
   return (
     <form className={formClasses}>
-      <h2 className={title.className}>{title.label}</h2>
-      {subtitle && <h4 className={subtitle.className}>{subtitle.label}</h4>}
+      <section>
+        <h2 className={title.className}>{title.label}</h2>
+        {subtitle && <h4 className={subtitle.className}>{subtitle.label}</h4>}
+      </section>
       <GenerateComponents componentType={InputField} data={formFields} />
       {radioGroup && (
         <div className={radioGroup.className}>
@@ -45,7 +47,7 @@ const BaseForm = (
           </span>
           &nbsp;
           {/* <p className="underline">{redirect.link.label}</p> */}
-          <Link to={redirect.link.to} className={redirect.label.className}>
+          <Link to={redirect.link.to} className={redirect.link.className}>
             {redirect.link.label}
           </Link>
         </div>
@@ -53,7 +55,7 @@ const BaseForm = (
     </form>
   );
 };
-BaseForm.defaultProps = {
+/* BaseForm.defaultProps = {
   formClasses: 'flex flex-col w-sm justify-center align-center bg-gray-400 p-8 rounded-md',
   title: {
     className: 'text-2xl font-bold mb-4',
@@ -137,5 +139,5 @@ BaseForm.defaultProps = {
     },
   },
 };
-
+ */
 export default BaseForm;

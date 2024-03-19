@@ -11,7 +11,7 @@ const InputField = ({ label, id, inputClasses, type, placeholder, role, value, n
   const hasDefaultChecked = !!defaultChecked
   const isRadio = type === 'radio';
   return (
-    <>
+    <div className={isRadio ? 'flex items-center' : ' flex flex-col'}>
       {label && (<label htmlFor={id} className={label.className}>{label.label}</label>)}
       <input
         className={inputClasses} type={type}
@@ -26,7 +26,7 @@ const InputField = ({ label, id, inputClasses, type, placeholder, role, value, n
 
       />
 
-    </>
+    </div>
   )
 }
 

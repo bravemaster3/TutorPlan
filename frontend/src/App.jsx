@@ -10,6 +10,7 @@ import { InputField, Button, GenerateComponents, BaseForm, CourseCard } from './
 import { buttonData, courseData, inputFieldData, sampleFormData } from './constants'
 import { Route, Routes } from 'react-router-dom'
 import { About, Courses, Home, MyDesk, NavBar, SignIn, SignUp } from './components'
+import MyComponent from './components/AltSignIn'
 
 
 function App() {
@@ -19,20 +20,24 @@ function App() {
     <>
       <div className="">
         <NavBar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route
-            path="/mydesk/*"
-            element={<MyDesk />}
-          >
-          </Route>
-          <Route path="/about" element={<About />} />
-          <Route path="/login/*" element={<SignIn />}>
-            <Route path="sign-up" element={<SignUp />} />
-          </Route>
-        </Routes>
+        <div className="mx-auto ">
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/sign-up" element={<SignUp />} />
+
+            <Route
+              path="/mydesk/*"
+              element={<MyDesk />}
+            >
+            </Route>
+            <Route path="/about" element={<About />} />
+            <Route path="/login/*" element={<SignIn />}>
+              <Route path="sign-up" element={<SignUp />} />
+            </Route>
+          </Routes>
+        </div>
 
       </div>
     </>

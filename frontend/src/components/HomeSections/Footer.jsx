@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
-    <footer id="footer" className=' text-slate-900 text-lg pt-6 pb-8'>
+    <footer id="footer" className=' text-slate-900  dark:text-slate-200 text-lg pt-6 pb-8'>
       <section className='max-w-4xl mx-auto flex flex-col sm:flex-row sm:justify-between'>
 
         {footerLinks.map((footerSection, index) => (

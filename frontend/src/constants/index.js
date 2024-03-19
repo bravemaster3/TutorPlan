@@ -1,5 +1,6 @@
 import {  MdOutlineDesk, MdOutlineDirectionsRun, MdOutlineEditCalendar, MdOutlinePushPin, MdOutlineSchedule } from "react-icons/md";
-import {  facebook, instagram, linkedin, twitter  } from "../assets";
+import {  courses, facebook, instagram, linkedin, my_desk, my_desk_courses, twitter  } from "../assets";
+
 
 export const navLinks = [
      {
@@ -16,16 +17,16 @@ export const navLinks = [
    {
     id: "my-desk",
     title: "My Desk",
-    to: "/courses"
+    to: "/mydesk"
   },
   {
     id: "about",
     title: "About Us",
-    to: "/courses"
+    to: "/about"
   },
   {
     id: "login",
-    title: "SIGN IN/UP",
+    title: "SIGN IN",
     to: "/login/*"
   },
 
@@ -45,7 +46,7 @@ export const heroButtons=[
 ,
  {
   id: 'btn_explore_courses',
-  className: 'px-3 py-1 rounded-lg text-slate-800 font-semibold  border border-2 border-green-500 hover:bg-green-700',
+  className: 'px-3 py-1 rounded-lg text-slate-800 font-semibold   dark:text-slate-200 border border-2 border-green-500 hover:bg-green-700',
   label: 'Explore Courses',
 
 }
@@ -57,6 +58,7 @@ export const features = [
     title: "Customisable Calendar",
     content:
       " As a tutor you can conveniently block off times in your calendar by simply dragging.",
+      source: my_desk_courses
   },
    {
     id: "feature-2",
@@ -64,6 +66,7 @@ export const features = [
     title: "Easy Scheduling",
     content:
       "Book and Schedule Sessions in 2 clicks!",
+      source: my_desk_courses
   },
   {
     id: "feature-3",
@@ -71,6 +74,15 @@ export const features = [
     title: "A Desk",
     content:
       "Guess what? you even get a desk! Explore courses, find tutors, view profiles all in one place!",
+    source: my_desk
+  },
+  {
+    id: "feature-4",
+    icon: MdOutlinePushPin,
+    title: "A New Feature",
+    content:
+      "Bala Bal bala",
+    source: my_desk_courses
   },
  
 ];
@@ -347,7 +359,7 @@ export const sampleFormData = {
 };
 
 
-export const courseData = [
+export const courseTutorData = [
 
   {
     id: 'course1',
@@ -355,7 +367,9 @@ export const courseData = [
     fee: 50,
     description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta, architecto aperiam commodi, pariatur iure nisi qui illum enim totam sint obcaecati magnam omnis excepturi voluptate eveniet quidem, corporis laborum harum itaque. Laboriosam dolore itaque molestias commodi ab et eius magni quod earum adipisci illum reiciendis non ipsa iure maiores, ut facere consequatur necessitatibus a corrupti ex aliquam suscipit tempora hic. A repellendus sint aut, cupiditate cumque exercitationem est nobis ipsam numquam nulla corrupti eligendi ratione, architecto veniam provident error optio!',
     course_type: 'online',
+    duration: 120,
     tutor: {
+      id: 1,
       first_name: 'John',
       last_name: 'Doe',
       city: 'New York',
@@ -367,8 +381,44 @@ export const courseData = [
     title: 'Programming Course',
     fee: 100,
     description: 'Master programming languages and algorithms.',
+    duration: 120,
     course_type: 'both',
     tutor: {
+      id: 2,
+      first_name: 'Alice',
+      last_name: 'Smith',
+      city: 'London',
+      country: 'UK',
+    },
+  }
+
+];
+export const courseData = [
+
+  {
+    id: 'course1',
+    title: 'Mathematics Course',
+    fee: 50,
+    description: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Soluta, architecto aperiam commodi, pariatur iure nisi qui illum enim totam sint obcaecati magnam omnis excepturi voluptate eveniet quidem, corporis laborum harum itaque. Laboriosam dolore itaque molestias commodi ab et eius magni quod earum adipisci illum reiciendis non ipsa iure maiores, ut facere consequatur necessitatibus a corrupti ex aliquam suscipit tempora hic. A repellendus sint aut, cupiditate cumque exercitationem est nobis ipsam numquam nulla corrupti eligendi ratione, architecto veniam provident error optio!',
+    course_type: 'online',
+    duration: 120,
+    tutor: {
+      id: 1,
+      first_name: 'John',
+      last_name: 'Doe',
+      city: 'New York',
+      country: 'USA',
+    },
+  },
+  {
+    id: 'course2',
+    title: 'Programming Course',
+    fee: 100,
+    description: 'Master programming languages and algorithms.',
+    duration: 120,
+    course_type: 'both',
+    tutor: {
+      id: 2,
       first_name: 'Alice',
       last_name: 'Smith',
       city: 'London',
@@ -380,8 +430,10 @@ export const courseData = [
     title: 'History Class',
     fee: 30,
     description: 'Explore the rich history of civilizations.',
+    duration: 120,
     course_type: 'physical',
     tutor: {
+      id: 3,
       first_name: 'Robert',
       last_name: 'Johnson',
       city: 'Paris',
@@ -393,8 +445,10 @@ export const courseData = [
     title: 'Graphic Design Workshop',
     fee: 80,
     description: 'Create stunning visuals with graphic design principles.',
+    duration: 120,
     course_type: 'online',
     tutor: {
+      id: 4,
       first_name: 'Emily',
       last_name: 'Davis',
       city: 'Berlin',
@@ -406,8 +460,10 @@ export const courseData = [
     title: 'Language Learning Bootcamp',
     fee: 60,
     description: 'Immerse yourself in language learning with native speakers.',
+    duration: 120,
     course_type: 'both',
     tutor: {
+      id: 5,
       first_name: 'Juan',
       last_name: 'Gonzalez',
       city: 'Madrid',
@@ -419,8 +475,10 @@ export const courseData = [
     title: 'Physics Masterclass',
     fee: 90,
     description: 'Dive deep into the world of physics and its applications.',
+    duration: 120,
     course_type: 'online',
     tutor: {
+      id: 6,
       first_name: 'Elena',
       last_name: 'Rodriguez',
       city: 'Barcelona',
@@ -432,8 +490,10 @@ export const courseData = [
     title: 'Fitness Training Program',
     fee: 75,
     description: 'Achieve your fitness goals with a personalized training program.',
+    duration: 120,
     course_type: 'physical',
     tutor: {
+      id: 7,
       first_name: 'Mark',
       last_name: 'Johnson',
       city: 'Los Angeles',
@@ -445,8 +505,10 @@ export const courseData = [
     title: 'Cooking Class: Italian Cuisine',
     fee: 65,
     description: 'Learn to cook delicious Italian dishes from scratch.',
+    duration: 120,
     course_type: 'online',
     tutor: {
+      id: 8,
       first_name: 'Sophia',
       last_name: 'Rossi',
       city: 'Rome',
@@ -458,8 +520,10 @@ export const courseData = [
     title: 'Photography Workshop',
     fee: 110,
     description: 'Master the art of photography and composition.',
+    duration: 120,
     course_type: 'both',
     tutor: {
+      id: 9,
       first_name: 'David',
       last_name: 'Miller',
       city: 'New York',
@@ -471,8 +535,10 @@ export const courseData = [
     title: 'Digital Marketing Bootcamp',
     fee: 95,
     description: 'Boost your business with effective digital marketing strategies.',
+    duration: 120,
     course_type: 'online',
     tutor: {
+      id: 10,
       first_name: 'Linda',
       last_name: 'Jones',
       city: 'Sydney',
