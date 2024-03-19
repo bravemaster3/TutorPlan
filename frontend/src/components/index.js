@@ -4,7 +4,7 @@ import About from "./About";
 import SignUp from "./SignUp";
 import Courses from "./Courses";
 import MyDesk from "./MyDesk";
-import NavBar from "./NavBar";
+import NavBar from "./Navbar";
 
 export{
 	Home,

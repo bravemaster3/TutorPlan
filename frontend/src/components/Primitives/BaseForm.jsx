@@ -11,10 +11,11 @@ const BaseForm = (
     radioGroup,
     formButton,
     buttonGroup,
+    handleFormSubmit,
     redirect }
 ) => {
   return (
-    <form className={formClasses}>
+    <form className={formClasses} onSubmit={handleFormSubmit}>
       <section>
         <h2 className={title.className}>{title.label}</h2>
         {subtitle && <h4 className={subtitle.className}>{subtitle.label}</h4>}

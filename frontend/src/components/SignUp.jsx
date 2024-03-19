@@ -1,7 +1,60 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BaseForm } from './Primitives'
+import { Navigate, useNavigate } from 'react-router'
 
 const SignUp = () => {
+  const navigateTo = useNavigate()
+  const [user, setUser] = useState("student")
+  const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_number: "",
+    country: "",
+    password: "",
+    account_type: "",
+  })
+  const handleChoice = (e) => {
+    // console.log(e.target.value)
+    // console.log("HANDLECHOICE: I HAVE BEEN TRIGGERED")
+    setUser(e.target.value)
+  }
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    /*   if (name === "password") {
+        setFormData((prevData) => ({
+          ...prevData,
+          [name]: md5(value),
+        }))
+      } else { */
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+    /*  } */
+  }
+  const handleSignUp = (e) => {
+    e.preventDefault()
+    // console.log(accountTypeSignUp) // Add this line
+    const url = `${API_BASE_URL}/${accountTypeSignUp}s`
+    console.log(formData)
+    /*  const data = formData */
+    /*   axios
+        .post(url, data, {
+          headers: { "Content-Type": "application/json" },
+        })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          alert("An error has occured. Signup was unsuccessful")
+          console.log(error)
+        }) */
+
+    navigateTo("/login")
+  }
+
+  console.log(formData)
   const SignUpProps = {
     formClasses: 'flex baseform font-worksans flex-col w-[350px] mx-auto justify-center   p-8 rounded-md',
     title: {
@@ -12,6 +65,7 @@ const SignUp = () => {
       className: ' text-center mb-4 font-[500]',
       label: 'You are signing in as a',
     },
+    handleFormSubmit: handleSignUp,
     formFields: [
       {
         label: { label: 'First Name', className: 'font-[500]' },
@@ -19,7 +73,8 @@ const SignUp = () => {
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] mb-[10px]',
         placeholder: '',
-        name: "first_name"
+        name: "first_name",
+        onChange: handleChange
       },
       {
         label: { label: 'Last Name', className: 'font-[500]' },
@@ -27,7 +82,8 @@ const SignUp = () => {
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: '',
-        name: "last_name"
+        name: "last_name",
+        onChange: handleChange
       },
       {
         label: { label: 'Email', className: 'font-[500]' },
@@ -35,7 +91,8 @@ const SignUp = () => {
         type: 'email',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: 'Enter your email',
-        name: "email"
+        name: "email",
+        onChange: handleChange
 
       },
       {
@@ -44,7 +101,8 @@ const SignUp = () => {
         type: 'tel',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: '',
-        name: "phone_number"
+        name: "phone_number",
+        onChange: handleChange
 
       },
       {
@@ -53,7 +111,8 @@ const SignUp = () => {
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: '',
-        name: "city"
+        name: "city",
+        onChange: handleChange
 
       },
       {
@@ -62,7 +121,8 @@ const SignUp = () => {
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: '',
-        name: "country"
+        name: "country",
+        onChange: handleChange
 
       },
       {
@@ -71,15 +131,16 @@ const SignUp = () => {
         type: 'password',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: '',
-        name: "password"
+        name: "password",
+        onChange: handleChange
       },
-      {
+     /*  {
         label: { label: 'Confirm Password', className: 'font-worksans font-[500]' },
-        id: 'password',
+        id: 'cpassword',
         type: 'password',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
         placeholder: '',
-      },
+      }, */
       // Add more form fields as needed
     ],
     radioGroup: {
@@ -89,20 +150,21 @@ const SignUp = () => {
       options: [
         {
           label: { label: 'Student', className: 'font-normal' },
-          id: 'user',
+          id: 'student',
           type: 'radio',
           name: 'account_type',
           value: 'student',
           inputClasses: "mx-0",
-
+          onChange: handleChoice,
           defaultChecked: true
         },
         {
           label: { label: 'Tutor', className: 'font-normal' },
-          id: 'user',
+          id: 'tutor',
           type: 'radio',
           name: 'account_type',
-          value: 'tutor'
+          value: 'tutor',
+          onChange: handleChoice
         },
       ],
     },
@@ -144,7 +206,17 @@ const SignUp = () => {
     },
   };
   return (
-    <main><BaseForm{...SignUpProps} /></main>
+    <main>
+      <label htmlFor="first-name">First Name</label>
+      <input
+        type="text"
+        id="first-name"
+        placeholder="First Name"
+        name="first_name"
+        required
+        onChange={handleChange}
+      />
+      <BaseForm{...SignUpProps} /></main>
   )
 }
 

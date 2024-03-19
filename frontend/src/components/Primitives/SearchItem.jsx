@@ -23,6 +23,7 @@ const SearchItem = ({ search, setSearch }) => {
 				</span>
 				<InputField {...searchFieldData} />
 			</label >
+
 		</>
 	)
 }

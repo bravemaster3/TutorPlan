@@ -18,8 +18,8 @@ const InputField = ({ label, id, inputClasses, type, placeholder, role, value, n
         id={id}
         name={name}
         {...(hasPlaceholder && !isRadio ? { placeholder: placeholder } : { placeholder: label.label })}
-        value={value || ''}
-        /* {...(hasValue ? { value: value } : {})} */
+        /* value={value || ''} */
+        {...(hasValue ? { value: value } : {})}
         {...(!!role ? { role: role } : {})}
         {...(!!onChange ? { onChange: onChange } : {})}
         {...(hasDefaultChecked ? { defaultChecked: defaultChecked } : {})}

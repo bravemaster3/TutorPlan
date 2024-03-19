@@ -3,7 +3,7 @@ import { BaseForm } from './Primitives'
 
 const SignIn = () => {
   const SignInProps = {
-    formClasses: 'flex baseform font-worksans flex-col w-[350px] mx-auto justify-center   p-8 rounded-md gap-2',
+    formClasses: 'flex baseform font-worksans flex-col w-[350px] mx-auto justify-center  p-8 rounded-md gap-2',
     title: {
       className: 'text-[40px] font-roboto font-bold',
       label: 'Welcome Back!',
@@ -91,7 +91,9 @@ const SignIn = () => {
     },
   };
   return (
-    <main><BaseForm{...SignInProps} /></main>
+    <main><BaseForm{...SignInProps} />
+      <input type="text" onChange={{}} placeholder='input here' /></main>
+
   )
 }
 

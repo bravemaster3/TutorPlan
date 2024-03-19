@@ -254,7 +254,8 @@ export const inputFieldData = [
     id: 'username',
     type: 'text',
     placeholder: 'Enter your username',
-    value: '',
+    onChange: (e) => setEmail(e.target.value),
+  
     name: 'username',
     defaultChecked: false,
   },
@@ -263,7 +264,7 @@ export const inputFieldData = [
     id: 'username2',
     type: 'text',
     placeholder: 'Enter your username',
-    value: '',
+ 
     name: 'username',
     defaultChecked: false,
   },
