@@ -21,11 +21,7 @@ export default function NavBar({ authenticated, handleLogout }) {
       <nav className="navbar bg-color-custom navbar-expand-lg">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            <img
-              className="logo-img"
-              src="/src/assets/images/logo.png"
-              alt="TutorPlan"
-            ></img>
+            <img className="logo-img" src="/logo.png" alt="TutorPlan"></img>
           </Link>
           <button
             className="navbar-toggler"

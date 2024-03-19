@@ -4,7 +4,8 @@ export const features = [
     {
       id: "feature-1",
       icon: MdOutlineEditCalendar,
-      img: "src/assets/images/calendar.JPG",
+      img: "/calendar.JPG",
+      // img: "src/assets/images/calendar.JPG",
       title: "Customisable Calendar",
       content:
         " As a tutor you can conveniently set available slots in one click.",
@@ -12,7 +13,7 @@ export const features = [
      {
       id: "feature-2",
       icon: MdOutlineSchedule,
-      img: "src/assets/images/mycourses.JPG",
+      img: "/mycourses.JPG",
       title: "Easy Scheduling",
       content:
         "Book and Schedule Sessions in a single click!",
@@ -20,7 +21,7 @@ export const features = [
     {
       id: "feature-3",
       icon: MdOutlineDesk,
-      img: "src/assets/images/mycourses.JPG",
+      img: "/mycourses.JPG",
       title: "A Desk",
       content:
         "Guess what? you even get a desk! Explore courses, find tutors, view profiles all in one place!",
