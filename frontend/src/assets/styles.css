@@ -70,6 +70,7 @@ h5 {
 @media (max-width: 767px) {
   :root {
     --page-margin: var(--page-margin-small);
+    --form-input-width: 300px;
   }
 }
 
@@ -149,7 +150,7 @@ h5 {
 
 .home-div1 {
   /* background-color: var(--grey); */
-  background-image: url(images/home1.png);
+  background-image: url(/home1.png);
   background-size: cover;/*cover;*/
   background-repeat: no-repeat;
   background-position: bottom right;
@@ -173,17 +174,27 @@ h5 {
   gap: 100px;
 }
 
-@media (max-width: 767px) {
-  .home-div1-left {
-    padding-top: 50px;
-    gap: 30px;
-  }
-}
 .home-div1-left h1 {
   font-family: var(--font-family2);
   font-size: 3rem;
   letter-spacing: 0.5rem;
   font-weight: bold;
+}
+
+
+@media (max-width: 767px) {
+  .home-div1-left {
+    padding-top: 50px;
+    gap: 30px;
+  }
+
+  .home-div1-left h1 {
+    font-family: var(--font-family2);
+    font-size: 2rem;
+    letter-spacing: 0.5rem;
+    font-weight: bold;
+  }
+  
 }
 
 .home-div1-left .home-btn-tutor {
@@ -219,7 +230,7 @@ h5 {
 }
 
 .home-div2 {
-  background-image: url(images/home2.png);
+  background-image: url(/home2.png);
   background-size: cover;/*cover;*/
   background-repeat: no-repeat;
   background-position: top;
@@ -263,6 +274,8 @@ h5 {
   padding: 4rem;
   /* margin: 12rem 0; */
   background-color: #90cdf4;
+  box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
+
 }
 
 .features-title {
@@ -286,7 +299,7 @@ h5 {
 
 .feature-img-item {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   max-width: 100vw;
   gap: 20px;
   flex-wrap: wrap;
@@ -340,23 +353,32 @@ h5 {
 /**********Featured courses ********/
 .featured-courses-div {
   display: flex;
-  flex-direction: row;
-  max-width: 100vw;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
 }
 
-.featured-courses {
-  padding: 3rem;
-  max-width: 100vw;
-  /* margin: 12rem 0; */
-}
+/* .featured-courses {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 2rem;
+  max-width: 100%;
+} */
 
 .courses-title {
   font-family: 'Poppins', sans-serif;
   font-size: 3rem;
   font-weight: 700;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   color: #1a202c;
+  /* background-color: red; */
 }
 
 .courses-list {
@@ -365,8 +387,9 @@ h5 {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: 5rem;
-  /* margin: 12rem auto; */
+  width: 100%;
+  max-width: 100%;
+  gap: 4rem;
 }
 
 .course-item {
@@ -374,14 +397,14 @@ h5 {
   flex-direction: column;
   justify-content: start;
   align-items: center;
-  width: 500px;
+  width: 450px;
+  padding: 1rem 2rem 2rem 2rem;
   max-width: 90%;
   height: 350px;
-  padding: 1rem 2rem 3rem 2rem;
   background-color: #fff;
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
-  /* background-color: red; */
+  margin-right: 1.5rem;
 }
 
 .course-icon-feat {
@@ -420,7 +443,7 @@ h5 {
   padding: 1rem 2rem;
   border-radius: 3rem;
   color: #1a202c;
-  bottom: 2px;
+  /* bottom: 2px; */
 }
 
 .hover-group:hover {
@@ -645,6 +668,7 @@ h5 {
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
+  flex-wrap: wrap;
   gap: 5px;
   width: var(--form-input-width);
 }
@@ -660,7 +684,7 @@ h5 {
 
 .form-group .radio-group {
   display: flex;
-  width: 350px;
+  width: var(--form-input-width);
 }
 
 .form-group .radio-group input {
@@ -1076,7 +1100,7 @@ margin-bottom: 10px;
   border-radius: 8px;
   font-size: 20px;
   background-color: white;
-  background-image: url('src/assets/images/search_icon.png');
+  background-image: url('/search_icon.png');
   background-position: 10px 10px; 
   background-size: 40px 40px;
   background-repeat: no-repeat;
@@ -1550,6 +1574,8 @@ overflow: hidden;
   width: 500px;
   max-width: 100%;
   height: 500px;
+ 
+
   
 }
 
@@ -1623,6 +1649,7 @@ overflow: hidden;
 .calendar-specific-course {
   width: 100%;
   background-color: white;
+  box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
   /* opacity: 1; */
 }
 

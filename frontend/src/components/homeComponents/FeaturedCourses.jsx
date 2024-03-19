@@ -5,7 +5,8 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md"
 
 const FeaturedCourses = () => {
   return (
-    <section className="featured-courses">
+    <>
+      {/* <section className="featured-courses"> */}
       <h2 className="courses-title">Featured Courses</h2>
       <ul className="courses-list">
         {featuredCourses.map((feature) => (
@@ -26,7 +27,8 @@ const FeaturedCourses = () => {
           </li>
         ))}
       </ul>
-    </section>
+      {/* </section> */}
+    </>
   )
 }
 
