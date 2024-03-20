@@ -1,10 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { AiOutlineUser } from 'react-icons/ai'
-import { BaseForm, GenerateComponents, InputField } from '../Primitives'
+import { BaseForm, GenerateComponents, InputField, RadioOptions } from '../Primitives'
 import { useNavigate } from 'react-router'
 
 
 const UserProfile = () => {
+  const radioOptions = [
+    {
+      id: 'student',
+      label: 'Student',
+      name: 'account_type'
+    },
+    {
+      id: 'tutor',
+      label: 'Tutor',
+      name: 'account_type'
+    }
+  ]
   const navigateTo = useNavigate()
   const [user, setUser] = useState("student")
   const [editMode, setEditMode] = useState(false);
@@ -166,10 +178,10 @@ const UserProfile = () => {
     handleFormSubmit: handleSignUp,
     formFields: [
       {
-        label: { label: 'First Name', className: 'font-[500]' },
+        label: { label: 'First Name', className: ' font-[500] text-nowrap ' },
         id: 'firstName',
         type: 'text',
-        inputClasses: 'px-4 rounded-[8px] py-[4px] mb-[10px]',
+        inputClasses: 'px-4 rounded-[8px] py-[4px]  ',
         placeholder: '',
         name: 'first_name',
         value: formData.first_name,
@@ -177,7 +189,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'Last Name', className: 'font-[500]' },
+        label: { label: 'Last Name', className: ' font-[500] text-nowrap ' },
         id: 'lastName',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px]',
@@ -188,7 +200,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'Email', className: 'font-[500]' },
+        label: { label: 'Email', className: ' font-[500] ' },
         id: 'email',
         type: 'email',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
@@ -200,7 +212,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'Phone Number', className: 'font-[500]' },
+        label: { label: 'Phone Number', className: 'font-[500] text-nowrap ' },
         id: 'phoneNumber',
         type: 'tel',
         inputClasses: 'px-4 rounded-[8px] py-[4px]',
@@ -212,7 +224,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'Country', className: 'font-[500]' },
+        label: { label: 'Country', className: 'font-[500] ' },
         id: 'country',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] col-span-2',
@@ -342,10 +354,24 @@ const UserProfile = () => {
       />
 
 
+
       {/* <form className='grid grid-cols-4 bg-green-600' onSubmit={handleSignUp}>
         <GenerateComponents componentType={InputField} data={formFields} />
       </form> */}
       <BaseForm{...SignUpProps} />
+      {/*  <GenerateComponents componentType={RadioOptions} data={radioOptions} />
+      <fieldset>
+        <legend>Published status</legend>
+
+        <input id="draft" className="peer/draft" type="radio" name="status" checked />
+        <label for="draft" className="peer-checked/draft:text-sky-500">Draft</label>
+
+        <input id="published" className="peer/status" type="radio" name="status" />
+        <label for="published" className="peer-checked/status:text-sky-500 text-yellow-500">Published</label>
+
+        <div class="hidden peer-checked/draft:block">Drafts are only visible to administrators.</div>
+        <div class="hidden peer-checked/published:block">Your post will be publicly visible on your site.</div>
+      </fieldset> */}
 
 
 

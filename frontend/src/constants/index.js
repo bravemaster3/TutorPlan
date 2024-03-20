@@ -27,7 +27,7 @@ export const navLinks = [
   {
     id: "login",
     title: "SIGN IN",
-    to: "/login/*"
+    to: "/login"
   },
 
 ];
@@ -375,6 +375,9 @@ export const courseTutorData = [
       last_name: 'Doe',
       city: 'New York',
       country: 'USA',
+      email: 'johndoe@gmail.com',
+      phone_number: '0708818656',
+      bio:"Lorem ipsum dolor sit amet consectetur, adipisicing elit. Debitis consectetur reprehenderit tenetur omnis nisi deleniti iure qui eaque, corporis nihil beatae fugit eum aut, ipsum nam modi illo quas? Eligendi!"
     },
   },
   {
@@ -390,6 +393,9 @@ export const courseTutorData = [
       last_name: 'Smith',
       city: 'London',
       country: 'UK',
+       email: 'alicesmith@gmail.com',
+      phone_number: '0708818346',
+      
     },
   }
 

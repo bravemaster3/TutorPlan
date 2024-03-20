@@ -1,7 +1,19 @@
 import React from 'react'
-import { BaseForm } from './Primitives'
-
+import { BaseForm, GenerateComponents, RadioOptions } from './Primitives'
+GenerateComponents
 const SignIn = () => {
+  const radioOptions = [
+    {
+      id: 'student',
+      label: 'Student',
+      name: 'account_type'
+    },
+    {
+      id: 'tutor',
+      label: 'Tutor',
+      name: 'account_type'
+    }
+  ]
   const SignInProps = {
     formClasses: 'flex baseform font-worksans flex-col w-[350px] mx-auto justify-center  p-8 rounded-md gap-2',
     title: {
@@ -32,24 +44,27 @@ const SignIn = () => {
     radioGroup: {
       className: 'font-[500]',
       label: 'Are you a tutor or a student?',
-      optionsClassName: 'flex items-center justify-center gap-14 px-14',
+      optionsClassName: 'flex  items-center justify-center gap-14 ',
       options: [
         {
-          label: { label: 'Student', className: 'font-normal' },
-          id: 'user',
+          label: { label: 'Student', className: ' font-normal  ' },
+          id: 'student',
           type: 'radio',
           name: 'account_type',
           value: 'student',
-          inputClasses: "ml-3 mr-6 h-4 w-4",
+          inputClasses: "mr-2 h-4 w-4 ",
+          containerClasses: '',
+
           defaultChecked: true
         },
         {
-          label: { label: 'Tutor', className: 'font-normal' },
-          id: 'user',
+          label: { label: 'Tutor', className: '  font-normal ' },
+          id: 'tutor',
           type: 'radio',
           name: 'account_type',
           value: 'tutor',
-          inputClasses: "ml-3 h-4 w-4"
+          inputClasses: " mr-2 h-4 w-4 ",
+          containerClasses: 'flex-row-reverse',
         },
       ],
     },
@@ -92,7 +107,21 @@ const SignIn = () => {
   };
   return (
     <main><BaseForm{...SignInProps} />
-      <input type="text" onChange={{}} placeholder='input here' /></main>
+
+      <fieldset>
+        <legend>Published status</legend>
+
+        <input id="draft" className="peer/draft" type="radio" name="status" checked />
+        <label for="draft" className="peer-checked/draft:text-sky-500">Draft</label>
+
+        <input id="published" className="peer/status" type="radio" name="status" />
+        <label for="published" className="peer-checked/status:text-sky-500 text-yellow-500">Published</label>
+
+        <div class="hidden peer-checked/draft:block">Drafts are only visible to administrators.</div>
+        <div class="hidden peer-checked/published:block">Your post will be publicly visible on your site.</div>
+      </fieldset>
+
+    </main>
 
   )
 }

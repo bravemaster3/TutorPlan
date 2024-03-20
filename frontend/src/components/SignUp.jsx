@@ -211,15 +211,8 @@ const SignUp = () => {
   };
   return (
     <main>
-      {/*     <label htmlFor="first-name">First Name</label>
-      <input
-        type="text"
-        id="first-name"
-        placeholder="First Name"
-        name="first_name"
-        required
-        onChange={handleChange}
-      /> */}
+
+
       <BaseForm{...SignUpProps} /></main>
   )
 }

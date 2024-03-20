@@ -17,6 +17,7 @@
     #14101d 95.11%
   );
   --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
+ 
 }
 body {
   background-color: #000300;
@@ -25,7 +26,22 @@ body {
 * {
   scroll-behavior: smooth;
 }
-
+.card{
+  position:relative;
+  transform-style:preserve-3d;
+  
+  transition: 150ms;
+  transform: rotateY(var(--rotate-y,0));
+}
+.card.flip{
+   --rotate-y:180deg;
+}
+.card .front, .card .back{position: absolute;
+backface-visibility: hidden;
+}
+.card .back{
+  transform: rotateY(180deg);
+}
 .text-gradient {
   background: radial-gradient(
     64.18% 64.18% at 71.16% 35.69%,

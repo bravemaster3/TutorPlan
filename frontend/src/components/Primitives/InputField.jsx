@@ -10,11 +10,17 @@ const InputField = ({ label, id, inputClasses, containerClasses, type, placehold
   const hasPlaceholder = !!placeholder
   const hasDefaultChecked = !!defaultChecked
   const isRadio = type === 'radio';
+  /*  console.log(`${isRadio ? ('peer-checked/' + { id } + ':text-slate-200') : ''}`)
+   console.log(`${isRadio ? ('peer/' + { id }) : ''}`) */
+  console.log("Input")
+
   return (
-    <div className={`${isRadio ? ' flex items-center ' : ' flex flex-col '} ${containerClasses ? containerClasses : ' '}`}>
-      {label && (<label htmlFor={id} className={label.className}>{label.label}</label>)}
+
+    <div className={`${isRadio || disabled ? ' flex items-center  ' : ' flex flex-col '} ${disabled ? " gap-1" : ""} ${containerClasses ? containerClasses : ' '} `}>
+
+      {label && (<label htmlFor={id} className={`  ${label.className} `}>{label.label}</label>)}
       <input
-        className={inputClasses} type={type}
+        className={`  ${disabled ? ' disabled:bg-transparent ' : inputClasses} `} type={type}
         id={id}
         name={name}
         {...(hasPlaceholder && !isRadio ? { placeholder: placeholder } : { placeholder: label.label })}
@@ -30,7 +36,7 @@ const InputField = ({ label, id, inputClasses, containerClasses, type, placehold
     </div>
   )
 }
-
+console.log("Done")
 /* InputField.propTypes = {} */
 InputField.defaultProps = {
 

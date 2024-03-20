@@ -5,10 +5,12 @@ import { RiCircleFill } from "react-icons/ri";
 import CourseCard2 from "../Primitives/CourseCard2";
 
 const UserCourses = () => {
+  const numberCourses = courseTutorData.length
+  const tutor = false
   return (
     <div>
       <h2 className="text-3xl text-center mx-auto dark:text-slate-200">
-        Courses
+        You are {tutor ? "teaching" : "taking"}  {numberCourses} course{numberCourses === 1 ? "" : "s"}
       </h2>
       <div className="flex flex-wrap gap-2 bg-sky-800  mx-auto max-w-4xl">
         {courseTutorData.map((course) => (

@@ -8,7 +8,7 @@ const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, br
 	/* const browser = true; */
 	const userTutor = false; /* context manager */
 	return (
-		<article className={` group course-card   dark:text-slate-300  shadow-md rounded-2xl m-auto px-4  py-4 ${browser ? ' bg-black-gradient  w-[260px]  ' : 'flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between '} `}>{/* flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between */}
+		<article className={` group course-card hover:cursor-pointer   dark:text-slate-300  shadow-md rounded-2xl m-auto px-4  py-4 ${browser ? ' bg-black-gradient  w-[260px]  ' : 'flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between '} `}>{/* flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between */}
 			{browser ? (
 				<>
 

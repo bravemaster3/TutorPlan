@@ -16,20 +16,20 @@ const BaseForm = (
 ) => {
   return (
     <form className={formClasses} onSubmit={handleFormSubmit}>
-      {title || subtitle && <section>
+      {(title || subtitle) && (<section>
         {title && <h2 className={title.className}>{title.label}</h2>}
         {subtitle && <h4 className={subtitle.className}>{subtitle.label}</h4>}
-      </section>}
+      </section>)}
       <GenerateComponents componentType={InputField} data={formFields} />
       {radioGroup && (
-        <div className={radioGroup.className}>
-          <label>{radioGroup.label}</label>
-          <br />
+        <fieldset className={radioGroup.className}>
+          <legend >{radioGroup.label}</legend>
           <div className={radioGroup.optionsClassName}>
             <GenerateComponents componentType={InputField} data={radioGroup.options} />
           </div>
-        </div>
+        </fieldset>
       )}
+
       <Button {...formButton} />
       {buttonGroup && (
         <div className={buttonGroup.className}>

@@ -4,6 +4,7 @@ import CourseCard from "./CourseCard";
 import InputField from "./InputField";
 import GenerateComponents from "./GenerateComponents";
 import SearchItem from "./SearchItem";
+import RadioOptions from "./RadioOptions";
 
 export{
 	BaseForm,
@@ -11,5 +12,6 @@ export{
 	CourseCard,
 	InputField,
 	GenerateComponents,
-	SearchItem
+	SearchItem,
+	RadioOptions
 };
