@@ -6,21 +6,25 @@ const SignUp = () => {
   const navigateTo = useNavigate()
   const [user, setUser] = useState("student")
   const [formData, setFormData] = useState({
-    first_name: "",
+/*     first_name: "",
     last_name: "",
     email: "",
     phone_number: "",
     country: "",
-    password: "",
-    account_type: "",
+    password: "",*/
+    account_type: user, 
   })
-  const handleChoice = (e) => {
+/*   const handleChoice = (e) => {
     // console.log(e.target.value)
     // console.log("HANDLECHOICE: I HAVE BEEN TRIGGERED")
-    setUser(e.target.value)
-  }
+    //  setUser(e.target.value)
+    //  handleChange(e)
+  } */
   const handleChange = (e) => {
     const { name, value } = e.target
+    if (name === 'account_type') {
+      setUser(e.target.value)
+    }
     /*   if (name === "password") {
         setFormData((prevData) => ({
           ...prevData,
@@ -134,13 +138,13 @@ const SignUp = () => {
         name: "password",
         onChange: handleChange
       },
-     /*  {
+      {
         label: { label: 'Confirm Password', className: 'font-worksans font-[500]' },
         id: 'cpassword',
         type: 'password',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
-        placeholder: '',
-      }, */
+        placeholder: 'Confirm Password',
+      },
       // Add more form fields as needed
     ],
     radioGroup: {
@@ -155,7 +159,7 @@ const SignUp = () => {
           name: 'account_type',
           value: 'student',
           inputClasses: "mx-0",
-          onChange: handleChoice,
+          onChange: handleChange,
           defaultChecked: true
         },
         {
@@ -164,7 +168,7 @@ const SignUp = () => {
           type: 'radio',
           name: 'account_type',
           value: 'tutor',
-          onChange: handleChoice
+          onChange: handleChange
         },
       ],
     },
@@ -207,7 +211,7 @@ const SignUp = () => {
   };
   return (
     <main>
-      <label htmlFor="first-name">First Name</label>
+      {/*     <label htmlFor="first-name">First Name</label>
       <input
         type="text"
         id="first-name"
@@ -215,7 +219,7 @@ const SignUp = () => {
         name="first_name"
         required
         onChange={handleChange}
-      />
+      /> */}
       <BaseForm{...SignUpProps} /></main>
   )
 }
