@@ -23,12 +23,16 @@ export default function Home() {
             <button className="home-btn-tutor" onClick={becomeTutor}>
               Become a tutor
             </button>
-            <button onClick={exploreCourses}>Explore courses</button>
+            <button className="home-btn-explore" onClick={exploreCourses}>
+              Explore courses
+            </button>
           </div>
         </div>
       </div>
       <div className="row-md-12 home-div2">
-        <button onClick={exploreCourses}>Explore Courses</button>
+        <button className="home-btn-explore" onClick={exploreCourses}>
+          Explore Courses
+        </button>
       </div>
       <div className="row-md-12">
         <Features />

@@ -191,8 +191,7 @@ export default function SignUp() {
           </button>
           <div className="separator">OR</div>
           <button type="button" className="sign-in-g">
-            Continue with{" "}
-            <img className="google" src="/src/assets/images/google.png"></img>
+            Continue with <img className="google" src="/google.png"></img>
           </button>
         </div>
       </form>
