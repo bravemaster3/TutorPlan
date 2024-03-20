@@ -111,3 +111,18 @@ def post_delete_student(student_id, course_id):
             course.students.remove(student)
             course.save()
             return jsonify({}), 200
+
+
+@app_views.route("/students/<student_id>/tutors", strict_slashes=False, methods=["GET"])
+def get_student_tutors(student_id):
+    """This function handle the api that:
+        Get all the tutors of a student
+    """
+    student = storage.get(Student, student_id)
+    if not student:
+        abort(404)
+    courses_registered = student.courses_registered
+    tutors = []
+    for course in courses_registered:
+        tutors.append(course.tutor.to_dict())
+    return jsonify(tutors)

@@ -80,3 +80,19 @@ def get_tutor_courses(tutor_id):
         abort(404)
     courses = [obj.to_dict() for obj in tutor.courses]
     return jsonify(courses)
+
+
+@app_views.route("/tutors/<tutor_id>/students", strict_slashes=False, methods=["GET"])
+def get_tutor_students(tutor_id):
+    """This function handle the api that:
+        Get all the students of a tutor
+    """
+    tutor = storage.get(Tutor, tutor_id)
+    if not tutor:
+        abort(404)
+    courses_owned = tutor.courses
+    students = []
+    for course in courses_owned:
+        for student in course.students:
+            students.append(student.to_dict())
+    return jsonify(students)

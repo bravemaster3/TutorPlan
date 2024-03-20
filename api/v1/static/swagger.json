@@ -190,6 +190,33 @@
         }
       }
     },
+    "/api/v1/students/{student_id}/tutors": {
+      "parameters": [
+        {
+          "name": "student_id",
+          "in": "path",
+          "description": "ID of the student to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": ["Students"],
+        "summary": "Get all tutors of a student",
+        "description": "Returns a list of all tutors associated with the specified student.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Student"
+            }
+          },
+          "404": {
+            "description": "Student not found"
+          }
+        }
+      }
+    },
     "/api/v1/students/{student_id}/courses/{course_id}": {
       "parameters": [
         {
@@ -541,6 +568,33 @@
               "items": {
                 "$ref": "#/definitions/Course"
               }
+            }
+          },
+          "404": {
+            "description": "Tutor not found"
+          }
+        }
+      }
+    },
+    "/api/v1/tutors/{tutor_id}/students": {
+      "parameters": [
+        {
+          "name": "tutor_id",
+          "in": "path",
+          "description": "ID of the tutor to manipulate",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+          "tags": ["Tutors"],
+        "summary": "Get all students of a tutor",
+        "description": "Returns a list of all students associated with the specified tutor.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Tutor"
             }
           },
           "404": {
