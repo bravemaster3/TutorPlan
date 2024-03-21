@@ -45,3 +45,17 @@ To run the frontend locally, follow these steps:
 5. The frontend should now be running locally and accessible through your web browser at `http://localhost:5173`.
 
 Feel free to explore and contribute to TutorPlan! We welcome your feedback and contributions as we continue to improve our platform.
+
+## Contributing
+
+We welcome contributions to TutorPlan! If you would like to contribute to this project, please check out our [Contributing Guidelines](CONTRIBUTING.md).
+
+## Related Projects
+
+- [TutorPlan Mobile App](https://github.com/yourusername/tutorplan-mobile): Companion mobile application for TutorPlan.
+
+## Licensing
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
+Feel free to explore and contribute to TutorPlan! We welcome your feedback and contributions as we continue to improve our platform.
