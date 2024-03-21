@@ -2,10 +2,6 @@
 
 Thank you for considering contributing to TutorPlan! We welcome contributions from everyone.
 
-## Code of Conduct
-
-Please note that this project is governed by the TutorPlan [Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
-
 ## How Can I Contribute?
 
 ### Reporting Bugs

@@ -50,10 +50,6 @@ Feel free to explore and contribute to TutorPlan! We welcome your feedback and c
 
 We welcome contributions to TutorPlan! If you would like to contribute to this project, please check out our [Contributing Guidelines](CONTRIBUTING.md).
 
-## Related Projects
-
-- [TutorPlan Mobile App](https://github.com/yourusername/tutorplan-mobile): Companion mobile application for TutorPlan.
-
 ## Licensing
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
