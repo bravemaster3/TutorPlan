@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { BaseForm } from '../Primitives';
 import { useNavigate } from 'react-router';
 
-const AddCourse = (isOpen, onClose) => {
+const AddCourse = () => {
   const navigateTo = useNavigate()
   const [user, setUser] = useState("student")
   const [formData, setFormData] = useState({

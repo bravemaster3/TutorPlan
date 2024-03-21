@@ -7,7 +7,9 @@ import { Calendar, momentLocalizer } from "react-big-calendar"
 import moment from "moment"
 import { createPortal } from 'react-dom';
 import Modal from "./Modal";
+import { AddCourse, UserCalendar } from "../MyDeskPages";
 /* import { CalendarModal } from "../MyDeskPages"; */
+
 
 
 const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, browser = true }) => {
@@ -28,11 +30,11 @@ const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, br
 	/* const browser = true; */
 	const userTutor = false; /* context manager */
 	const CalendarModal = () => {
-		const isTutor = true;
+		const isTutor = false;
 		return (
 			<div className="bg-transparent p-8 rounded-lg border shadow-lg flex  justify-center items-center">
 				{isTutor && (<section id='courseDetails-section' className='bg-yellow-600'>
-					Course Details for tutor here
+					<AddCourse />
 				</section>)}
 
 				<section id='calendar-section' className='flex flex-col justify-center items-center bg-pink-500'>
