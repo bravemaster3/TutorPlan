@@ -5,6 +5,7 @@ import SignUp from "./SignUp";
 import Courses from "./Courses";
 import MyDesk from "./MyDesk";
 import NavBar from "./Navbar";
+import Register from "./Register";
 
 export{
 	Home,
@@ -14,4 +15,5 @@ export{
 	Courses,
 	MyDesk,
 	NavBar,	
+	Register,
 };

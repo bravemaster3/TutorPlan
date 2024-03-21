@@ -6,6 +6,7 @@ import GenerateComponents from "./GenerateComponents";
 import SearchItem from "./SearchItem";
 import RadioOptions from "./RadioOptions";
 import Modal from "./Modal";
+import InputField2 from "./InputFieldWithIcon";
 
 
 export{
@@ -16,5 +17,6 @@ export{
 	GenerateComponents,
 	SearchItem,
 	RadioOptions,
-	Modal
+	Modal,
+	InputField2,
 };
