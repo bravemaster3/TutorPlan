@@ -52,11 +52,11 @@ export default function SignUp() {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response)
+        // console.log(response)
       })
       .catch((error) => {
         alert("An error has occured. Signup was unsuccessful")
-        console.log(error)
+        // console.log(error)
       })
 
     navigateTo("/login")

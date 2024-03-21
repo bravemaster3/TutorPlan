@@ -1,5 +1,3 @@
-// CourseCalendar.jsx
-
 import React from "react"
 import { Calendar, momentLocalizer } from "react-big-calendar"
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop"
@@ -8,7 +6,6 @@ import "react-big-calendar/lib/css/react-big-calendar.css"
 import moment from "moment"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
-// import EventComponent from "./CourseDetailsEventComponent"
 
 const DnDCalendar = withDragAndDrop(Calendar)
 const localizer = momentLocalizer(moment)
@@ -66,7 +63,7 @@ const CourseCalendar = ({
       endAccessor="end"
       selectable
       onSelectSlot={handleSelect}
-      views={["month", "week", "day", "agenda"]}
+      views={["month", "week", "day"]}
       // defaultView={defaultView}
       defaultView="week"
       onView={handleViewChange}
@@ -74,6 +71,13 @@ const CourseCalendar = ({
         event: EventComponent,
       }}
       step={selectedCourse.duration}
+      eventPropGetter={(event) => ({
+        style: {
+          backgroundColor: "lightgrey",
+          color: "black",
+          border: "none",
+        },
+      })}
     />
   ) : null
 }

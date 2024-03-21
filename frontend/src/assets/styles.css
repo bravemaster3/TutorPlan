@@ -5,7 +5,7 @@
   --page-margin: 92px;
   --page-margin-small: 0px;
 
-  --navbar-height: 80px;
+  --navbar-height: 70px;
   --nav-font-size: 20px;
 
   --side-nav-font-size: 30px;
@@ -32,13 +32,6 @@
 }
 
 
-@media (max-width: 767px) {/*767px*/
-  :root {
-    --page-margin: var(--page-margin-small);
-    --form-input-width: 280px;
-  }
-}
-
 h1 {
   font-weight: 1000 !important;
 }
@@ -47,15 +40,62 @@ h2 {
   font-weight: 800 !important;
 }
 
+h3 {
+  font-weight: 700 !important;
+}
+
+h4 {
+  font-weight: 600 !important;
+}
+
 h5 {
   font-weight: 500 !important;
 }
+
+
+@media (max-width: 767px) {/*767px*/
+  :root {
+    --page-margin: var(--page-margin-small);
+    --form-input-width: 280px;
+  }
+
+  h1 {
+    font-weight: 850 !important;
+    font-size: 30px !important;
+  }
+  
+  h2 {
+    font-weight: 700 !important;
+    font-size: 25px;
+  }
+
+  h3 {
+    font-weight: 600 !important;
+    font-size: 23px !important;
+  }
+  
+  h4 {
+    font-weight: 500 !important;
+    font-size: 20px !important;
+
+  }
+  
+  h5 {
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  p {
+    font-size: 15px;
+  }
+}
+
 /******NAVBAR******/
 
 
 #root {
   font-family: var(--font-family1);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 20px;
 }
 
@@ -99,8 +139,8 @@ h5 {
   background-color: var(--white);
 }
 .logo-img {
-  height: var(--navbar-height);
-  padding: 10px;
+  height: 50px;
+  /* padding: 10px; */
 }
 .navbar-nav .nav-link:hover {
   color: var(--accent-col);
@@ -195,7 +235,7 @@ h5 {
     padding-left: 1rem;
   }
   .home-div1-left {
-    padding-top: 50px;
+    padding-top: 20px;
     gap: 20px;
   }
 
@@ -417,6 +457,8 @@ h5 {
   width: 100%;
   max-width: 100%;
   gap: 4rem;
+  /* background-color: red;
+  border: 2px solid green; */
 }
 
 .course-item {
@@ -482,6 +524,12 @@ h5 {
 
 .link-text {
   color: #1a202c;
+}
+
+@media (max-width: 767px) {
+  .course-link {
+    height: 50px;
+  }
 }
 
 .link-icon {
@@ -1007,7 +1055,7 @@ margin-bottom: 10px;
   position: relative;
   align-items: space-between;
   width: fit-content;
-  color: black;
+  color: var(--black);
   z-index: 10;
 }
 
@@ -1951,4 +1999,72 @@ margin-left: 50px;
   color: var(--primary-col);
   font-size: 20px;
   font-weight: 800;
+}
+
+/*****ABOUT US ******/
+
+.about-us-card {
+  border-radius: 2rem;
+  width: 300px;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+
+
+.about-us-card:hover {
+  background-color: rgba(15,23,42,0.9);
+}
+
+.about-us-card:hover * {
+  color: white;
+} */
+
+.about-container {
+  padding: 20px 10%;
+}
+
+/* Styles for the About page */
+
+/* Container styles */
+.about-container {
+  padding: 20px 10%;
+}
+
+/* Section styles */
+.about-section {
+  margin-bottom: 10px;
+}
+
+.about-section p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Member cards section styles */
+.about-members {
+  margin-top: 40px;
+}
+
+/* Member image styles */
+.member-image {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+/* Social links styles */
+.social-links {
+  display: flex;
+  justify-content: center;
+}
+
+.social-icon {
+  font-size: 1.5rem;
+  margin: 0 5px;
+  transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #0077b5; /* Change color on hover */
 }

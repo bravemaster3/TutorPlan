@@ -16,6 +16,15 @@ export default function NavBar({ authenticated, handleLogout }) {
   //   }
   // }, [authenticated])
 
+  const [expanded, setExpanded] = useState(false)
+
+  const handleToggle = () => {
+    setExpanded(!expanded)
+  }
+
+  const handleMenuItemClick = () => {
+    setExpanded(false)
+  }
   return (
     <div className="container-fluid navbar-container">
       <nav className="navbar bg-color-custom navbar-expand-lg">
@@ -29,24 +38,40 @@ export default function NavBar({ authenticated, handleLogout }) {
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent"
-            aria-expanded="false"
+            aria-expanded={expanded}
+            onClick={handleToggle}
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div
+            className={`collapse navbar-collapse ${expanded ? "show" : ""}`}
+            id="navbarSupportedContent"
+          >
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <CustomLink to="/home">HOME</CustomLink>
-              <CustomLink to="/courses">COURSES</CustomLink>
-              <CustomLink to="/mydesk">MY DESK</CustomLink>
-              <CustomLink to="/about">ABOUT US</CustomLink>
+              <CustomLink to="/home" onClick={handleMenuItemClick}>
+                HOME
+              </CustomLink>
+              <CustomLink to="/courses" onClick={handleMenuItemClick}>
+                COURSES
+              </CustomLink>
+              <CustomLink to="/mydesk" onClick={handleMenuItemClick}>
+                MY DESK
+              </CustomLink>
+              <CustomLink to="/about" onClick={handleMenuItemClick}>
+                ABOUT US
+              </CustomLink>
               {authenticated === false ? (
                 <button className="btn sign-in">
-                  <CustomLink to="/login">SIGN IN/UP</CustomLink>
+                  <CustomLink to="/login" onClick={handleMenuItemClick}>
+                    SIGN IN/UP
+                  </CustomLink>
                 </button>
               ) : (
                 <button className="btn logout" onClick={handleLogout}>
-                  <CustomLink to="/home">LOGOUT</CustomLink>
+                  <CustomLink to="/home" onClick={handleMenuItemClick}>
+                    LOGOUT
+                  </CustomLink>
                 </button>
               )}
             </ul>

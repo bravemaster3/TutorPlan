@@ -45,6 +45,10 @@ const CourseDetailsUI = ({
 
   // console.log("SELECTED NOW", selectedCourse)
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <div className="modal-bg">
       <div

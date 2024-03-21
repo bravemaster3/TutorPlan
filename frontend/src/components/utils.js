@@ -3,78 +3,148 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "src/apiConfig";
 
+// function generateLightColors(seed) {
+//   // Seeded random number generator
+//   const seededRandom = (max, min, seed) => {
+//       max = max || 1;
+//       min = min || 0;
+
+//       seed = (seed * 9301 + 49297) % 233280;
+//       const rnd = seed / 233280.0;
+
+//       return min + rnd * (max - min);
+//   };
+
+//   // Function to generate light colors
+//   const generateLightColor = (seed) => {
+//       const hue = seededRandom(0, 360, seed);
+//       const saturation = seededRandom(50, 90, seed);
+//       const lightness = seededRandom(60, 90, seed);
+
+//       return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+//   };
+
+//   const colors = Array.from({ length: 1000 }, (_, index) => generateLightColor(seed + index));
+
+//   return colors;
+// }
+
 // export function stringToColor(str) {
-//     let hash = 0
-//     for (let i = 0; i < str.length; i++) {
-//       hash = str.charCodeAt(i) + ((hash << 5) - hash)
-//     }
-//     let color = "#"
-//     for (let i = 0; i < 3; i++) {
-//       const value = (hash >> (i * 8)) & 0xff
-//       color += ("00" + value.toString(16)).substr(-2)
-//     }
-//     return color
+//   let hash = 0;
+//   const colors = generateLightColors(5000)
+//   // Simple hash function
+//   for (let i = 0; i < str.length; i++) {
+//       hash = str.charCodeAt(i) + ((hash << 5) - hash);
 //   }
+//   // Ensure hash is within range 1 to 1000
+//   hash = Math.abs(hash % 1000);
+//   return generateLightColors(colors[hash]);
+// }
 
 
+// Seeded random number generator
+const seededRandom = (max, min, seed) => {
+  max = max || 1;
+  min = min || 0;
+
+  seed = (seed * 9301 + 49297) % 233280;
+  const rnd = seed / 233280.0;
+
+  return min + rnd * (max - min);
+};
+
+// Function to generate light colors
+function generateLightColors(seed) {
+  const generateLightColor = (seed) => {
+      const hue = seededRandom(0, 360, seed);
+      const saturation = seededRandom(50, 90, seed);
+      const lightness = seededRandom(60, 90, seed);
+
+      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  };
+
+  const colors = Array.from({ length: 1001 }, (_, index) => generateLightColor(seed + index));
+
+  return colors;
+}
+
+// Function to convert string to color
 export function stringToColor(str) {
   let hash = 0;
+  const colors = generateLightColors(1000);
+console.log("COLORS:::", colors)
+
+  // Simple hash function
   for (let i = 0; i < str.length; i++) {
       hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-  let color = "#";
-  for (let i = 0; i < 3; i++) {
-      const value = (hash >> (i * 8)) & 0xff;
-      color += ("00" + value.toString(16)).substr(-2);
-  }
 
-  // Convert the color to RGB
-  const r = parseInt(color.substr(1, 2), 16);
-  const g = parseInt(color.substr(3, 2), 16);
-  const b = parseInt(color.substr(5, 2), 16);
+  // Ensure hash is within range 0 to 1000
+  hash = Math.abs(hash % 1001); // Adjusting range to match zero-based index
 
-  // Calculate the perceived brightness using the formula: (0.299*R + 0.587*G + 0.114*B)
-  const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
-
-  // Adjust the color to have good contrast with black
-  if (brightness < 128) {
-      // If the color is dark, make it lighter
-      color = lightenColor(color);
-  } else {
-      // If the color is light, make it darker
-      color = darkenColor(color);
-  }
-
-  return color;
+  return colors[hash];
 }
 
-function lightenColor(color) {
-  // Increase each component of the color to lighten it
-  let r = parseInt(color.substr(1, 2), 16);
-  let g = parseInt(color.substr(3, 2), 16);
-  let b = parseInt(color.substr(5, 2), 16);
 
-  r = Math.min(r + 100, 255);
-  g = Math.min(g + 100, 255);
-  b = Math.min(b + 100, 255);
 
-  // Convert back to hex
-  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
-}
+// export function stringToColor(str) {
+//   let hash = 0;
+//   for (let i = 0; i < str.length; i++) {
+//       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+//   }
+//   let color = "#";
+//   for (let i = 0; i < 3; i++) {
+//       const value = (hash >> (i * 8)) & 0xff;
+//       color += ("00" + value.toString(16)).substr(-2);
+//   }
 
-function darkenColor(color) {
-  // Decrease each component of the color to darken it
-  let r = parseInt(color.substr(1, 2), 16);
-  let g = parseInt(color.substr(3, 2), 16);
-  let b = parseInt(color.substr(5, 2), 16);
+//   // Convert the color to RGB
+//   const r = parseInt(color.substr(1, 2), 16);
+//   const g = parseInt(color.substr(3, 2), 16);
+//   const b = parseInt(color.substr(5, 2), 16);
 
-  r = Math.max(r - 100, 0);
-  g = Math.max(g - 100, 0);
-  b = Math.max(b - 100, 0);
+//   // Calculate the perceived brightness using the formula: (0.299*R + 0.587*G + 0.114*B)
+//   const brightness = 0.299 * r + 0.587 * g + 0.114 * b;
 
-  // Convert back to hex
-  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
-}
+//   // Adjust the color to have good contrast with black
+//   if (brightness < 128) {
+//       // If the color is dark, make it lighter
+//       color = lightenColor(color);
+//   } else {
+//       // If the color is light, make it darker
+//       color = darkenColor(color);
+//   }
+
+//   return color;
+// }
+
+// function lightenColor(color) {
+//   // Increase each component of the color to lighten it
+//   let r = parseInt(color.substr(1, 2), 16);
+//   let g = parseInt(color.substr(3, 2), 16);
+//   let b = parseInt(color.substr(5, 2), 16);
+
+//   r = Math.min(r + 100, 255);
+//   g = Math.min(g + 100, 255);
+//   b = Math.min(b + 100, 255);
+
+//   // Convert back to hex
+//   return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+// }
+
+// function darkenColor(color) {
+//   // Decrease each component of the color to darken it
+//   let r = parseInt(color.substr(1, 2), 16);
+//   let g = parseInt(color.substr(3, 2), 16);
+//   let b = parseInt(color.substr(5, 2), 16);
+
+//   r = Math.max(r - 100, 0);
+//   g = Math.max(g - 100, 0);
+//   b = Math.max(b - 100, 0);
+
+//   // Convert back to hex
+//   return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+// }
 
 
 export function  handleAddCourse (e, toggleModal) {

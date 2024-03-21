@@ -1,30 +1,27 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Spinner from "../otherComponents/Spinner"
 import useFetchAvailabilities, { useFetchCourses } from "../utils"
 import CourseIcon from "./CourseIcon"
 import PersonCard from "./PersonCard"
 import CloseIconSimple from "../otherComponents/CloseIconSimple"
+import { API_BASE_URL } from "src/apiConfig"
+import axios from "axios"
 
 export default function MyDeskStudents() {
-  // const { isLoading, courses, error } = useFetchCourses(
-  //   localStorage.getItem("userId"),
-  //   null
-  // )
-
   const [user, setUser] = useState(
     localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
   )
 
-  const { isLoading, availabilities, error } = useFetchAvailabilities(user.id)
-  console.log(availabilities)
-
   const [isModalOpen, setIsModalAddOpen] = useState(false)
   const [selectedStudent, setSelectedStudent] = useState({})
+  const [uniqueStudents, setUniqueStudents] = useState([])
+  const [selectedTutor, setSelectedTutor] = useState({})
+  const [isLoading, setIsLoading] = useState(true)
 
   const toggleModal = () => {
     setIsModalAddOpen(!isModalOpen)
   }
-  const handleCourseClick = (student) => {
+  const handleStudentClick = (student) => {
     return () => {
       // console.log("You clicked on tutor", tutor)
       setSelectedStudent(student)
@@ -32,16 +29,22 @@ export default function MyDeskStudents() {
     }
   }
 
-  const uniqueStudentIds = [
-    ...new Set(availabilities.map((avail) => avail.studentDetails.id)),
-  ]
-
-  // Create an array of unique tutors
-  const uniqueStudents = uniqueStudentIds.map(
-    (id) =>
-      availabilities.find((avail) => avail.studentDetails.id === id)
-        .studentDetails
-  )
+  useEffect(() => {
+    const url = `${API_BASE_URL}/tutors/${localStorage.getItem(
+      "userId"
+    )}/students`
+    // console.log("URL", url)
+    axios
+      .get(url)
+      .then((response) => {
+        // console.log("TUTORS", response.data)
+        setUniqueStudents(response.data)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }, [])
 
   const numberStudents = uniqueStudents.length
   // console.log("UNIQUE TUTORS", courses)
@@ -57,7 +60,7 @@ export default function MyDeskStudents() {
               <button
                 className="course-btn"
                 key={student.id}
-                onClick={handleCourseClick(student)}
+                onClick={handleStudentClick(student)}
               >
                 <div className="hover-group course-icon">
                   <CourseIcon
