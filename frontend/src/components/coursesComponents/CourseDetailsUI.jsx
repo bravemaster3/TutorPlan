@@ -1,5 +1,3 @@
-// CourseDetailsUI.jsx
-
 import React, { useEffect, useRef, useState } from "react"
 import CourseCalendar from "./CourseDetailsCalendar"
 import CourseDetailsForm from "./CourseDetailsForm"
@@ -31,20 +29,6 @@ const CourseDetailsUI = ({
   handleEventDelete,
   handleCheckboxChange,
 }) => {
-  // console.log("SELECTED COURSE", selectedCourse)
-  // const modalRef = useRef()
-
-  // useEffect(() => {
-  //   modalRef.current.focus()
-  // }, [])
-
-  // const [tutor, setTutor] = useState({})
-  // useEffect(() => {
-  //   setTutor(selectedCourse.tutor)
-  // }, [selectedCourse])
-
-  // console.log("SELECTED NOW", selectedCourse)
-
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [])
