@@ -51,6 +51,11 @@ class DBStorage():
         PASWD = os.getenv("TUTORPLAN_MYSQL_PWD")
         HOST = os.getenv("TUTORPLAN_MYSQL_HOST")
         DB = os.getenv("TUTORPLAN_MYSQL_DB")
+        # USER = "admin6"
+        # PASWD = "grouptutorplandev"
+        # HOST = "tutorplan-db.cxc62ekua7m4.eu-north-1.rds.amazonaws.com"
+        # DB = "tutorplan-db"
+
         # create an instance of create_engine that link to
         # the tutorplan mysql server
         self.__engine = create_engine(

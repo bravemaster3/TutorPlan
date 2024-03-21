@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-#export all tutorplan variables
-
-export TUTORPLAN_MYSQL_USER=tutorplan_dev
-export TUTORPLAN_MYSQL_PWD=tutorplan_dev_pwd
-export TUTORPLAN_MYSQL_HOST=localhost
-export TUTORPLAN_MYSQL_DB=tutorplan_dev_db
-export TUTORPLAN_TYPE_STORAGE=db
