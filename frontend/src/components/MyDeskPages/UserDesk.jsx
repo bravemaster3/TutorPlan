@@ -1,6 +1,23 @@
 import React from 'react'
+import { useState } from 'react'
+import { Modal } from '../Primitives'
+import AddCourse from './AddCourse'
+import SignUp from '../SignUp'
+import SignIn from '../SignIn'
+
 
 const UserDesk = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+    console.log("opening modal")
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <div>
       <h2 className='text-3xl text-center mx-auto dark:text-slate-200'> Welcome User</h2>
@@ -36,8 +53,11 @@ const UserDesk = () => {
           <p>Courses 4</p>
 
         </article>
+        <button onClick={openModal} className='bg-red-500 text-slate-200 p-2 mx-auto'>open Modal</button>
 
       </section>
+      {/* <Modal isOpen={true}  /> */}
+      <Modal isOpen={modalOpen} onClose={closeModal} children={<SignIn />} />
 
     </div>
   )

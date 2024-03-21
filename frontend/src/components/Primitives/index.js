@@ -5,6 +5,8 @@ import InputField from "./InputField";
 import GenerateComponents from "./GenerateComponents";
 import SearchItem from "./SearchItem";
 import RadioOptions from "./RadioOptions";
+import Modal from "./Modal";
+
 
 export{
 	BaseForm,
@@ -13,5 +15,6 @@ export{
 	InputField,
 	GenerateComponents,
 	SearchItem,
-	RadioOptions
+	RadioOptions,
+	Modal
 };

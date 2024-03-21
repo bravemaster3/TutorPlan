@@ -3,14 +3,42 @@ import { courseTutorData } from "../../constants";
 import { AiOutlineUser } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
+import { Modal } from '../Primitives';
+import CalendarModal from './CalendarModal';
+
+
 
 const ViewOtherUsers = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+
+    setModalOpen(true);
+    console.log("opening modal")
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+  const [viewTutor, setViewTutor] = useState({})
+  const viewModal = (tutor) => {
+    setViewTutor(tutor)
+    console.log("Printing tutor")
+    console.log(tutor)
+    openModal()
+
+  };
 
 
   const UserCard = ({ tutor }) => {
+
+
     const [flip, setFlip] = useState(false);
+
     const { id, first_name, last_name, email, phone_number, city, country, bio } = tutor;
+    /*   console.log(tutor) */
     return (
+      <>
       <article
         onClick={() => setFlip(!flip)}
         key={id}
@@ -36,7 +64,7 @@ const ViewOtherUsers = () => {
 
           {/*  this link should take you to all appointments with your tutor/student */}
 
-          <Link to="/Courses" title={`View Your Appointments with ${first_name} `} className='group/view group-hover:text-slate-200 flex text-sm items-end border px-2 py-1  rounded-3xl hover:bg-slate-100'><span className='group-hover/view:text-sky-700 dark:text-slate-200'>Appointments</span>
+            <Link onClick={() => { viewModal(tutor) }} title={`View Your Appointments with ${first_name} `} className='group/view group-hover:text-slate-200 flex text-sm items-end border px-2 py-1  rounded-3xl hover:bg-slate-100'><span className='group-hover/view:text-sky-700 dark:text-slate-200'>Appointments</span>
             <MdOutlineKeyboardArrowRight className='h-5 w-5 dark:text-slate-200 group-hover/view:translate-x-0.5 group-hover/view:text-sky-600' />
           </Link>
         </section>
@@ -81,7 +109,13 @@ const ViewOtherUsers = () => {
 
 
 
+
+
+
       </article>
+        {/*  {<Modal isOpen={modalOpen} onClose={closeModal} children={<CalendarModal tutor={viewTutor} title={`Appointments with ${viewTutor.first_name}`} />} />} */}
+
+      </>
     )
   }
 
@@ -91,7 +125,11 @@ const ViewOtherUsers = () => {
       <section className='mx-auto flex flex-wrap p-8'>
         {courseTutorData.map((course) => (
           <UserCard key={course.tutor.id} tutor={course.tutor} />
+
         ))}
+        {modalOpen && (< Modal isOpen={modalOpen} onClose={closeModal} children={<CalendarModal tutor={viewTutor} title={`Appointments with ${viewTutor.first_name}`} />} />)}
+
+
 
       </section>
 

@@ -28,6 +28,7 @@ const UserProfile = () => {
     city: "world",
     country: "Never ",
     password: "",
+    bio: "",
 
   })
 
@@ -247,7 +248,17 @@ const UserProfile = () => {
       },
 
     ],
+    textField: {
+      id: "bio",
+      type: "text",
+      className: " col-span-2 ",
+      placeholder: "Add Bio",
+      label: { label: "Bio", labelClass: " font-[500]" },
+      name: "bio",
+      value: formData.bio ? formData.bio : " Add Bio",
+      disabled: !editMode,
 
+    },
 
     /*    formFields: [
          {
@@ -358,7 +369,7 @@ const UserProfile = () => {
       {/* <form className='grid grid-cols-4 bg-green-600' onSubmit={handleSignUp}>
         <GenerateComponents componentType={InputField} data={formFields} />
       </form> */}
-      <BaseForm{...SignUpProps} />
+      <BaseForm{...SignUpProps} modal={false} />
       {/*  <GenerateComponents componentType={RadioOptions} data={radioOptions} />
       <fieldset>
         <legend>Published status</legend>

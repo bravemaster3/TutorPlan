@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { BaseForm } from './Primitives'
+import { BaseForm, Modal } from './Primitives'
 import { Navigate, useNavigate } from 'react-router'
+
 
 const SignUp = () => {
   const navigateTo = useNavigate()
@@ -60,13 +61,13 @@ const SignUp = () => {
 
   console.log(formData)
   const SignUpProps = {
-    formClasses: 'flex baseform font-worksans flex-col w-[350px] mx-auto justify-center   p-8 rounded-md',
+    formClasses: ' grid grid-cols-2  gap-2 border font-worksans   mx-auto justify-center   p-8 rounded-md',
     title: {
-      className: 'text-[40px] font-roboto font-bold text-center',
+      className: 'text-[40px] font-roboto font-bold text-center col-span-2',
       label: 'Join Us!',
     },
     subtitle: {
-      className: ' text-center mb-4 font-[500]',
+      className: ' text-center mb-4 font-[500] col-span-2',
       label: 'You are signing in as a',
     },
     handleFormSubmit: handleSignUp,
@@ -77,6 +78,7 @@ const SignUp = () => {
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] mb-[10px]',
         placeholder: '',
+
         name: "first_name",
         onChange: handleChange
       },
@@ -100,7 +102,7 @@ const SignUp = () => {
 
       },
       {
-        label: { label: 'Phone Number', className: 'font-[500]' },
+        label: { label: 'Phone Number', className: 'font-[500] text-nowrap' },
         id: 'phoneNumber',
         type: 'tel',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
@@ -120,7 +122,7 @@ const SignUp = () => {
 
       },
       {
-        label: { label: 'Country', className: 'font-[500]' },
+        label: { label: 'Country', className: ' font-[500] ' },
         id: 'country',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
@@ -130,7 +132,7 @@ const SignUp = () => {
 
       },
       {
-        label: { label: 'Password', className: 'font-worksans font-[500]' },
+        label: { label: 'Password', className: ' font-worksans font-[500] ' },
         id: 'password',
         type: 'password',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
@@ -139,7 +141,7 @@ const SignUp = () => {
         onChange: handleChange
       },
       {
-        label: { label: 'Confirm Password', className: 'font-worksans font-[500]' },
+        label: { label: 'Confirm Password', className: ' font-worksans font-[500] text-nowrap ' },
         id: 'cpassword',
         type: 'password',
         inputClasses: 'px-4 rounded-[8px] py-[4px] ',
@@ -148,7 +150,7 @@ const SignUp = () => {
       // Add more form fields as needed
     ],
     radioGroup: {
-      className: 'mb-4 mt-4 font-[500]',
+      className: 'mb-4 mt-4 font-[500] col-span-2',
       label: 'Are you a tutor or a student?',
       optionsClassName: 'flex items-center space-x-4 justify-evenly',
       options: [
@@ -174,11 +176,11 @@ const SignUp = () => {
     },
     formButton: {
       id: 'submit-btn',
-      className: ' font-worksans bg-blue-600 text-white px-[24px] py-[8px] rounded-[8px] font-[500]',
+      className: ' font-worksans col-span-2 bg-blue-600 text-white px-[24px] py-[8px] rounded-[8px] font-[500]',
       label: 'SIGN UP',
     },
     buttonGroup: {
-      className: 'flex-col text-center mt-4',
+      className: 'flex-col text-center mt-4 col-span-2',
       separator: {
         className: 'font-roboto text-[24px] text-slate-900 font-bold',
         label: 'OR',
@@ -197,7 +199,7 @@ const SignUp = () => {
       ],
     },
     redirect: {
-      className: 'mt-4 text-center',
+      className: 'mt-4 text-center col-span-2',
       label: {
         className: 'text-gray-200 ',
         label: 'New to TutorPlan?',
@@ -211,9 +213,10 @@ const SignUp = () => {
   };
   return (
     <main>
+      <BaseForm{...SignUpProps} />
 
 
-      <BaseForm{...SignUpProps} /></main>
+    </main>
   )
 }
 

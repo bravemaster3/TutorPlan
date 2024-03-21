@@ -1,5 +1,6 @@
 import AddCourse from "./AddCourse";
 import BookingPolicy from "./BookingPolicy";
+import CalendarModal from "./CalendarModal";
 import SideBar from "./SideBar";
 import UserCalendar from "./UserCalendar";
 import UserCourses from "./UserCourses";
@@ -15,5 +16,6 @@ export{
 	UserProfile,
 	ViewOtherUsers,
 	BookingPolicy,
-	UserDesk
+	UserDesk,
+	CalendarModal,
 };

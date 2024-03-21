@@ -15,7 +15,7 @@ const SignIn = () => {
     }
   ]
   const SignInProps = {
-    formClasses: 'flex baseform font-worksans flex-col w-[350px] mx-auto justify-center  p-8 rounded-md gap-2',
+    formClasses: 'flex font-worksans flex-col border mx-auto justify-center  p-8 rounded-md gap-2',
     title: {
       className: 'text-[40px] font-roboto font-bold',
       label: 'Welcome Back!',
@@ -108,7 +108,7 @@ const SignIn = () => {
   return (
     <main><BaseForm{...SignInProps} />
 
-      <fieldset>
+      {/* <fieldset>
         <legend>Published status</legend>
 
         <input id="draft" className="peer/draft" type="radio" name="status" checked />
@@ -119,7 +119,7 @@ const SignIn = () => {
 
         <div class="hidden peer-checked/draft:block">Drafts are only visible to administrators.</div>
         <div class="hidden peer-checked/published:block">Your post will be publicly visible on your site.</div>
-      </fieldset>
+      </fieldset> */}
 
     </main>
 

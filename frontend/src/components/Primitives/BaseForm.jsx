@@ -2,8 +2,11 @@ import React from "react";
 import { Button, InputField, GenerateComponents } from "./";
 import { sampleFormData } from "../../constants";
 import { Link, Navigate, Route, Routes, useNavigate } from "react-router-dom"
+import { MdOutlineClose } from "react-icons/md";
+
 
 const BaseForm = (
+
   { formClasses,
     title,
     subtitle,
@@ -12,21 +15,33 @@ const BaseForm = (
     formButton,
     buttonGroup,
     handleFormSubmit,
-    redirect }
+    textField,
+    redirect, modal = true }
 ) => {
+
   return (
-    <form className={formClasses} onSubmit={handleFormSubmit}>
-      {(title || subtitle) && (<section>
+    <form className={`${formClasses} relative`} onSubmit={handleFormSubmit}>
+
+
+      {(title || subtitle) && (<>
         {title && <h2 className={title.className}>{title.label}</h2>}
         {subtitle && <h4 className={subtitle.className}>{subtitle.label}</h4>}
-      </section>)}
+      </>)}
       <GenerateComponents componentType={InputField} data={formFields} />
+
       {radioGroup && (
         <fieldset className={radioGroup.className}>
           <legend >{radioGroup.label}</legend>
           <div className={radioGroup.optionsClassName}>
             <GenerateComponents componentType={InputField} data={radioGroup.options} />
           </div>
+        </fieldset>
+      )}
+      {textField && (
+        <fieldset className={`${textField.disabled ? ' flex items-center gap-1 ' : ' flex flex-col '} ${textField.className}`}>
+          <label htmlFor={textField.id} className={textField.label.labelClass}>{textField.label.label}</label>
+          <textarea name={textField.name}
+            id={textField.id} disabled={textField.disabled} className={`disabled:bg-transparent disabled:h-fit  ${textField.textClass}`}>{textField.placeholder}</textarea>
         </fieldset>
       )}
 

@@ -1,14 +1,73 @@
 import React from "react";
+import { useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
+import { MdOutlineClose } from "react-icons/md";
 import { RiCircleFill } from "react-icons/ri";
+import { Calendar, momentLocalizer } from "react-big-calendar"
+import moment from "moment"
+import { createPortal } from 'react-dom';
+import Modal from "./Modal";
+/* import { CalendarModal } from "../MyDeskPages"; */
+
 
 const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, browser = true }) => {
 	const isOnline = course_type === "online";
 	const isBoth = course_type === "both";
+
+	const localizer = momentLocalizer(moment)
+	const [modalOpen, setModalOpen] = useState(false);
+
+	const openModal = () => {
+		setModalOpen(true);
+		console.log("opening modal")
+	};
+
+	const closeModal = () => {
+		setModalOpen(false);
+	};
 	/* const browser = true; */
 	const userTutor = false; /* context manager */
+	const CalendarModal = () => {
+		const isTutor = true;
+		return (
+			<div className="bg-transparent p-8 rounded-lg border shadow-lg flex  justify-center items-center">
+				{isTutor && (<section id='courseDetails-section' className='bg-yellow-600'>
+					Course Details for tutor here
+				</section>)}
+
+				<section id='calendar-section' className='flex flex-col justify-center items-center bg-pink-500'>
+					{!isTutor && (<section id='calendar-section-titleblock' className='text-center'>
+						<h2 className="font-roboto font-bold text-2xl">{title}</h2>
+						<h3 className="font-roboto font-bold text-lg">By {tutor.first_name} {tutor.last_name}</h3>
+						<h4 className="font-roboto mt-2 text-md">Select a slot to book appointment </h4>
+
+					</section>)}
+
+
+					<div id='calendar' className="h-[460px] p-10">
+						<Calendar
+							localizer={localizer} />
+
+					</div>
+					{/* button grey before change green on change */}
+					<button id='calendar-save-btn' className="bg-emerald-500 text-white px-4 py-2 h-11 min-w-fit mx-auto rounded hover:bg-emerald-600">Book</button>
+
+
+				</section>
+
+
+
+
+
+
+			</div>
+		)
+	}
+
+
 	return (
-		<article className={` group course-card hover:cursor-pointer   dark:text-slate-300  shadow-md rounded-2xl m-auto px-4  py-4 ${browser ? ' bg-black-gradient  w-[260px]  ' : 'flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between '} `}>{/* flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between */}
+		<>
+			<article onClick={openModal} className={` group course-card hover:cursor-pointer   dark:text-slate-300  shadow-md rounded-2xl m-auto px-4  py-4 ${browser ? ' bg-black-gradient  w-[260px]  ' : 'flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between '} `}>{/* flex bg-gray-800 w-[360px] min-h-52 max-h-60 gap-2  items-start justify-between */}
 			{browser ? (
 				<>
 
@@ -37,7 +96,16 @@ const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, br
 					</section>
 				</>
 			)}
+
 		</article>
+			{/* <CalendarModal isOpen={modalOpen} onClose={closeModal} title={title} tutor={tutor} /> */}
+
+			{/* {modalOpen && createPortal(
+				<Modal isOpen={modalOpen} onClose={closeModal} />,
+				
+			)} */}
+			<Modal isOpen={modalOpen} onClose={closeModal} children={<CalendarModal />} />
+		</>
 	);
 };
 
@@ -114,6 +182,8 @@ const DescriptionSection = ({ description, browser }) => {
 		</p>
 	)
 }
+
+
 
 
 /* 	export default CourseCard2
