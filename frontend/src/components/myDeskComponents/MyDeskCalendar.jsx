@@ -107,11 +107,6 @@ export default function MyDeskCalendar() {
     setIsModalAddOpen(!isModalAddOpen)
   }
 
-  // const { isLoading, courses, error } = useFetchCourses(
-  //   localStorage.getItem("userId"),
-  //   null
-  // )
-
   const {
     selectedCourse,
     setSelectedCourse,
@@ -138,15 +133,7 @@ export default function MyDeskCalendar() {
   }
   ///////////////////
   const EventComponent = ({ event }) => (
-    <div className="calendar-event">
-      {/* <button
-        className="delete-booking-btn"
-        onClick={() => handleEventDelete(event.id)}
-      >
-        <FontAwesomeIcon icon={faXmark} size="lg"></FontAwesomeIcon>
-      </button> */}
-      {event.title}
-    </div>
+    <div className="calendar-event">{event.title}</div>
   )
 
   return (
@@ -176,15 +163,6 @@ export default function MyDeskCalendar() {
         }}
         defaultView="agenda"
       />
-
-      {/* {selectedEvent && (
-        <div className="modal-bg">
-          <div className="generic-form modal show">
-            <CloseIconSimple handleClose={() => setSelectedEvent(null)} />
-            <NewCourseTutor toggleModal={toggleModalAdd} />
-          </div>
-        </div>
-      )} */}
 
       {isLoading ? (
         <Spinner text={"Fetching your appointments"} />

@@ -18,7 +18,7 @@ const FeaturedCourses = () => {
             <h3 className="course-title-feat">{feature.title}</h3>
             <p className="course-content-feat">{feature.content}</p>
             <Link
-              to={`/courses?search=${feature.title}`}
+              to={`/courses?search=${feature.searchIndex}`}
               className="hover-group course-link"
             >
               <span className="link-text">View</span>
