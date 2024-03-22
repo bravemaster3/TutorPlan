@@ -26,6 +26,20 @@ body {
 * {
   scroll-behavior: smooth;
 }
+/* .foo input{
+  background-color: blue;
+}
+.foo p{
+  background-color: red;
+} */
+
+/* .input-wrap .help > input[type=text]:focus { display: block; } */
+ .hide  { display: hidden; }
+
+.foo >input ~ {
+  background-color: orange;
+}
+
 .card{
   position:relative;
   transform-style:preserve-3d;
