@@ -9,6 +9,7 @@ from models import storage
 from datetime import datetime, timedelta
 import random
 from tzlocal import get_localzone
+import hashlib
 
 
 print("I would love to share the demo of our TUTORPLAN website")
@@ -27,7 +28,7 @@ for name in Tfirst_names:
 
 Semails = []
 for name in Sfirst_names:
-    email = name + "@gmial.com"
+    email = name + "@gmail.com"
     Semails.append(email)
 
 duration = list(range(20, 90, 5))
@@ -52,7 +53,8 @@ academic_levels = ["high school", "University"]
 
 for i in range(10):
     # create a Tutor
-    tutor = Tutor(first_name=Tfirst_names[i], last_name=Tlast_names[i], email=Temails[i], password="13323", bio=bios[i], country=Tcountries[i], city=Tcities[i])
+    hashed_password = hashlib.md5("13323".encode()).hexdigest()
+    tutor = Tutor(first_name=Tfirst_names[i], last_name=Tlast_names[i], email=Temails[i], password=hashed_password, bio=bios[i], country=Tcountries[i], city=Tcities[i])
     tutor.save()
 
     # create a Course
@@ -62,7 +64,7 @@ for i in range(10):
     print(f'\nI am {tutor.first_name} {tutor.last_name} who live in {tutor.country}. I teach {tutor.courses[0].title}. You can email me at {tutor.email} for more enquiries\n')
 
     # create a Student
-    student1 = Student(first_name=Sfirst_names[i], last_name=Slast_names[i], email=Semails[i], password="133acd23", country=Scountries[i], city=Scities[i])
+    student1 = Student(first_name=Sfirst_names[i], last_name=Slast_names[i], email=Semails[i], password=hashed_password, country=Scountries[i], city=Scities[i])
     student1.save()
 
     # link student1 with a course
