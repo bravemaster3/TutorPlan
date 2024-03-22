@@ -1,4 +1,0 @@
-*.sql
-venv
-__pycache__
-env_var
