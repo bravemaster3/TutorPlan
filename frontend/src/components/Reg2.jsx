@@ -30,7 +30,7 @@ const InputField2 = ({
 					} ${disabled ? " gap-1" : ""} `}
 			>
 				{label && (
-					<label htmlFor={id} className={` font-[500] ${label ? label.className : " "} `}>
+					<label htmlFor={id} className={`  ${label ? label.className : " "} `}>
 						{label.label}
 					</label>
 				)}
@@ -38,7 +38,7 @@ const InputField2 = ({
 					className="relative block w-full m-auto "
 					onSubmit={(e) => e.preventDefault()}
 				>
-					{!isRadio && <>{leftIcon && (
+					{leftIcon && (
 						<span
 							id="left-icon"
 							className="absolute inset-y-0 left-0 flex items-center pl-2"
@@ -46,25 +46,24 @@ const InputField2 = ({
 							{leftIcon}
 						</span>
 					)}
-						{rightIcon && (
-							<span
-								id="right-icon"
-								className="absolute inset-y-0 right-0 flex items-center pr-2"
-							>
-								{rightIcon}
-							</span>
-						)}
-					</>
-					}
+					{rightIcon && (
+						<span
+							id="right-icon"
+							className="absolute inset-y-0 right-0 flex items-center pr-2"
+						>
+							{rightIcon}
+						</span>
+					)}
+
 
 					<input
 						className={` peer  block w-full ${leftIcon && rightIcon
 							? " px-9 "
 							: (leftIcon ? " pl-9   " : " pl-4 ") +
 							(rightIcon ? " pr-9 " : " pr-4 ")
-							}  py-2 rounded-md shadow-sm placeholder-slate-400  placeholder:italic  
-      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-red-500 invalid:text-red-600
-      focus:invalid:border-pink-500 focus:invalid:ring-pink-500  ${disabled
+							}  py-2 rounded-md shadow-sm placeholder-slate-400  placeholder:italic text-yellow-500 
+      focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 invalid:border-pink-500 invalid:text-pink-600
+      focus:invalid:border-pink-500 focus:invalid:ring-pink-500 ${disabled
 								? " disabled:bg-transparent "
 								: inputClasses
 									? inputClasses

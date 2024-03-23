@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState, useRef } from 'react'
 import { InputField2 } from './Primitives'
 import { AiFillInfoCircle } from "react-icons/ai";
 import { RiCloseCircleFill, RiEyeCloseFill, RiEyeLine, RiSearchLine } from "react-icons/ri";
-/* import axios from '../apiConfig' */
+import axios from '../apiConfig'
 import AuthContext from '../context/AuthProvider'
-import axios, { Axios } from 'axios';
+/* import axios, { Axios } from 'axios'; */
+import md5 from 'md5'
 
-const LOGIN_URL = 'http://localhost:5000/api/v1/tutor/login/'
+const LOGIN_URL = '/tutor/login'
 const API_BASE_URL = 'http://localhost:5000/api/v1'
 
 
@@ -28,7 +29,7 @@ const Login = () => {
 	useEffect(() => {
 		setErrMsg('');
 	}, [email, passwd])
-	const handleSignIn = (e) => {
+/* 	const handleSignIn = (e) => {
 		e.preventDefault()
 
 		const url = `${API_BASE_URL}/tutor/login/${email}/${passwd}`
@@ -42,21 +43,32 @@ const Login = () => {
 
 			})
 			.catch((error) => alert("wrong username, password or account type"))
-	}
+	} */
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
 			/* const url = (LOGIN_URL, JSON.stringify({ email, passwd })) */
-			const url = `${LOGIN_URL}${email}/${passwd}`;
+			const response = await axios.post(LOGIN_URL,
+				JSON.stringify({ email, passwd }),
+				{
+					headers: { 'Content-Type': 'application/json' }
+				}
+			);
+			/* const url = `${LOGIN_URL}${email}/${passwd}`; */
 
-			console.log(url)
-			const response = await axios.get(url)
+			console.log("did sth")
+			/* const response = await axios.get(url) */
 			console.log(JSON.stringify(response?.data));
+			//Example response
+			/* { "__class__": "Tutor", "bio": null, "city": "Nairobi", "country": "Kenya", "created_at": "2024-03-16T07:14:48", "email": "pesh@gmail.com", "first_name": "Pesh", "id": "74604fc1-6477-43c5-8f0a-1335389d01db", "last_name": "Test", "phone_number": "0722345678", "updated_at": "2024-03-16T07:14:48" } */
 			console.log(response.data.id)
 			console.log(response.data.first_name)
 			console.log(JSON.stringify(response?.data));
 			setAuth({ email, passwd });
+			setEmail('')
+			setPasswd('')
+			setSuccess(true)
 
 		} catch (err) {
 			if (!err?.response) {
@@ -72,11 +84,6 @@ const Login = () => {
 			errRef.current.focus();
 
 		}
-
-
-		setEmail('')
-		setPasswd('')
-		setSuccess(true)
 
 	}
 
@@ -95,7 +102,7 @@ const Login = () => {
 				<section className='flex font-worksans flex-col border mx-auto justify-center  p-8 rounded-md gap-2'>
 					<p ref={errRef} className={errMsg ? "errmsg" : "sr-only"} aria-live="assertive">{errMsg}</p>
 
-					<form className='mx-auto border border-slate-200 p-8 ' onSubmit={handleSignIn}>
+						<form className='mx-auto border border-slate-200 p-8 ' onSubmit={handleSubmit}>
 						<h1 className='text-center text-3xl font-bold font-roboto mb-10'>Sign In</h1>
 						<InputField2
 							type={"text"}
@@ -103,8 +110,7 @@ const Login = () => {
 							label={{ label: "email", className: "font-sky-500" }}
 							myRef={emailRef}
 							autoComplete="off"
-							onChange={(e) => setEmail(e.target.value)}
-							value={email}
+								onChange={(e) => setEmail(e.target.value)}							
 							required
 
 						/>
@@ -113,8 +119,9 @@ const Login = () => {
 							label={{ label: "Password", className: "font-sky-500" }}
 							type={showPasswd ? "text" : "password"}
 							id={"password"}
-							onChange={(e) => setPasswd(e.target.value)}
-							value={passwd}
+								onChange={(e) => setPasswd(md5(e.target.value))}
+
+
 							required
 							rightIcon={showPasswd ? <RiEyeLine onClick={() => setShowPasswd(!showPasswd)} /> : <RiEyeCloseFill onClick={() => setShowPasswd(!showPasswd)} />}
 						/>

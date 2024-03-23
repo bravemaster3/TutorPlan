@@ -42,8 +42,9 @@ const UserDesk = () => {
   return (
     <div>
       <h2 className='text-3xl text-center mx-auto dark:text-slate-200'> Welcome User</h2>
-      <section className='flex flex-col h-screen '>
+      <section className='flex flex-col h-full '>
         <Login />
+        {/*  <Register /> */}
         {/* <article className=' flex flex-col justify-center items-center w-[12rem] mx-auto  border bg-slate-800 text-slate-200 border-sky-400'>
           <h2 className='text-center bg-blue-800'>
             Today's Appointments yasyausya
