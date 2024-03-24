@@ -29,6 +29,7 @@
 
   --sidebar-width: 20rem;/*300px;*/
   --sidebar-collapsed-width: 4rem; /*60px;*/
+  --sidebar-heigth: 23rem;
 }
 
 
@@ -338,9 +339,10 @@ h5 {
 
 /*****FEATURES*****/
 .features {
-  padding: 4rem;
+  padding: 2rem;
   /* margin: 12rem 0; */
-  background-color: #90cdf4;
+  /* background-color: #90cdf4; */
+  background-color: var(--modal-bg-color);
   box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
 
 }
@@ -350,8 +352,14 @@ h5 {
   font-size: 3rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   color: #1a202c;
+}
+
+@media (max-width: 767px) {
+  .features-title {
+    font-size: 2rem;
+  }
 }
 
 .features-list {
@@ -376,6 +384,7 @@ h5 {
   width: 800px;
   max-width: 90%;
   border-radius: 20px;
+  border: 1px solid white;
 }
 
 .feature-item {
@@ -445,7 +454,12 @@ h5 {
   margin-top: 2rem;
   margin-bottom: 2rem;
   color: #1a202c;
-  /* background-color: red; */
+}
+
+@media (max-width: 767px) {
+  .courses-title {
+    font-size: 2rem;
+  }
 }
 
 .courses-list {
@@ -896,7 +910,7 @@ h5 {
   /* width: calc(100vw - var(--sidebar-collapsed-width)); */
   /* background-color: red; */
   padding-top: 15px;
-  padding-left: calc(var(--sidebar-collapsed-width));
+  /* padding-left: calc(var(--sidebar-collapsed-width)); */
   /* padding-right: calc(var(--sidebar-collapsed-width)); */
 
   /* margin-right: calc(var(--sidebar-collapsed-width) + 0.5rem); */
@@ -906,6 +920,7 @@ h5 {
 @media (min-width: 768px) {
 .mydesk-content {
   padding-right: calc(var(--sidebar-collapsed-width));;
+  padding-left: calc(var(--sidebar-collapsed-width));;
 }
 }
 
@@ -913,25 +928,56 @@ h5 {
   height: calc(100vh - var(--navbar-height));
   display: flex;
   position: fixed;
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
+  z-index: 200;
+  /* align-items: center; */
+  /* justify-content: center; */
   flex-direction: column;
-  width: fit-content;
+  /* width: fit-content; */
+  /* background-color: red; */
 }
 
+.sidebar-hide {
+  cursor: pointer;
+  color: var(--primary-col);
+  font-size: 50px;
+  z-index: 10;
+  /* width: 30px; */
+  display: flex;
+  position: fixed;
+  top: calc(50% - var(--sidebar-heigth)/2 - 1rem);
+  /* align-items: center; */
+  justify-content: center;
+  /* left: var(--sidebar-width); */
+  /* background-color: red; */
+}
+
+/* .sidebar.collapsed .sidebar-hide {
+  left: var(--sidebar-collapsed-width);
+} */
+
+
+/* @media (max-width: 767px){
+  .sidebar-hide {
+    top: calc(50% - var(--sidebar-heigth)/2 - 2rem);
+  }
+} */
+
+.sidebar.hidden {
+  /* width: 0; */
+  display: none;
+}
 .sidebar {
   background-color: var(--grey);
   padding: 1rem;
   margin: auto 0 auto;
   border-radius: 0.65rem;
   width: var(--sidebar-width);
+  height: var(--sidebar-heigth);
   display: flex;
   flex-direction: column;
   gap: 1rem;
   overflow: hidden;
   z-index: 10;
-  /* flex-wrap: nowrap; */
 }
 
 .sidebar.collapsed {
@@ -969,7 +1015,7 @@ h5 {
 .menu-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
   white-space: nowrap;
@@ -985,6 +1031,9 @@ h5 {
   color: var(--grey20);
   }
 
+  .menu-item.active {
+    color: var(--primary-col);
+    }
   .menu-link {
     text-decoration: none;
     color: inherit;
@@ -993,7 +1042,7 @@ h5 {
   .menu-link:hover {
     /* Optional: Add styles for hover state */
     text-decoration: underline;
-    color: #007BFF; /* Optional: Change color on hover */
+    color: var(--primary-col); /* Optional: Change color on hover */
   }
 
 .sidebar .fa-icon {
@@ -1027,6 +1076,12 @@ margin-bottom: 10px;
 .calendar {
   height: 100%;
   width: 100%;
+}
+
+@media (max-width: 767px) {
+  .calendar-header .title {
+    padding-left: 15px;
+  }
 }
 /* 
 @media (max-width: 767px) {
@@ -1140,8 +1195,9 @@ margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 150px;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
   border: 2px solid var(--grey);
   border-radius: 50%;
   font-size: 60px;
@@ -1668,10 +1724,7 @@ overflow: hidden;
   /* padding-top: 20px; */
   width: 500px;
   max-width: 100%;
-  height: 500px;
- 
-
-  
+  height: 500px;  
 }
 
 .calendar-specific-course-div .save-calendar-btn {
@@ -1798,12 +1851,15 @@ overflow: hidden;
 .rbc-toolbar >* {
   display: flex;
   flex-direction: row;
+  max-width: 100%;
 }
 
 .rbc-toolbar >*>button {
   font-weight: 800;
 }
 
+@media (min-width: 900px) {
+  
 
 .rbc-toolbar > *:nth-child(1) {
   justify-content: flex-start;
@@ -1821,13 +1877,29 @@ overflow: hidden;
 }
 
 
+/* .calendar-specific-course .rbc-toolbar > *:nth-child(1) {
+  justify-content: flex-start;
+  width: 33%;
+}
+
+.calendar-specific-course.rbc-toolbar > *:nth-child(2) {
+  justify-content: center;
+  width: 33%;
+}
+
+.calendar-specific-course .rbc-toolbar > *:nth-child(3) {
+  justify-content: flex-end;
+  width: 33%;
+} */
+}
+
+
 .rbc-btn-group button {
   border: none;
 }
 
 .rbc-event-label {
   display: none;
-  background-color: red !important;
 }
 
 .rbc-event-content {
@@ -1850,15 +1922,15 @@ overflow: hidden;
   align-items: center;
   justify-content: center;
   } */
-  .rbc-header{
-    background-color: var(--primary-col);
-    color: white !important;
-    height: auto;
-    width: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    }
+.rbc-header{
+  background-color: var(--primary-col);
+  color: white !important;
+  height: auto;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
 
     /* .rbc-week-view .rbc-header{
       background-color: var(--primary-col);
@@ -1870,10 +1942,10 @@ overflow: hidden;
       justify-content: center;
       } */
 
-    .rbc-agenda-view .rbc-header {
-      display: initial;
-      width: initial;
-  }
+  .rbc-agenda-view .rbc-header {
+    display: initial;
+    width: initial;
+}
   /* .rbc-agenda-view tr{
     display: flex;
     flex-direction: row;
@@ -1904,6 +1976,12 @@ width: fit-content;
 .rbc-time-content {
   border-color: #aaa;
 }
+
+@media (max-width: 767px) {
+  .calendar {
+    font-size: 15px;
+  }
+  }
 
 
 /* .generic-form .calendar-specific-course .rbc-timeslot-group {
@@ -2068,3 +2146,6 @@ margin-left: 50px;
 .social-icon:hover {
   color: #0077b5; /* Change color on hover */
 }
+
+
+

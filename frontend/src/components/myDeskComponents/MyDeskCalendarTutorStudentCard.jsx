@@ -4,7 +4,7 @@ import { format } from "date-fns"
 // import { FaWhatsapp } from "react-icons/fa"
 import { faCopy } from "@fortawesome/free-solid-svg-icons"
 import { FaIcons } from "react-icons/fa"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PersonCard from "./PersonCard"
 
 export default function MyDeskCalendarTutorStudentCard({
@@ -12,6 +12,9 @@ export default function MyDeskCalendarTutorStudentCard({
   selectedStudent,
   event,
 }) {
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <div className="modal-bg">
       <div className="generic-form modal show specific-booking" tabIndex={0}>

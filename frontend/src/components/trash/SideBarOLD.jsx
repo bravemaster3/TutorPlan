@@ -1,3 +1,5 @@
+// App.js
+
 import { useEffect, useState } from "react"
 import { MagicMotion } from "react-magic-motion"
 import {
@@ -11,21 +13,18 @@ import {
   faXmark,
   faUpRightAndDownLeftFromCenter,
 } from "@fortawesome/free-solid-svg-icons"
-import { TbLayoutSidebarLeftExpandFilled } from "react-icons/tb"
-import { VscCollapseAll } from "react-icons/vsc"
 import { BiCollapseHorizontal } from "react-icons/bi"
-import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link, useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
+
 export default function SideBar({ authenticated }) {
   const [isCollapsed, setIsCollapsed] = useState(true)
-  const [isHidden, setIsHidden] = useState(false)
+  const [hidden, setHidden] = useState(false)
   const [accountType, setAccountType] = useState(
     localStorage.getItem("accountType")
   )
   const [studentsOrTutors, setStudentsOrTutors] = useState("")
   const [routeStudentsOrTutors, setRouteStudentsOrTutors] = useState("")
-
   useEffect(() => {
     if (authenticated) {
       setAccountType(localStorage.getItem("accountType"))
@@ -37,38 +36,48 @@ export default function SideBar({ authenticated }) {
     }
   }, [authenticated])
 
-  // Function to toggle sidebar between collapsed, expanded, and hidden states
-  const toggleSidebar = () => {
-    if (isHidden) {
-      // If currently hidden, show the sidebar in expanded state
-      setIsHidden(false)
-      setIsCollapsed(false)
-    } else if (isCollapsed) {
-      // If currently collapsed, expand the sidebar
-      setIsCollapsed(false)
-      setIsHidden(true)
-    } else {
-      // If currently expanded, collapse the sidebar
-      setIsCollapsed(true)
+  useEffect(() => {
+    if (isCollapsed) {
+      setHidden(false)
     }
+  }, [isCollapsed, hidden])
+
+  const hideSideBar = () => {
+    setHidden(!hidden)
   }
 
+  // console.log(studentsOrTutors)
   return (
+    // <MagicMotion>
     <div className="sidebar-container">
-      <div className="sidebar-hide" onClick={toggleSidebar}>
-        {isCollapsed ? (
-          <VscCollapseAll title="Hide Sidebar" />
-        ) : isHidden ? (
-          <TbLayoutSidebarLeftExpandFilled title="Expand Sidebar" />
-        ) : (
-          <TbLayoutSidebarLeftCollapseFilled title="Collapse Sidebar" />
-        )}
-      </div>
       <aside
         className={`sidebar ${isCollapsed ? "collapsed" : ""} ${
-          isHidden ? "hidden" : ""
+          hidden ? "hidden" : ""
         }`}
       >
+        <div
+          className={`header ${isCollapsed ? "collapsed" : ""} ${
+            hidden ? "hidden" : ""
+          }`}
+        >
+          {/* {!isCollapsed && <h4 className="company-name">Company Portfolio</h4>} */}
+
+          <button
+            className="toggle-button"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            {isCollapsed ? (
+              <FontAwesomeIcon
+                icon={faUpRightAndDownLeftFromCenter}
+                className="fa-icon-toggle"
+              />
+            ) : (
+              <FontAwesomeIcon icon={faXmark} className="fa-icon-toggle" />
+            )}
+          </button>
+        </div>
+
         <ul className="menu-list">
           <MenuItem to="/mydesk/calendar" icon={faCalendar} text="Calendar" />
           <MenuItem to="/mydesk/mycourses" icon={faBookReader} text="Courses" />
@@ -77,32 +86,30 @@ export default function SideBar({ authenticated }) {
             icon={faUserGraduate}
             text={studentsOrTutors}
           />
+          {/* <MenuItem to="/mydesk/tutors" icon={faUserGraduate} text="Tutors" /> */}
           <MenuItem to="/mydesk/profile" icon={faUser} text="Profile" />
           <MenuItem
             to="/mydesk/booking-policy"
             icon={faInfoCircle}
             text="Booking Policy"
           />
+
+          {/* Add more menu items as needed */}
         </ul>
+        <div className="sidebar-hide" onClick={hideSideBar}>
+          <BiCollapseHorizontal />
+        </div>
       </aside>
     </div>
+    // </MagicMotion>
   )
 }
 
-const MenuItem = ({ to, icon, text }) => {
-  let location = useLocation()
-  let updatedLocation = location.pathname.endsWith("mydesk")
-    ? location.pathname.replace("/mydesk", "/mydesk/calendar")
-    : location.pathname
-
-  const isActive = updatedLocation === to
-  const menuItemClasses = isActive ? "menu-item active" : "menu-item"
-  return (
-    <li className={menuItemClasses}>
-      <Link to={to} className="menu-link">
-        <FontAwesomeIcon icon={icon} className="fa-icon" />
-        {text}
-      </Link>
-    </li>
-  )
-}
+const MenuItem = ({ to, icon, text }) => (
+  <li className="menu-item">
+    <Link to={to} className="menu-link">
+      <FontAwesomeIcon icon={icon} className="fa-icon" />
+      {text}
+    </Link>
+  </li>
+)
