@@ -1,5 +1,4 @@
 attrs==23.2.0
-backports.zoneinfo==0.2.1
 blinker==1.7.0
 click==8.1.7
 flasgger==0.9.7.1
