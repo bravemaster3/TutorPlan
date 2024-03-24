@@ -375,7 +375,7 @@ export const useFetchCourses = (student_id = null, tutor_id = null) => {
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
-    console.log("data fetched again")
+    // console.log("data fetched again")
     let url
     try {
       if (!student_id && !tutor_id) {

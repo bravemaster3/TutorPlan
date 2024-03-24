@@ -29,11 +29,11 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="row-md-12 home-div2">
+      {/* <div className="row-md-12 home-div2">
         <button className="home-btn-explore" onClick={exploreCourses}>
           Explore Courses
         </button>
-      </div>
+      </div> */}
       <div className="row-md-12">
         <Features />
       </div>

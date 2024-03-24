@@ -1,19 +1,58 @@
-import md5 from "md5"
-import * as Icons from "react-icons/fa"
+// import md5 from "md5"
+// import * as Icons from "react-icons/fa"
+
+// export default function CourseIcon({ title }) {
+//   // Generate a hash from the title
+//   const hash = md5(title)
+
+//   // Convert the hash into a number
+//   const num = parseInt(hash, 16)
+
+//   // Get all available icons
+//   const iconNames = Object.keys(Icons)
+
+//   // Use the number to select an icon
+//   const IconComponent = Icons[iconNames[num % iconNames.length]]
+
+//   // Render the selected icon
+//   return <IconComponent />
+// }
+import React, { useState, useEffect } from "react"
 
 export default function CourseIcon({ title }) {
-  // Generate a hash from the title
-  const hash = md5(title)
+  const [avatarUrl, setAvatarUrl] = useState(null)
 
-  // Convert the hash into a number
-  const num = parseInt(hash, 16)
+  useEffect(() => {
+    // Encode the title for URL
+    const encodedTitle = encodeURIComponent(title)
 
-  // Get all available icons
-  const iconNames = Object.keys(Icons)
+    // Fetch the avatar image from ui-avatars API
+    fetch(
+      `https://ui-avatars.com/api/?name=${encodedTitle}&background=random&size=128&color=000`
+    )
+      .then((response) => response.blob())
+      .then((blob) => {
+        // Convert blob to URL
+        const avatarUrl = URL.createObjectURL(blob)
+        setAvatarUrl(avatarUrl)
+      })
+      .catch((error) => {
+        console.error("Error fetching avatar:", error)
+      })
 
-  // Use the number to select an icon
-  const IconComponent = Icons[iconNames[num % iconNames.length]]
+    // Cleanup function to revoke the object URL
+    return () => {
+      if (avatarUrl) {
+        URL.revokeObjectURL(avatarUrl)
+      }
+    }
+  }, [title])
 
-  // Render the selected icon
-  return <IconComponent />
+  if (!avatarUrl) {
+    // Return null or a placeholder while avatar is loading
+    return null
+  }
+
+  // Render the avatar image
+  return <img src={avatarUrl} alt={title} />
 }

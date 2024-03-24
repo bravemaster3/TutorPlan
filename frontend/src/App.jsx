@@ -41,18 +41,6 @@ export default function App() {
     }
   }
 
-  // const handleSignIn = (event) => {
-  //   event.preventDefault()
-  //   // const accountType = $('input[name="account_type"]:checked').val()
-  //   localStorage.setItem("isAuthenticated", true)
-  //   localStorage.setItem(
-  //     "accountType",
-  //     $('input[name="account_type"]:checked').val()
-  //   )
-  //   setAuthenticated(true)
-  //   NavigateTo("/mydesk")
-  // }
-
   const handleSignIn = (e, email, password, accountType) => {
     e.preventDefault()
 
@@ -74,38 +62,6 @@ export default function App() {
       })
       .catch((error) => alert("wrong username, password or account type"))
   }
-
-  // const handleSignUp = (
-  //   e,
-  //   accountType,
-  //   firstName,
-  //   lastName,
-  //   email,
-  //   phoneNumber,
-  //   country,
-  //   password
-  // ) => {
-  //   e.preventDefault()
-  //   const url = `${API_BASE_URL}/${accountType}s`
-  //   console.log(url)
-  //   const data = {
-  //     first_name: firstName,
-  //     last_name: lastName,
-  //     email: email,
-  //     phone_number: phoneNumber,
-  //     country: country,
-  //     password: password,
-  //   }
-  //   axios
-  //     .post(url, data)
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  //     .catch((error) => {
-  //       alert("An error has occured. Signup was unsuccessful")
-  //     })
-  // }
-
   return (
     <>
       <NavBar authenticated={authenticated} handleLogout={handleLogout} />

@@ -13,7 +13,7 @@ export const features = [
      {
       id: "feature-2",
       icon: MdOutlineSchedule,
-      img: "/mycourses.JPG",
+      img: "/easySchedule.JPG",
       title: "Easy Scheduling",
       content:
         "Book and Schedule Sessions in a single click!",
@@ -21,7 +21,7 @@ export const features = [
     {
       id: "feature-3",
       icon: MdOutlineDesk,
-      img: "/mycourses.JPG",
+      img: "/desk.JPG",
       title: "A Desk",
       content:
         "Guess what? you even get a desk! Explore courses, find tutors, view profiles all in one place!",
