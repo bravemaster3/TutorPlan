@@ -11,7 +11,6 @@ from models.tutor import Tutor
 from models.availability import Availability
 from models.booking import Booking
 from models.student import Student
-from models.engine import secure
 
 ValidClasses = [Course, Tutor, Availability, Booking, Student]
 classes = {
@@ -48,14 +47,14 @@ class DBStorage():
         """
         # retrive all environment variables that is neccessary to
         # connect to the tutorplan mysql server
-        # USER = os.getenv("TUTORPLAN_MYSQL_USER")
-        # PASWD = os.getenv("TUTORPLAN_MYSQL_PWD")
-        # HOST = os.getenv("TUTORPLAN_MYSQL_HOST")
-        # DB = os.getenv("TUTORPLAN_MYSQL_DB")
-        USER = secure.USER
-        PASWD = secure.PASWD
-        HOST = secure.HOST
-        DB = secure.DB
+        USER = os.getenv("TUTORPLAN_MYSQL_USER")
+        PASWD = os.getenv("TUTORPLAN_MYSQL_PWD")
+        HOST = os.getenv("TUTORPLAN_MYSQL_HOST")
+        DB = os.getenv("TUTORPLAN_MYSQL_DB")
+        # USER = secure.USER
+        # PASWD = secure.PASWD
+        # HOST = secure.HOST
+        # DB = secure.DB
 
         # create an instance of create_engine that link to
         # the tutorplan mysql server
