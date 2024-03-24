@@ -33,7 +33,10 @@ export default function CourseCard({ course, setSelectedCourse, toggleModal }) {
           </div>
           <div className="instructor-info">
             <div className="instructor-photo">
-              <CourseIcon title={course.title} size={64} />
+              <CourseIcon
+                title={`${course.tutor.first_name} ${course.tutor.last_name}`}
+                size={64}
+              />
             </div>
             {/* <img
               className="instructor-photo"
