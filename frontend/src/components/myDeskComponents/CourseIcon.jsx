@@ -19,7 +19,7 @@
 // }
 import React, { useState, useEffect } from "react"
 
-export default function CourseIcon({ title }) {
+export default function CourseIcon({ title, size = 128 }) {
   const [avatarUrl, setAvatarUrl] = useState(null)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function CourseIcon({ title }) {
 
     // Fetch the avatar image from ui-avatars API
     fetch(
-      `https://ui-avatars.com/api/?name=${encodedTitle}&background=random&size=128&color=000`
+      `https://ui-avatars.com/api/?name=${encodedTitle}&background=random&size=${size}&color=000`
     )
       .then((response) => response.blob())
       .then((blob) => {

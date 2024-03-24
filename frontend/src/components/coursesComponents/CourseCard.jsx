@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { API_BASE_URL } from "src/apiConfig"
+import CourseIcon from "../myDeskComponents/CourseIcon"
 // import { API_BASE_URL } from "../apiConfig"
 
 export default function CourseCard({ course, setSelectedCourse, toggleModal }) {
@@ -31,11 +32,14 @@ export default function CourseCard({ course, setSelectedCourse, toggleModal }) {
             </p>
           </div>
           <div className="instructor-info">
-            <img
+            <div className="instructor-photo">
+              <CourseIcon title={course.title} size={64} />
+            </div>
+            {/* <img
               className="instructor-photo"
               src="https://via.placeholder.com/64x64"
               alt="Instructor"
-            />
+            /> */}
             <div className="instructor-details">
               <div className="instructor-name">{`${course.tutor.first_name} ${course.tutor.last_name}`}</div>
               <div className="instructor-location">{`${

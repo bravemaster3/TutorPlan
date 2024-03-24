@@ -1598,6 +1598,7 @@ overflow: hidden;
 .instructor-photo {
   width: 64px;
   height: 64px;
+  overflow: hidden;
   background: linear-gradient(0deg, white 0%, white 100%);
   border-radius: 999px;
 }
