@@ -78,8 +78,8 @@ export default function CourseDetails({
           alert("You are now enrolled in the course")
         })
         .catch((error) => {
-          alert("An Error has occurred")
-          console.log(error)
+          alert("An Error has occurred. Read more in the console.")
+          console.log("Error:", error)
         })
     }
   }
@@ -124,13 +124,14 @@ export default function CourseDetails({
               // console.log("filtered events with BOOKING", filteredEvents)
             })
             .catch((error) => {
-              console.log(error)
+              alert("An error has occurred. Read more in the console")
+              console.log("Error:", error)
             })
         }
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
-        console.log(error)
+        console.log("Error:", error)
       })
   }
 
@@ -218,15 +219,15 @@ export default function CourseDetails({
       })
       .then((response) => {
         // console.log(response)
-        if (response.status.toString().startsWith("2")) {
-          type !== null
-            ? alert(`${type} were saved successfully`)
-            : alert("Operation was successful")
-        }
+        // if (response.status.toString().startsWith("2")) {
+        //   type !== null
+        //     ? alert(`${type} were saved successfully`)
+        //     : alert("Operation was successful")
+        // }
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
-        console.log(error)
+        console.log("Error", error)
       })
   }
 
@@ -237,20 +238,21 @@ export default function CourseDetails({
         data: data,
       })
       .then((response) => {
-        console.log(response)
-        if (response.status.toString().startsWith("2")) {
-          type !== null
-            ? alert(`${type} were deleted successfully`)
-            : alert("Operation was successful")
-        }
+        // console.log(response)
+        // if (response.status.toString().startsWith("2")) {
+        //   type !== null
+        //     ? alert(`${type} were deleted successfully`)
+        //     : alert("Operation was successful")
+        // }
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
-        console.log(error)
+        console.log("Error", error)
       })
   }
 
   const handleCalendarSave = () => {
+    const promises = []
     // console.log(events)
     if (isCourseTutor) {
       //Getting the new availabilities
@@ -272,7 +274,9 @@ export default function CourseDetails({
       // console.log("ready to post availabilities", newAvailsData)
       // console.log("unchanged initials", initialAvails)
       if (newAvailsData.availability_attr.length > 0) {
-        postMultipleGeneric(newAvailsUrl, newAvailsData, "Availabilities")
+        promises.push(
+          postMultipleGeneric(newAvailsUrl, newAvailsData, "Availabilities")
+        )
       }
 
       // getting the deleted availabilities
@@ -286,7 +290,9 @@ export default function CourseDetails({
       const delAvailsData = { availability_ids: missingIds }
       const delAvailsUrl = `${API_BASE_URL}/availability/${selectedCourse.id}`
       if (delAvailsData.availability_ids.length > 0) {
-        deleteMultipleGeneric(delAvailsUrl, delAvailsData, "Availabilities")
+        promises.push(
+          deleteMultipleGeneric(delAvailsUrl, delAvailsData, "Availabilities")
+        )
       }
     }
 
@@ -325,7 +331,16 @@ export default function CourseDetails({
     }
     /*** */
 
-    setUpdateOnSave(!updateOnSave)
+    Promise.all(promises)
+      .then(() => {
+        setUpdateOnSave(true)
+        alert("Your changes have been saved successfully!")
+        toggleModal()
+      })
+      .catch((error) => {
+        console.error("Error:", error)
+        alert("An error occurred. Read more in the console.")
+      })
   }
 
   const handleCheckboxChange = (isChecked, eventId) => {
