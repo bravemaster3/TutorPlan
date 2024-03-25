@@ -383,8 +383,9 @@ h5 {
 .feature-img {
   width: 800px;
   max-width: 90%;
-  border-radius: 20px;
-  border: 1px solid white;
+  /* border-radius: 20px; */
+  /* border: 1px solid white; */
+  box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
 }
 
 .feature-item {
