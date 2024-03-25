@@ -77,16 +77,16 @@ const Login = () => {
 		e.preventDefault();
 		try {
 			/* const url = (LOGIN_URL, JSON.stringify({ email, passwd })) */
-			const response = await axios.post(LOGIN_URL,
+			/* const response = await axios.post(LOGIN_URL,
 				JSON.stringify({ email, passwd }),
 				{
 					headers: { 'Content-Type': 'application/json' }
 				}
-			);
-			/* const url = `${LOGIN_URL}${email}/${passwd}`; */
+			); */
+			const url = `${LOGIN_URL}/${email}/${passwd}`;
 
 			// console.log("did sth")
-			/* const response = await axios.get(url) */
+			const response = await axios.get(url)
 			// console.log(JSON.stringify(response?.data));
 			//Example response
 			/* { "__class__": "Tutor", "bio": null, "city": "Nairobi", "country": "Kenya", "created_at": "2024-03-16T07:14:48", "email": "pesh@gmail.com", "first_name": "Pesh", "id": "74604fc1-6477-43c5-8f0a-1335389d01db", "last_name": "Test", "phone_number": "0722345678", "updated_at": "2024-03-16T07:14:48" } */

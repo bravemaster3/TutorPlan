@@ -208,11 +208,11 @@ const Register = () => {
 					</p>
 				</section>
 			) : (
-					<section className='flex font-worksans w-3/4 flex-col border border-slate-700 mx-auto justify-center  p-8 rounded-md gap-2'>
-						<p ref={errRef} className={errMsg ? "errmsg text-center" : "sr-only"} aria-live="assertive">{errMsg}</p>
+					<section className='flex font-worksans w-3/4 flex-col border bg-slate-400 border-slate-700 mx-auto justify-center  p-8 rounded-md gap-2'>
+						<p ref={errRef} className={errMsg ? "text-red-500 block font-bold text-3xl text-center" : "sr-only"} aria-live="assertive">{errMsg}</p>
 
 
-						<form className=' font-worksans w-full  flex flex-col gap-3 mx-auto border border-slate-200 p-8 ' onSubmit={handleSubmit}>
+						<form className=' font-worksans w-full  flex flex-col bg-emerald-500 gap-3 mx-auto border border-slate-200 p-8 ' onSubmit={handleSubmit}>
 							<h1 className='text-center text-3xl font-bold font-roboto mb-10'>Register</h1>
 
 							<InputField2

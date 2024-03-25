@@ -58,8 +58,8 @@ const UserProfile = () => {
         const response = await axios.put(UPDATE_USER_URL,
           JSON.stringify(formData),
           {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: true
+            headers: { 'Content-Type': 'application/json' }
+            // withCredentials: true
           }
 
         );
