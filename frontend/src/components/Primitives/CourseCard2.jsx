@@ -8,11 +8,14 @@ import moment from "moment"
 import { createPortal } from 'react-dom';
 import Modal from "./Modal";
 import { AddCourse, UserCalendar } from "../MyDeskPages";
+import useAuth from "../../hooks/useAuth";
 /* import { CalendarModal } from "../MyDeskPages"; */
 
 
 
 const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, browser = true }) => {
+	const { auth } = useAuth();
+
 	const isOnline = course_type === "online";
 	const isBoth = course_type === "both";
 
@@ -28,9 +31,9 @@ const CourseCard2 = ({ title, fee, description, course_type, duration, tutor, br
 		setModalOpen(false);
 	};
 	/* const browser = true; */
-	const userTutor = false; /* context manager */
+	const userTutor = auth.roles === 'tutor'; /* context manager */
 	const CalendarModal = () => {
-		const isTutor = false;
+		const isTutor = userTutor;
 		return (
 			<div className="bg-transparent p-8 rounded-lg border shadow-lg flex  justify-center items-center">
 				{isTutor && (<section id='courseDetails-section' className='bg-yellow-600'>

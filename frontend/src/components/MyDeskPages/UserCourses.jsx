@@ -1,5 +1,5 @@
-import React from "react";
-import { courseTutorData } from "../../constants";
+import React, { useEffect } from "react";
+// import { coursesData } from "../../constants";
 import { AiFillCloseCircle, AiOutlineClose, AiOutlineUser } from "react-icons/ai";
 import { RiCircleFill } from "react-icons/ri";
 import CourseCard2 from "../Primitives/CourseCard2";
@@ -11,13 +11,69 @@ import { RiCloseCircleLine } from "react-icons/ri";
 import { MdOutlineAdd, MdOutlineClose } from "react-icons/md";
 import AddCourse from "./AddCourse";
 import { Modal } from "../Primitives";
-
+import useAuth from '../../hooks/useAuth';
+import axios from '../../apiConfig'
 
 const UserCourses = () => {
+  const { auth } = useAuth();
   const localizer = momentLocalizer(moment)
-  const numberCourses = courseTutorData.length
-  const tutor = false
+  const [numberCourses, setnumberCourses] = useState(0)
+
+  const [coursesData, setcoursesData] = useState([])
+
+  const isTutor = (auth.roles === 'tutor')
   const [modal, setmodal] = useState(true)
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const COURSES_URL = `/${auth.roles}s/${auth.userData.id}/courses`
+
+        const response = await axios.get(COURSES_URL);
+        console.log(JSON.stringify(response.data))
+
+
+        // setcoursesData(Object.values(response.data));
+        // setcoursesData(Object.values(response.data));
+
+        const tutorPromises = response.data.map(async (course) => {
+          const TUTOR_URL = `/tutors/${course.tutor_id}`;
+          const tutorResponse = await axios.get(TUTOR_URL);
+          console.log(tutorResponse.data)
+          return { ...course, tutor: tutorResponse.data };
+        });
+
+        const coursesWithTutors = await Promise.all(tutorPromises);
+        console.log(coursesWithTutors);
+        setcoursesData(coursesWithTutors);
+
+
+        /* const coursesWithTutor = await Promise.all(
+          response.data.map(async (course) => {
+            const tutorResponse = await axios.get(
+              `/tutors/${course.tutor_id}`
+            );
+            console.log(tutorResponse.data)
+            return { ...course, tutor: tutorResponse.data };
+          })
+        );
+        console.log(coursesWithTutor); */
+
+
+
+      } catch (error) {
+        console.log(error)
+
+      }
+    }
+    fetchCourses();
+
+  }, [])
+  useEffect(() => {
+
+
+    setnumberCourses(coursesData.length)
+  }, [coursesData])
+
 
   const CalendarModal2 = () => {
     return (
@@ -131,21 +187,23 @@ const UserCourses = () => {
   return (
     <div>
       <h2 className="text-3xl text-center mx-auto dark:text-slate-200">
-        You are {tutor ? "teaching" : "taking"}  {numberCourses} course{numberCourses === 1 ? "" : "s"}
+        You are {isTutor ? "teaching" : "taking"}  {numberCourses} course{numberCourses === 1 ? "" : "s"}
 
       </h2>
 
-      <div className="flex items-center flex-wrap gap-2 bg-sky-800  mx-auto max-w-4xl">
-        {courseTutorData.map((course) => (
+      <section className="grid grid-cols-3 items-center gap-4   mx-auto p-28 ">
+
+        {coursesData.map((course) => (
           /*   <CoursesCard key={course.id} {...course} /> */
           <CourseCard2 key={course.id} {...course} browser={false} /> /* onClick = {() => {setmodal(true)}}  */
         ))}
-        <button className="rounded-full bg-zinc-700 w-20 h-20 flex items-center justify-center text-slate-200" onClick={openModal}>
+
+        <button className="rounded-full bg-zinc-700 w-20 h-20 mx-auto flex items-center justify-center text-slate-200" onClick={openModal}>
 
           <MdOutlineAdd size={30} className=" w-full h-full p-1 rounded-full hover:bg-orange-500 hover:text-slate-100" />
         </button>
 
-      </div>
+      </section>
 
       <Modal isOpen={modalOpen} onClose={closeModal} children={<AddCourse />} />
 

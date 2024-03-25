@@ -41,7 +41,7 @@ const BaseForm = (
         <fieldset className={`${textField.disabled ? ' flex items-center gap-1 ' : ' flex flex-col '} ${textField.className}`}>
           <label htmlFor={textField.id} className={textField.label.labelClass}>{textField.label.label}</label>
           <textarea name={textField.name}
-            id={textField.id} disabled={textField.disabled} className={`disabled:text-center disabled:inline-block disabled:h-fit  ${textField.textClass}`}>{textField.placeholder}</textarea>
+            id={textField.id} disabled={textField.disabled} className={`disabled:text-center disabled:text-slate-900 disabled:inline-block disabled:h-fit  ${textField.textClass}`} {...(!!textField.onChange ? { onChange: textField.onChange } : {})} placeholder={textField.placeholder} value={textField.value}></textarea>
         </fieldset>
       )}
 

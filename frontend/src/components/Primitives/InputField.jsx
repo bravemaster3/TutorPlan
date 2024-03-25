@@ -12,7 +12,7 @@ const InputField = ({ label, id, inputClasses, containerClasses, type, placehold
   const isRadio = type === 'radio';
   /*  console.log(`${isRadio ? ('peer-checked/' + { id } + ':text-slate-200') : ''}`)
    console.log(`${isRadio ? ('peer/' + { id }) : ''}`) */
-  console.log("Input")
+  // console.log("Input")
 
   return (
 
@@ -36,7 +36,7 @@ const InputField = ({ label, id, inputClasses, containerClasses, type, placehold
     </div>
   )
 }
-console.log("Done")
+// console.log("Done")
 /* InputField.propTypes = {} */
 InputField.defaultProps = {
 

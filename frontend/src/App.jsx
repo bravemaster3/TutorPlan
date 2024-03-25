@@ -1,23 +1,64 @@
 import React from 'react'
-import { useState } from 'react'
-
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-/* import Button from './components/Primitives/Button'
-
- */
-import { InputField, Button, GenerateComponents, BaseForm, CourseCard } from './components/Primitives'
-import { buttonData, courseData, inputFieldData, sampleFormData } from './constants'
 import { Route, Routes } from 'react-router-dom'
-import { About, Courses, Home, MyDesk, NavBar, SignIn, SignUp } from './components'
-import MyComponent from './components/AltSignIn'
+import { About, Courses, Home, MyDesk, Register, SignIn, SignUp } from './components'
+import Layout from './components/Layout'
+import Missing from './components/Missing'
+import { BookingPolicy, UserCalendar, UserCourses, UserDesk, UserProfile, ViewOtherUsers } from './components/MyDeskPages'
+import Login from './components/Login'
+import PrivateRoutes from './utils/PrivateRoutes'
+import RequireAuth from './components/RequireAuth'
+import useAuth from './hooks/useAuth'
+
+
+
 
 
 function App() {
-  const [count, setCount] = useState(0)
-  console.log(courseData)
+  const { auth } = useAuth();
+  const isTutor = auth.roles === 'tutor'
+
   return (
-    <>
+    <Routes>
+      {/*  <Route element={<PrivateRoutes />}>
+        <Route element={<Home />} path="/" exact />
+        <Route element={<About />} path="/about" />
+      </Route>
+      <Route element={<Login />} path="/login" /> */}
+
+
+      <Route path="/" element={<Layout />} >
+        {/*  public routes */}
+        <Route exact path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/sign-up" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<About />} />
+
+        {/* protected route */}
+        <Route element={<RequireAuth />}>
+          <Route path="/mydesk" element={<MyDesk />}>
+            <Route path="desk" element={<UserDesk />} />
+            <Route path="" element={<UserDesk />} />
+            <Route path="profile" element={<UserProfile />} />
+            <Route path="calendar" element={<UserCalendar />} />
+            <Route path="mycourses" element={<UserCourses />} />
+            <Route path={isTutor ? "students" : "tutors"} element={<ViewOtherUsers />} />
+            <Route path="booking-policy" element={<BookingPolicy />} />
+          </Route>
+        </Route>
+
+
+
+
+        {/* not found */}
+        <Route path="*" element={<Missing />} />
+      </Route>
+
+
+
+    </Routes >
+/*     <>
       <div className="">
         <NavBar />
         <div className="mx-auto ">
@@ -39,7 +80,7 @@ function App() {
         </div>
 
       </div>
-    </>
+    </> */
   )
 }
 

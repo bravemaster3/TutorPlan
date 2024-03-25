@@ -31,7 +31,7 @@ const NavBar = () => {
 
   return (
 
-    <header className=' sticky top-0 z-50 bg-dimWhite dark:bg-slate-700'>
+    <>
       <nav className=' px-8 sm:px-0 flex max-w-4xl mx-auto py-6 justify-between bg-white dark:bg-slate-700 items-center navbar'>
         <img src={resized_logo} alt="tutorplan logo" className='w-[80px] h-[24px]' />
         <ul id='main-nav' label="main-nav" className={`list-none ${isMobileMenuOpen ? 'flex flex-col p-6 bg-black-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar gap-1' : 'hidden'} sm:flex  justify-end items-start sm:items-center  flex-1 `}>
@@ -49,7 +49,7 @@ const NavBar = () => {
         </ul>
         <button onClick={toggleMobileMenu} className='sm:hidden'>{isMobileMenuOpen ? <AiOutlineClose /> : <AiOutlineMenu />}</button>
       </nav>
-    </header>
+    </>
   );
 };
 

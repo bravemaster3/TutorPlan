@@ -8,9 +8,12 @@ import { AiOutlineEye } from 'react-icons/ai'
 import { RiSearchLine } from 'react-icons/ri'
 import Register from '../Register'
 import Login from '../Login'
+import useAuth from '../../hooks/useAuth'
 
 
 const UserDesk = () => {
+  const { auth } = useAuth();
+  console.log(auth.userData.first_name)
   const inputFieldData =
   {
     label: { label: 'Password', className: 'font-worksans font-[500] ' },
@@ -41,9 +44,15 @@ const UserDesk = () => {
 
   return (
     <div>
-      <h2 className='text-3xl text-center mx-auto dark:text-slate-200'> Welcome User</h2>
+      <h2 className='text-3xl text-center mx-auto dark:text-slate-200'> Welcome {auth.userData.first_name} </h2>
       <section className='flex flex-col h-full '>
-        <Login />
+        <h2 className='text-center bg-blue-800'>
+
+
+        </h2>
+
+
+
         {/*  <Register /> */}
         {/* <article className=' flex flex-col justify-center items-center w-[12rem] mx-auto  border bg-slate-800 text-slate-200 border-sky-400'>
           <h2 className='text-center bg-blue-800'>

@@ -5,19 +5,25 @@ import { BsCalendar, BsChevronBarLeft, BsChevronBarRight } from "react-icons/bs"
 import { PiAddressBook, PiBooks, PiCalendarBlank, PiGraduationCap, PiGraduationCapLight, PiInfo, PiUser } from "react-icons/pi";
 import { BsInfoLg } from "react-icons/bs";
 import { MdInfoOutline, MdOutlineCalendarToday, MdOutlineDesk } from 'react-icons/md';
-MdOutlineDesk
 import { Link, useLocation } from 'react-router-dom';
-useLocation
+import useAuth from '../../hooks/useAuth';
+useAuth
 
 const SidebarContext = createContext()
 const SideBar = () => {
+  const { auth } = useAuth();
+  const isTutor = auth.roles === 'tutor'
 
   const [expanded, setExpanded] = useState(false)
   return (
     <aside className='fixed   left-1 top-1/4 z-[50] text-slate-200 shadow-lg rounded-lg bg-gray-700 my-auto flex flex-col    p-2 '>
       {/* <nav className=' bg-gray-700 my-auto flex flex-col  text-slate-200  p-2 rounded-lg'> */}
-      <button onClick={() => setExpanded(curr => !curr)} className='flex flex-col items-center justify-center h-12 mt-2 mb-2 w-12 mx-auto shadow-lg bg-gray-800 text-green-600 hover:bg-green-600 hover:text-slate-200 rounded-3xl hover:rounded-lg transition-all duration-300 ease-linear cursor-pointer group'>
+      <button onClick={() => setExpanded(curr => !curr)} className='flex relative flex-col items-center justify-center h-12 mt-2 mb-2 w-12 mx-auto shadow-lg bg-gray-800 text-green-600 hover:bg-green-600 hover:text-slate-200 rounded-3xl hover:rounded-lg transition-all duration-300 ease-linear cursor-pointer group'>
         {expanded ? <BsChevronBarLeft size={24} /> : <BsChevronBarRight size={24} />}
+        <span className={`text-slate-200 font-worksans absolute min-w-max left-16 bg-orange-700 rounded-md px-2 py-1 transition-all duration-0 origin-left  scale-0 group-hover:scale-100 `}>
+          {/* ${expanded ? 'ml-2 ' : 'absolute min-w-max left-16 bg-orange-700 rounded-md px-2 py-1 transition-all duration-0 origin-left  scale-0 group-hover:scale-100'} */}
+          {expanded ? "Collapse" : "Expand"}
+        </span>
       </button>
 
       <SidebarContext.Provider value={{ expanded }}>
@@ -28,7 +34,7 @@ const SideBar = () => {
 
           <SideBarIcon icon={<PiBooks
             size={32} />} text='Courses' path={"mycourses"} />
-          <SideBarIcon icon={<PiAddressBook size={32} />} text='Students' path={"students"} />
+          <SideBarIcon icon={<PiAddressBook size={32} />} text={isTutor ? 'Students' : 'Tutors'} path={isTutor ? "students" : 'tutors'} />
           <SideBarIcon icon={<PiInfo
             size={32} />} text='Booking Policy' path={"booking-policy"} />
           <SideBarIcon icon={<AiOutlineUser size={32} />} text='Profile' path={"profile"} />
@@ -45,7 +51,7 @@ const SideBar = () => {
 const SideBarIcon = ({ icon, text = 'Desk Page', path }) => {
   const location = useLocation();
   const { expanded } = useContext(SidebarContext)
-  console.log(location.pathname)
+  // console.log(location.pathname)
   return (
     <li>
       {/*   <Link to={path} className={`${expanded ? 'justify-start' : 'justify-center '
@@ -54,9 +60,9 @@ const SideBarIcon = ({ icon, text = 'Desk Page', path }) => {
       <Link
         to={path}
         className={`${expanded ? 'justify-start' : 'justify-center'
-          } relative flex bg-gray-800 items-center p-3 my-2 shadow-lg hover:bg-green-600 hover:text-slate-200 rounded-3xl hover:rounded-md transition-all duration-300 ease-linear cursor-pointer focus:bg-orange-700 focus:text-slate-200 group ${location.pathname === `/mydesk/${path}` ? 'bg-orange-700 text-slate-200' : 'text-green-600 '
+          } relative flex bg-gray-800 items-center p-3 my-2 shadow-lg hover:bg-green-600 hover:text-slate-200 rounded-3xl hover:rounded-md transition-all duration-300 ease-linear cursor-pointer focus:bg-orange-700 focus:text-slate-200 group ${location.pathname === `/mydesk/${path}` || location.pathname + 'desk' === `/mydesk/${path}` || location.pathname + '/desk' === `/mydesk/${path}` ? 'bg-orange-700 text-slate-200' : 'text-green-600 '
           }`}
-      >
+      > 
 
         <div >
           {icon}

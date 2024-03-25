@@ -21,7 +21,7 @@ const InputField2 = ({
 	const hasType = "type" in props;
 	const isRadio = props.type === "radio";
 	const ariaDescribedby = props["aria-describedby"];
-	console.log(inputClasses);
+
 
 	return (
 		<>
