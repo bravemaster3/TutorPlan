@@ -56,8 +56,22 @@ const CourseCalendar = ({
     </div>
   )
 
+  // const dayPropGetter = (date) => {
+  //   const now = new Date()
+  //   now.setHours(0, 0, 0, 0)
+  //   if (date < now) {
+  //     return {
+  //       className: "past-date",
+  //       style: {
+  //         backgroundColor: "#ccc",
+  //       },
+  //     }
+  //   }
+  // }
+
   return seesCalendar ? (
     <DnDCalendar
+      // minDate={new Date()}
       className="calendar-specific-course"
       localizer={localizer}
       events={events}
@@ -71,15 +85,18 @@ const CourseCalendar = ({
       onView={handleViewChange}
       components={{
         event: EventComponent,
+        // dateCellWrapper: DateCell,
       }}
       step={selectedCourse.duration}
       eventPropGetter={(event) => ({
         style: {
           backgroundColor: event.thisCourse ? "lightblue" : "lightgrey",
+          opacity: event.thisCourse ? "1" : "0.4",
           color: "black",
           border: "none",
         },
       })}
+      // dayPropGetter={dayPropGetter}
     />
   ) : null
 }
