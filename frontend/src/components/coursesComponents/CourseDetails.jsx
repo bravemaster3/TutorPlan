@@ -150,25 +150,27 @@ export default function CourseDetails({
       .then((response) => {
         // console.log("initial availabilities", response.data)
 
-        const InitialAvailabilities = response.data.map((availability) => {
-          const startTime = new Date(availability.start_time)
-          const endTime = new Date(availability.end_time)
-          // console.log(availability)
-          const thisCourse = availability.course_id === selectedCourse.id
-          const title = !thisCourse
-            ? "Other course"
-            : availability.booked
-            ? "Taken "
-            : "Available "
-          return {
-            id: availability.id,
-            title,
-            start: startTime,
-            end: endTime,
-            booked: availability.booked,
-            thisCourse: thisCourse,
-          }
-        })
+        const InitialAvailabilities = response.data
+          .map((availability) => {
+            const startTime = new Date(availability.start_time)
+            const endTime = new Date(availability.end_time)
+            // console.log(availability)
+            const thisCourse = availability.course_id === selectedCourse.id
+            const title = !thisCourse
+              ? "Other course"
+              : availability.booked
+              ? "Taken "
+              : "Available "
+            return {
+              id: availability.id,
+              title,
+              start: startTime,
+              end: endTime,
+              booked: availability.booked,
+              thisCourse: thisCourse,
+            }
+          })
+          .filter((availability) => availability.start > new Date())
 
         setInitialAvails(InitialAvailabilities)
 
@@ -181,6 +183,7 @@ export default function CourseDetails({
               // console.log("BOOKINGS", initialBookings)
               const filteredEvents = InitialAvailabilities.filter(
                 (avail) =>
+                  // avail.start > new Date() &&
                   !avail.booked ||
                   initialBookings.some(
                     (booking) => booking.availability_id === avail.id
@@ -230,22 +233,26 @@ export default function CourseDetails({
 
   const handleSelect = ({ start, end }) => {
     if (isCourseTutor) {
-      const title = "Available"
-      setAutoId(autoId + 1)
-      const id = autoId
-      if (title)
-        setEvents([
-          ...events,
-          {
-            autoId,
-            id,
-            start,
-            end,
-            title,
-            booked: false,
-            thisCourse: true,
-          },
-        ])
+      if (start <= new Date()) {
+        alert("You cannot set availability in the past")
+      } else {
+        const title = "Available"
+        setAutoId(autoId + 1)
+        const id = autoId
+        if (title)
+          setEvents([
+            ...events,
+            {
+              autoId,
+              id,
+              start,
+              end,
+              title,
+              booked: false,
+              thisCourse: true,
+            },
+          ])
+      }
     }
   }
 

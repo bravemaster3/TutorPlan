@@ -1149,7 +1149,9 @@ margin-bottom: 10px;
   /* right: 20px; */
   max-height: 30px;
   max-width: 30px;
-  margin-left: 5px;
+  margin-right: 5px;
+  /* font-size: 10px; */
+  /* padding: 0; */
 }
 
 .select-slot-checkbox {
@@ -1162,7 +1164,21 @@ margin-bottom: 10px;
   /* right: 20px; */
   max-height: 20px;
   max-width: 20px;
-  margin-left: 5px;
+  margin-right: 5px;
+}
+
+@media (max-width: 767px) {
+  .delete-booking-btn {
+    max-height: 15px;
+    max-width: 25px;
+    font-size: 15px;
+  }
+
+  .select-slot-checkbox {
+    max-height: 15px;
+    max-width: 25px;
+    font-size: 15px;
+  }
 }
 
 
@@ -1918,6 +1934,11 @@ overflow: hidden;
 .rbc-event-content {
   z-index: 10;
 }
+
+/* .date-in-past {
+  background: #ccc;
+} */
+
 
 /* .rbc-event-content {
   z-index: 10;
