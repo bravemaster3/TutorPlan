@@ -26,15 +26,16 @@ const CourseCalendar = ({
 }) => {
   const EventComponent = ({ event }) => (
     <div className="calendar-event">
-      {event.title}
       {isCourseTutor && !event.booked ? (
-        <button
-          className="delete-booking-btn"
-          // onClick={() => handleEventDelete(event.autoId)}
-          onClick={() => handleEventDelete(event.id)}
-        >
-          <FontAwesomeIcon icon={faTrash} size="sm"></FontAwesomeIcon>
-        </button>
+        event.thisCourse ? (
+          <button
+            className="delete-booking-btn"
+            // onClick={() => handleEventDelete(event.autoId)}
+            onClick={() => handleEventDelete(event.id)}
+          >
+            <FontAwesomeIcon icon={faTrash} size="sm"></FontAwesomeIcon>
+          </button>
+        ) : null
       ) : (
         ""
       )}
@@ -51,6 +52,7 @@ const CourseCalendar = ({
       ) : (
         ""
       )}
+      {event.title}
     </div>
   )
 
@@ -73,7 +75,7 @@ const CourseCalendar = ({
       step={selectedCourse.duration}
       eventPropGetter={(event) => ({
         style: {
-          backgroundColor: "lightgrey",
+          backgroundColor: event.thisCourse ? "lightblue" : "lightgrey",
           color: "black",
           border: "none",
         },

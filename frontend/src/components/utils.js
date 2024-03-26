@@ -72,7 +72,7 @@ function generateLightColors(seed) {
 export function stringToColor(str) {
   let hash = 0;
   const colors = generateLightColors(1000);
-console.log("COLORS:::", colors)
+// console.log("COLORS:::", colors)
 
   // Simple hash function
   for (let i = 0; i < str.length; i++) {
@@ -151,19 +151,19 @@ export function  handleAddCourse (e, toggleModal) {
     e.preventDefault()
     // console.log(accountTypeSignUp) // Add this line
     const url = `${API_BASE_URL}/courses`
-    console.log(url)
+    // console.log(url)
     const data = {
       ...formData,
       tutor_id: localStorage.getItem("userId"),
     }
 
-    console.log("Here is the data being posted", data)
+    // console.log("Here is the data being posted", data)
     axios
       .post(url, data, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response)
+        // console.log(response)
       })
       .catch((error) => {
         alert("An error has occured. Read more in the console")
@@ -277,7 +277,7 @@ export const useCourseForm = (toggleModal) => {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response)
+        // console.log(response)
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
@@ -296,14 +296,14 @@ export const useCourseForm = (toggleModal) => {
     const {id, updated_at, created_at, tutor, tutor_id, __class__, ...dataForPut}= data
 
     const url = `${API_BASE_URL}/courses/${course_id}`
-    console.log("URL for PUT request", url)
-    console.log("Data being sent", dataForPut)
+    // console.log("URL for PUT request", url)
+    // console.log("Data being sent", dataForPut)
     axios
       .put(url, dataForPut, {
         headers: { "Content-Type": "application/json" },
       })
       .then((response) => {
-        console.log(response)
+        // console.log(response)
       })
       .catch((error) => {
         alert("An error has occurred. Read more in the console")
