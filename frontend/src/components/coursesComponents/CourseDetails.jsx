@@ -84,8 +84,67 @@ export default function CourseDetails({
     }
   }
 
+  // const fetchAvail = () => {
+  //   const url = `${API_BASE_URL}/availability/${selectedCourse.id}`
+  //   axios
+  //     .get(url)
+  //     .then((response) => {
+  //       // console.log("initial availabilities", response.data)
+
+  //       const InitialAvailabilities = response.data.map((availability) => {
+  //         const startTime = new Date(availability.start_time)
+  //         const endTime = new Date(availability.end_time)
+  //         const title = availability.booked ? "Taken " : "Available "
+  //         return {
+  //           id: availability.id,
+  //           title,
+  //           start: startTime,
+  //           end: endTime,
+  //           booked: availability.booked,
+  //         }
+  //       })
+
+  //       setInitialAvails(InitialAvailabilities)
+
+  //       if (isCourseTutor) {
+  //         setEvents(InitialAvailabilities)
+  //       } else if (seesCalendar && !isCourseTutor) {
+  //         fetchBookings()
+  //           .then((initialBookings) => {
+  //             // setBookings(bookings)
+  //             // console.log("BOOKINGS", initialBookings)
+  //             const filteredEvents = InitialAvailabilities.filter(
+  //               (avail) =>
+  //                 !avail.booked ||
+  //                 initialBookings.some(
+  //                   (booking) => booking.availability_id === avail.id
+  //                 )
+  //             )
+  //             setEvents(filteredEvents)
+  //             // console.log("filtered events with BOOKING", filteredEvents)
+  //           })
+  //           .catch((error) => {
+  //             alert("An error has occurred. Read more in the console")
+  //             console.log("Error:", error)
+  //           })
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       alert("An error has occurred. Read more in the console")
+  //       console.log("Error:", error)
+  //     })
+  // }
+
   const fetchAvail = () => {
-    const url = `${API_BASE_URL}/availability/${selectedCourse.id}`
+    let url
+    if (isCourseTutor) {
+      url = `${API_BASE_URL}/availability/${
+        JSON.parse(localStorage.getItem("user")).id
+      }/tutor`
+    } else {
+      url = `${API_BASE_URL}/availability/${selectedCourse.id}`
+    }
+
     axios
       .get(url)
       .then((response) => {
@@ -94,13 +153,20 @@ export default function CourseDetails({
         const InitialAvailabilities = response.data.map((availability) => {
           const startTime = new Date(availability.start_time)
           const endTime = new Date(availability.end_time)
-          const title = availability.booked ? "Taken " : "Available "
+          // console.log(availability)
+          const thisCourse = availability.course_id === selectedCourse.id
+          const title = !thisCourse
+            ? "Other course"
+            : availability.booked
+            ? "Taken "
+            : "Available "
           return {
             id: availability.id,
             title,
             start: startTime,
             end: endTime,
             booked: availability.booked,
+            thisCourse: thisCourse,
           }
         })
 
@@ -137,7 +203,7 @@ export default function CourseDetails({
 
   useEffect(() => {
     fetchAvail()
-  }, [seesCalendar, isCourseTutor, selectedCourse.id]) //events is now deleted
+  }, [seesCalendar, isCourseTutor, selectedCourse.id]) //events is now deleted. With events, you can see when something is booked from other places, but on the downside you cannot release availabilities and select things. It refreshes
 
   const fetchBookings = () => {
     return new Promise((resolve, reject) => {
@@ -177,6 +243,7 @@ export default function CourseDetails({
             end,
             title,
             booked: false,
+            thisCourse: true,
           },
         ])
     }
@@ -232,6 +299,7 @@ export default function CourseDetails({
   }
 
   const deleteMultipleGeneric = (url, data, type = null) => {
+    // console.log("DATA TO DELETE", data)
     axios
       .delete(url, {
         headers: { "Content-Type": "application/json" },
@@ -256,9 +324,12 @@ export default function CourseDetails({
     // console.log(events)
     if (isCourseTutor) {
       //Getting the new availabilities
+      // console.log("All events before filter", events)
       const newAvails = events
         .filter(
-          (event) => !initialAvails.some((avail) => event.start === avail.start)
+          (event) =>
+            event.thisCourse &&
+            !initialAvails.some((avail) => event.start === avail.start)
         )
         .map((event) => {
           const day = event.start.toISOString().split("T")[0] // Extract YYYY-mm-dd from the date
@@ -269,6 +340,7 @@ export default function CourseDetails({
             .replace("T", " ")
           return { course_id, day, start_time }
         })
+      // console.log("All events before after filter", newAvails)
       const newAvailsUrl = `${API_BASE_URL}/availability/${selectedCourse.id}`
       const newAvailsData = { availability_attr: newAvails }
       // console.log("ready to post availabilities", newAvailsData)
@@ -283,6 +355,7 @@ export default function CourseDetails({
       const missingIds = initialAvails
         .filter(
           (initialAvail) =>
+            initialAvail.thisCourse &&
             !events.some((event) => event.start === initialAvail.start)
         )
         .map((missingAvail) => missingAvail.id)
