@@ -30,41 +30,57 @@ export default function MyDeskCalendar() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    // const fetchBookings = async () => {
+    //   try {
+    //     const url = `${API_BASE_URL}/bookings/${user.id}/student`
+    //     const response = await axios.get(url)
+    //     console.log("URL", url)
+    //     console.log("Student's bookings", response)
+
+    //     const initialBookings = response.data
+    //     // Fetch availability details for each booking
+    //     const bookingsWithAvailabilityDetails = await Promise.all(
+    //       initialBookings.map(async (booking) => {
+    //         const availabilityUrl = `${API_BASE_URL}/availability/${booking.availability_id}/available`
+    //         const availabilityResponse = await axios.get(availabilityUrl)
+    //         const availabilityDetails = availabilityResponse.data
+
+    //         // Fetch course details for each availability
+    //         const courseUrl = `${API_BASE_URL}/courses/${availabilityDetails.course_id}`
+    //         const courseResponse = await axios.get(courseUrl)
+    //         const courseDetails = courseResponse.data
+
+    //         // Fetch tutor details for each course
+    //         const tutorUrl = `${API_BASE_URL}/tutors/${courseDetails.tutor_id}`
+    //         const tutorResponse = await axios.get(tutorUrl)
+    //         const tutorDetails = tutorResponse.data
+
+    //         // Combine all details and return
+    //         return {
+    //           ...booking,
+    //           availabilityDetails,
+    //           courseDetails,
+    //           tutorDetails,
+    //         }
+    //       })
+    //     )
+
+    //     setBookings(bookingsWithAvailabilityDetails)
+    //     setIsLoading(false)
+    //   } catch (error) {
+    //     alert("An error has occurred. Read more in the console")
+    //     console.log(error)
+    //   }
+    // }
+
     const fetchBookings = async () => {
       try {
-        const url = `${API_BASE_URL}/bookings/${user.id}/student`
+        const url = `${API_BASE_URL}/bookings/${user.id}/completeStudentBooking`
         const response = await axios.get(url)
-        console.log("URL", url)
-        console.log("Student's bookings", response)
+        // console.log("URL", url)
+        // console.log("Student's bookings", response)
 
-        const initialBookings = response.data
-        // Fetch availability details for each booking
-        const bookingsWithAvailabilityDetails = await Promise.all(
-          initialBookings.map(async (booking) => {
-            const availabilityUrl = `${API_BASE_URL}/availability/${booking.availability_id}/available`
-            const availabilityResponse = await axios.get(availabilityUrl)
-            const availabilityDetails = availabilityResponse.data
-
-            // Fetch course details for each availability
-            const courseUrl = `${API_BASE_URL}/courses/${availabilityDetails.course_id}`
-            const courseResponse = await axios.get(courseUrl)
-            const courseDetails = courseResponse.data
-
-            // Fetch tutor details for each course
-            const tutorUrl = `${API_BASE_URL}/tutors/${courseDetails.tutor_id}`
-            const tutorResponse = await axios.get(tutorUrl)
-            const tutorDetails = tutorResponse.data
-
-            // Combine all details and return
-            return {
-              ...booking,
-              availabilityDetails,
-              courseDetails,
-              tutorDetails,
-            }
-          })
-        )
-
+        const bookingsWithAvailabilityDetails = response.data.bookings
         setBookings(bookingsWithAvailabilityDetails)
         setIsLoading(false)
       } catch (error) {
@@ -75,20 +91,22 @@ export default function MyDeskCalendar() {
 
     const handleFetchBookings = async () => {
       await fetchBookings()
-      console.log("Bookings were fetched?", bookings)
+      // console.log("Bookings were fetched?", bookings)
     }
     handleFetchBookings()
   }, [])
 
-  const events = bookings.map((booking) => ({
-    id: booking.id,
-    start: new Date(booking.availabilityDetails.start_time),
-    end: new Date(booking.availabilityDetails.end_time),
-    title: `${booking.courseDetails.title} with ${booking.tutorDetails.first_name} ${booking.tutorDetails.last_name}`,
-    color: stringToColor(booking.courseDetails.title),
-    course: { ...booking.courseDetails, tutor: { ...booking.tutorDetails } },
-    // tutor: booking.tutorDetails,
-  }))
+  const events = bookings
+    .map((booking) => ({
+      id: booking.id,
+      start: new Date(booking.availabilityDetails.start_time),
+      end: new Date(booking.availabilityDetails.end_time),
+      title: `${booking.courseDetails.title} with ${booking.tutorDetails.first_name} ${booking.tutorDetails.last_name}`,
+      color: stringToColor(booking.courseDetails.title),
+      course: { ...booking.courseDetails, tutor: { ...booking.tutorDetails } },
+      // tutor: booking.tutorDetails,
+    }))
+    .filter((booking) => booking.start > new Date())
 
   const handleEventDelete = (eventId) => {
     setBookings(bookings.filter((booking) => booking.id !== eventId))

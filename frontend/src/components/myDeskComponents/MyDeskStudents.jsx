@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import Spinner from "../otherComponents/Spinner"
-import useFetchAvailabilities, { useFetchCourses } from "../utils"
+import { useFetchAvailabilities, useFetchCourses } from "../utils"
 import CourseIcon from "./CourseIcon"
 import PersonCard from "./PersonCard"
 import CloseIconSimple from "../otherComponents/CloseIconSimple"
