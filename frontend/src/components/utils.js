@@ -429,7 +429,7 @@ export const useCourseDetails = () => {
 };
 
 
-const useFetchAvailabilities = (userId) => {
+export const useFetchAvailabilities = (userId) => {
   const [isLoading, setIsLoading] = useState(true);
   const [availabilities, setAvailabilities] = useState([]);
   const [error, setError] = useState(null);
@@ -438,34 +438,14 @@ const useFetchAvailabilities = (userId) => {
     const fetchAvailabilities = async () => {
       try {
         const response = await axios.get(
-          `${API_BASE_URL}/availability/${userId}/tutor`
+          `${API_BASE_URL}/availability/${userId}/completeTutorAval`
         );
-        const initialAvailabilities = response.data.filter(
-          (avail) => avail.booked === true
-        );
-        const availWithDetails = await Promise.all(
-          initialAvailabilities.map(async (avail) => {
-            const courseResponse = await axios.get(
-              `${API_BASE_URL}/courses/${avail.course_id}`
-            );
-            const courseDetails = courseResponse.data;
-            const bookingsResponse = await axios.get(
-              `${API_BASE_URL}/bookings/${avail.course_id}/course`
-            );
-            const bookingDetails = bookingsResponse.data.find(
-              (booking) => booking.availability_id === avail.id
-            );
-            const studentDetails = await axios.get(
-              `${API_BASE_URL}/students/${bookingDetails.student_id}`
-            );
-            return {
-              ...avail,
-              courseDetails,
-              bookingDetails,
-              studentDetails: studentDetails.data,
-            };
-          })
-        );
+        // console.log("RESPONSE: ", response.data)
+        const availWithDetails = response.data.availabilities
+        // .filter(
+        //   (avail) => avail.booked === true
+        // );
+        
         setAvailabilities(availWithDetails);
         setIsLoading(false);
       } catch (error) {
@@ -483,7 +463,60 @@ const useFetchAvailabilities = (userId) => {
   return { isLoading, availabilities, error };
 };
 
-export default useFetchAvailabilities;
+// export const useFetchAvailabilitiesOLD = (userId) => {
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [availabilities, setAvailabilities] = useState([]);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchAvailabilities = async () => {
+//       try {
+//         const response = await axios.get(
+//           `${API_BASE_URL}/availability/${userId}/tutor`
+//         );
+//         const initialAvailabilities = response.data.filter(
+//           (avail) => avail.booked === true
+//         );
+//         const availWithDetails = await Promise.all(
+//           initialAvailabilities.map(async (avail) => {
+//             const courseResponse = await axios.get(
+//               `${API_BASE_URL}/courses/${avail.course_id}`
+//             );
+//             const courseDetails = courseResponse.data;
+//             const bookingsResponse = await axios.get(
+//               `${API_BASE_URL}/bookings/${avail.course_id}/course`
+//             );
+//             const bookingDetails = bookingsResponse.data.find(
+//               (booking) => booking.availability_id === avail.id
+//             );
+//             const studentDetails = await axios.get(
+//               `${API_BASE_URL}/students/${bookingDetails.student_id}`
+//             );
+//             return {
+//               ...avail,
+//               courseDetails,
+//               bookingDetails,
+//               studentDetails: studentDetails.data,
+//             };
+//           })
+//         );
+//         setAvailabilities(availWithDetails);
+//         setIsLoading(false);
+//       } catch (error) {
+//         console.error("Error fetching availabilities:", error);
+//         setError(error);
+//         setIsLoading(false);
+//       }
+//     };
+
+//     if (userId) {
+//       fetchAvailabilities();
+//     }
+//   }, [userId]);
+
+//   return { isLoading, availabilities, error };
+// };
+
 
 
 

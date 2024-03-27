@@ -23,6 +23,8 @@
   --grey20: #333333;
   --sharuco-bg: rgb(15,23,42, 0.9);
   --modal-bg-color: rgba(86, 169, 187, 0.9);/*rgb(15,23,42, 1);*/  /* --modal-bg-color: var(--white); */
+  --generic-form-bg: rgba(255,255,255, 0.5);
+  --red: red;
   /* --modal-bg-color: rgb(15,23,42, 1); */
   --form-input-height: 40px;
   --form-input-width: 350px;
@@ -107,7 +109,7 @@ h5 {
 
 .navbar-container {
   z-index: 1000;
-  background-color: white;
+  background-color: var(--white);
   box-shadow: 0 8px 8px -8px rgba(0, 0, 0, 0.2);
   padding: 0 var(--page-margin) 0 var(--page-margin);
   position: fixed;
@@ -176,10 +178,9 @@ h5 {
 }
 
 
-.navbar-nav button .nav-link.active  {
+/* .navbar-nav button .nav-link.active  {
   color: yellow;
-  /* font-weight: bold; */
-}
+} */
 
 .navbar-nav  .btn.sign-in {
   background-color: var(--primary-col);
@@ -358,7 +359,7 @@ h5 {
   font-weight: bold;
   text-align: center;
   margin-bottom: 2rem;
-  color: #1a202c;
+  color: var(--black);
 }
 
 @media (max-width: 767px) {
@@ -402,7 +403,7 @@ h5 {
   max-width: 90%;
   height: 300px;
   padding: 2rem;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
 }
@@ -412,7 +413,7 @@ h5 {
   max-width: 3rem;
   min-height: 3rem;
   max-height: 3rem;
-  color: #90cdf4;
+  color: var(--primary-col);
 }
 
 .feature-title {
@@ -421,14 +422,14 @@ h5 {
   text-align: center;
   margin-top: 2rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--black);
 }
 
 .feature-content {
   font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
   text-align: center;
-  color: #1a202c;
+  color: var(--black);
 }
 
 
@@ -460,7 +461,7 @@ h5 {
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  color: #1a202c;
+  color: var(--black);
 }
 
 @media (max-width: 767px) {
@@ -491,7 +492,7 @@ h5 {
   padding: 1rem 2rem 2rem 2rem;
   max-width: 90%;
   height: 350px;
-  background-color: #fff;
+  background-color: var(--white);
   border-radius: 1rem;
   box-shadow: 0 0 1rem rgba(26, 32, 44, 0.2);
   margin-right: 1.5rem;
@@ -501,7 +502,7 @@ h5 {
   width: 6rem;
   min-height: 1.7rem;
   max-height: 1.7rem;
-  color: #90cdf4;
+  color: var(--primary-col);
   /* display: none; */
 }
 
@@ -515,14 +516,14 @@ h5 {
   width: 100%;
   /* min-height: 2rem; */
   margin-top: 2rem;
-  color: #1a202c;
+  color: var(--black);
 }
 
 .course-content-feat {
   font-family: 'Poppins', sans-serif;
   font-size: 1.2rem;
   text-align: center;
-  color: #1a202c;
+  color: var(--black);
 }
 
 .course-link {
@@ -532,7 +533,7 @@ h5 {
   border: 1px solid;
   padding: 1rem 2rem;
   border-radius: 3rem;
-  color: #1a202c;
+  color: var(--black);
   /* bottom: 2px; */
 }
 
@@ -540,11 +541,11 @@ h5 {
   background-color: var(--sharuco-bg);
 }
 .hover-group:hover *:not(.course-icon) {
-  color: white;
+  color: var(--white);
 }
 
 .link-text {
-  color: #1a202c;
+  color: var(--black);
 }
 
 @media (max-width: 767px) {
@@ -556,7 +557,7 @@ h5 {
 .link-icon {
   width: 5rem;
   height: 5rem;
-  color: #90cdf4;
+  color: var(--primary-col);
 }
 
 
@@ -616,7 +617,7 @@ h5 {
   flex-direction: column;
   column-gap: 50px;
   width: 500px;
-  background-color: rgba(255,255,255, 0.5);
+  background-color: var(--generic-form-bg);
   padding: 60px 0 60px 0;
   margin: 0 var(--page-margin) 0 var(--page-margin);
   /* Add box-shadow */
@@ -824,7 +825,7 @@ h5 {
   top: 100%;
   padding: 5px;
   background-color: var(--primary-col);
-  color: white;
+  color: var(--white);
   border-radius: 3px;
   display: none;
   /* white-space: nowrap; */
@@ -1140,7 +1141,7 @@ margin-bottom: 10px;
 
 .delete-booking-btn {
   background-color: var(--white);
-  color: red;
+  color: var(--red);
   border: none;
   display: flex;
   justify-content: start;
@@ -1267,7 +1268,7 @@ margin-bottom: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 20px;
-  background-color: white;
+  background-color: var(--white);
   background-image: url('/search_icon.png');
   background-position: 10px 10px; 
   background-size: 40px 40px;
@@ -1502,7 +1503,7 @@ overflow: hidden;
 }
 
 .course-card:hover *{
-  color: white;
+  color: var(--white);
 }
 
 .course-content {
@@ -1555,7 +1556,7 @@ overflow: hidden;
 } */
 
 .course-title {
-  color: #15191E;
+  color: var(--black);
   max-height: 60px;
   width: 100%;
   display: -webkit-box;
