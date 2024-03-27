@@ -5,6 +5,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.course import Course
 from models.availability import Availability
+from models.student import Student
 from datetime import datetime, timedelta
 from models.tutor import Tutor
 
@@ -179,3 +180,51 @@ def get_tutor_availabilities(tutor_id):
         for available in course.availability:
             availability_list.append(available.to_dict())
     return jsonify(availability_list)
+
+@app_views.route(
+        "/availability/<tutor_id>/completeTutorAval",
+        strict_slashes=False, methods=["GET"]
+        )
+def get_booked_tutor_availability_with_some_details(tutor_id):
+    """This function handles an api that:
+        Get all booked availability of a tutor
+        with some other details.
+    """
+    tutor = storage.get(Tutor, tutor_id)
+    if not tutor:
+        abort(404)
+    full_aval_details = {}
+    complete_tutor_availability = []
+    tutor_courses = tutor.courses
+    booked_availability_list = []
+    for course in tutor_courses:
+        for available in course.availability:
+            if available.booked:
+                booked_availability_list.append(available)
+    for aval in booked_availability_list:
+        details_dict = {}
+        # adding availability details
+        details_dict = aval.to_dict().copy()
+        course_id = aval.course_id
+        course = storage.get(Course, course_id)
+        # adding course details
+        course_dict = course.to_dict()
+        del course_dict["availability"]
+        details_dict["courseDetails"] = course_dict
+        course_availability = course.availability
+        temp_booked_aval = []
+        # crosscheck this part probably i might later remove this for loop
+        for available in course_availability:
+            if available.booked:
+                if available.id == aval.id:
+                    # adding booking details
+                    details_dict["bookingDetails"] = available.booking.to_dict()
+                    break
+        student_id = available.booking.student_id
+        student = storage.get(Student, student_id)
+        # adding student details
+        details_dict["studentDetails"] = student.to_dict()
+        complete_tutor_availability.append(details_dict)
+    full_aval_details["availabilities"] = complete_tutor_availability
+
+    return jsonify(full_aval_details)
