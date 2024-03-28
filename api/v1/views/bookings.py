@@ -6,6 +6,7 @@ from models import storage
 from models.booking import Booking
 from models.course import Course
 from models.student import Student
+from models.tutor import Tutor
 from models.availability import Availability
 import datetime
 
@@ -146,3 +147,42 @@ def delete_booking(student_id):
         else:
             return jsonify({}), 200
     return jsonify({}), 201
+
+
+@app_views.route(
+        "/bookings/<student_id>/completeStudentBooking",
+        strict_slashes=False, methods=["GET"]
+        )
+def get_student_booking_with_some_details(student_id):
+    """This function handles an api that:
+        Get all bookings of a student
+        with some other details.
+    """
+    student = storage.get(Student, student_id)
+    if not student:
+        abort(404)
+    full_booking_details = {}
+    complete_student_booking = []
+    student_bookings = student.bookings
+    for booking in student_bookings:
+        details_dict = {}
+        # adding booking details
+        details_dict = booking.to_dict().copy()
+        availability_id = booking.availability_id
+        availability = storage.get(Availability, availability_id)
+        # adding availability details
+        details_dict["availabilityDetails"] = availability.to_dict()
+        course_id = availability.course_id
+        course = storage.get(Course, course_id)
+        course_dict = course.to_dict()
+        if course_dict.get("availability"):
+            del course_dict["availability"]
+        # adding course details
+        details_dict["courseDetails"] = course_dict
+        tutor_id = course.tutor_id
+        tutor = storage.get(Tutor, tutor_id)
+        # adding tutor details
+        details_dict["tutorDetails"] = tutor.to_dict()
+        complete_student_booking.append(details_dict)
+    full_booking_details["bookings"] = complete_student_booking
+    return jsonify(full_booking_details)

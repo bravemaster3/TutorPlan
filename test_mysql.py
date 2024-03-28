@@ -13,7 +13,7 @@ import hashlib
 
 
 print("I would love to share the demo of our TUTORPLAN website")
-
+"""
 # create dumb names and emails
 Tfirst_names = ["Bello", "Koffi", "Salau", "Balogun", "Ogunde", "Amarachi", "Hassan", "Bushura", "Patience", "Kuku", "Arowolo", "Adewunmi", "Oyelesi"]
 Tlast_names = ["Imoleayo", "Dodji", "Isiaq", "Wasiu", "David", "Love", "Zainab", "Khadijat", "Otuke", "Olajuwon", "Murithador", "Abdulbasit", "Janet"]
@@ -120,4 +120,4 @@ for i in range(10):
     print(storage.get("Availability", available.id))
     print(storage.count("Tutor"))
     print(tutor.city)
-    print("\n..............END.................\n")
+    print("\n..............END.................\n")"""
