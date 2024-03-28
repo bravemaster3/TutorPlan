@@ -181,6 +181,7 @@ def get_tutor_availabilities(tutor_id):
             availability_list.append(available.to_dict())
     return jsonify(availability_list)
 
+
 @app_views.route(
         "/availability/<tutor_id>/completeTutorAval",
         strict_slashes=False, methods=["GET"]
@@ -209,7 +210,8 @@ def get_booked_tutor_availability_with_some_details(tutor_id):
         course = storage.get(Course, course_id)
         # adding course details
         course_dict = course.to_dict()
-        del course_dict["availability"]
+        if course_dict.get("availability"):
+            del course_dict["availability"]
         details_dict["courseDetails"] = course_dict
         course_availability = course.availability
         temp_booked_aval = []
@@ -218,7 +220,8 @@ def get_booked_tutor_availability_with_some_details(tutor_id):
             if available.booked:
                 if available.id == aval.id:
                     # adding booking details
-                    details_dict["bookingDetails"] = available.booking.to_dict()
+                    booking_dict = available.booking.to_dict()
+                    details_dict["bookingDetails"] = booking_dict
                     break
         student_id = available.booking.student_id
         student = storage.get(Student, student_id)
@@ -226,5 +229,4 @@ def get_booked_tutor_availability_with_some_details(tutor_id):
         details_dict["studentDetails"] = student.to_dict()
         complete_tutor_availability.append(details_dict)
     full_aval_details["availabilities"] = complete_tutor_availability
-
     return jsonify(full_aval_details)

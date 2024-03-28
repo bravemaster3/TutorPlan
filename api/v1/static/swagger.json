@@ -1123,7 +1123,130 @@
           }
         }
       }
-    },      
+    },
+    "/api/v1/availability/{tutor_id}/completeTutorAval": {
+      "get": {
+        "summary": "Get all booked availability of a tutor with some other details.",
+        "description": "Retrieve all booked availabilities of a tutor along with additional details.",
+        "tags": ["Availability"],
+        "parameters": [
+          {
+            "name": "tutor_id",
+            "in": "path",
+            "description": "ID of the tutor",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "availabilities": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "course_id": {
+                          "type": "string",
+                          "example": "1234567890"
+                        },
+                        "start_time": {
+                          "type": "string",
+                          "format": "time",
+                          "example": "2024-02-29 12:30:00"
+                        },
+                        "end_time": {
+                          "type": "string",
+                          "format": "time",
+                          "example": "2024-02-29 2:30:00"
+                        },
+                        "day": {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2024-02-29"
+                        },
+                        "courseDetails": {
+                          "$ref": "#/definitions/Course"
+                        },
+                        "bookingDetails": {
+                          "$ref": "#/definitions/Booking"
+                        },
+                        "studentDetails": {
+                          "$ref": "#/definitions/Student"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+        "404": {
+          "description": "Tutor not found"
+        }
+        }
+      }
+    },
+    "/api/v1/bookings/{student_id}/completeStudentBooking": {
+      "get": {
+        "summary": "Get all bookings of a student with some other details.",
+        "description": "Retrieve all bookings of a student along with additional details.",
+        "tags": ["Bookings"],
+        "parameters": [
+          {
+            "name": "student_id",
+            "in": "path",
+            "description": "ID of the student",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "availabilities": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "availability_id": {
+                          "type": "string",
+                          "example": "12sdfgsdf890"
+                        },
+                        "student_id": {
+                          "type": "string",
+                          "example": "ae6fh789j2342341234df"
+                        },
+                        "AvailabilityDetails": {
+                          "$ref": "#/definitions/Availability"
+                        },
+                        "courseDetails": {
+                          "$ref": "#/definitions/Course"
+                        },
+                        "tutorDetails": {
+                          "$ref": "#/definitions/Tutor"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+        "404": {
+          "description": "Student not found"
+          }
+        }
+      }
+    },
     "/api/v1/status": {
       "get": {
         "summary": "Get API status",

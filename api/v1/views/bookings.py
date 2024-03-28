@@ -148,6 +148,7 @@ def delete_booking(student_id):
             return jsonify({}), 200
     return jsonify({}), 201
 
+
 @app_views.route(
         "/bookings/<student_id>/completeStudentBooking",
         strict_slashes=False, methods=["GET"]
