@@ -25,7 +25,7 @@ export default function MyDeskTutors() {
     axios
       .get(url)
       .then((response) => {
-        // console.log("TUTORS", response.data)
+        console.log("TUTORS", response.data)
         setUniqueTutors(response.data)
         setIsLoading(false)
       })
