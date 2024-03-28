@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import axios from "axios"
 import { API_BASE_URL } from "src/apiConfig"
 import Spinner from "components/otherComponents/Spinner"
@@ -43,7 +43,7 @@ export default function Courses() {
   const localizer = momentLocalizer(moment)
 
   const [pageNumber, setPageNumber] = useState(1)
-  const [perPage, setPerPage] = useState(16) // Number of courses per page
+  const [perPage, setPerPage] = useState(8) // Number of courses per page
   const [loadingMore, setLoadingMore] = useState(false)
 
   const location = useLocation()
@@ -71,60 +71,26 @@ export default function Courses() {
 
   const observer = useRef()
 
-  const loadMore = () => {
-    setLoadingMore(true)
-    setTimeout(() => {
-      setPageNumber(pageNumber + 1)
-      setLoadingMore(false)
-    }, 1000) // Simulating loading delay
-  }
-
-  useEffect(() => {
-    observer.current = new IntersectionObserver(
-      (entries) => {
+  const lastCourseElementRef = useCallback(
+    (node) => {
+      if (loadingMore) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
         if (
           entries[0].isIntersecting &&
           filteredCourses.length > paginatedCourses.length
         ) {
-          loadMore()
+          setLoadingMore(true)
+          setTimeout(() => {
+            setPageNumber((prevPageNumber) => prevPageNumber + 1)
+            setLoadingMore(false)
+          }, 1000) // Simulating loading delay
         }
-      },
-      {
-        root: null,
-        rootMargin: "0px",
-        threshold: 0.1, // Trigger when 10% of the target is visible
-      }
-    )
-
-    const scrollObserver = document.querySelector("#scrollObserver")
-    if (scrollObserver && scrollObserver instanceof Element) {
-      observer.current.observe(scrollObserver)
-    }
-
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect()
-      }
-    }
-  }, [filteredCourses, paginatedCourses])
-
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      loadingMore
-    ) {
-      return
-    }
-    if (filteredCourses.length > paginatedCourses.length) {
-      loadMore()
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [filteredCourses, paginatedCourses, loadingMore])
+      })
+      if (node) observer.current.observe(node)
+    },
+    [loadingMore, filteredCourses.length, paginatedCourses.length]
+  )
 
   if (isLoading) {
     return <Spinner text={"Loading courses"} />
@@ -136,17 +102,30 @@ export default function Courses() {
         <h1>Browse our {numberCourses} available courses</h1>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         <div className="courses-container">
-          {paginatedCourses.map((course, index) => (
-            <CourseCard
-              key={course.id}
-              course={course}
-              setSelectedCourse={setSelectedCourse}
-              toggleModal={toggleModal}
-            />
-          ))}
+          {paginatedCourses.map((course, index) => {
+            if (paginatedCourses.length === index + 1) {
+              return (
+                <div ref={lastCourseElementRef} key={course.id}>
+                  <CourseCard
+                    key={course.id}
+                    course={course}
+                    setSelectedCourse={setSelectedCourse}
+                    toggleModal={toggleModal}
+                  />
+                </div>
+              )
+            } else {
+              return (
+                <CourseCard
+                  key={course.id}
+                  course={course}
+                  setSelectedCourse={setSelectedCourse}
+                  toggleModal={toggleModal}
+                />
+              )
+            }
+          })}
         </div>
-        <div id="scrollObserver" style={{ height: "10px" }}></div>
-        {loadingMore && <Spinner text={"Loading more courses..."} />}
       </div>
 
       {isModalOpen && (

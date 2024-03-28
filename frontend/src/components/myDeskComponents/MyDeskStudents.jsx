@@ -37,7 +37,7 @@ export default function MyDeskStudents() {
     axios
       .get(url)
       .then((response) => {
-        // console.log("TUTORS", response.data)
+        console.log("YOUR STUDENTS", response.data)
         setUniqueStudents(response.data)
         setIsLoading(false)
       })
