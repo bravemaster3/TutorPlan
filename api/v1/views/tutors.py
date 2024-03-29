@@ -94,5 +94,6 @@ def get_tutor_students(tutor_id):
     students = []
     for course in courses_owned:
         for student in course.students:
-            students.append(student.to_dict())
+            if student.to_dict() not in students:
+                students.append(student.to_dict())
     return jsonify(students)

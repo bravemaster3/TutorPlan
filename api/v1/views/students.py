@@ -124,5 +124,6 @@ def get_student_tutors(student_id):
     courses_registered = student.courses_registered
     tutors = []
     for course in courses_registered:
-        tutors.append(course.tutor.to_dict())
+        if course.tutor.to_dict() not in tutors:
+            tutors.append(course.tutor.to_dict())
     return jsonify(tutors)
