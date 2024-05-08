@@ -7,7 +7,7 @@ const Layout = () => {
 		<header className=' sticky top-0 z-50 bg-dimWhite dark:bg-slate-700'>
 			<NavBar />
 		</header>
-		<main><Outlet /></main>
+		<main className="mx-auto max-w-4xl dark:text-slate-300 bg-zinc-800"><Outlet /></main>
 	</>
 	)
 }

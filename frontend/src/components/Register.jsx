@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { GenerateComponents, InputField, InputField2, RadioOptions } from './Primitives'
+import { GenerateComponents, InputField, InputField2, RadioOptions, TempForm } from './Primitives'
 import { AiFillInfoCircle } from "react-icons/ai";
 import { RiCloseCircleFill, RiEyeCloseFill, RiEyeLine, RiSearchLine } from "react-icons/ri";
 import axios from '../apiConfig'
 import md5 from 'md5';
+import { Link } from 'react-router-dom';
 
 
 
@@ -133,7 +134,7 @@ const Register = () => {
 		if ((!v1 || !v2 & v3 || !v4 || !v5 || !v6 || !v7)) {
 			console.log("oopsie")
 			console.log(v1, v2, v3, v4, v5, v6, v7);
-			setErrMsg(" Invalid Entry - Missing Fields ");
+			setErrMsg(" Fill out the fields correctly - Missing Fields ");
 			return;
 		}
 		console.log(first_name, last_name, city, country, phone_number, email, bio, md5(pwd), role);
@@ -151,7 +152,7 @@ const Register = () => {
 			// TODO: remove console.logs before deployment
 			console.log(JSON.stringify(response?.data));
 			//console.log(JSON.stringify(response))
-			setSuccess(true);
+
 			//clear state and controlled inputs
 			setFirstName('');
 			setLastName('');
@@ -200,21 +201,16 @@ const Register = () => {
 
 	return (
 		<>
-			{success ? (
-				<section>
-					<h1>Success!</h1>
-					<p>
-						<a href="#">Sign In</a>
-					</p>
-				</section>
-			) : (
-					<section className='flex font-worksans w-3/4 flex-col border bg-slate-400 border-slate-700 mx-auto justify-center  p-8 rounded-md gap-2'>
+
+			<section > {/* section className='flex font-worksans w-3/4 flex-col border bg-slate-400 border-slate-700 mx-auto justify-center  p-8 rounded-md gap-2' */}
+				{/* <p ref={errRef} className={errMsg ? "text-red-500 block font-bold text-3xl text-center" : "sr-only"} aria-live="assertive">{errMsg}</p> */}
+				<TempForm
+					children={<>
 						<p ref={errRef} className={errMsg ? "text-red-500 block font-bold text-3xl text-center" : "sr-only"} aria-live="assertive">{errMsg}</p>
+						<h1 className='text-center text-[40px] font-bold font-roboto mb-1'>Join Us!</h1>
+						<h2 className=' font-roboto text-center mb-6 font-[500]'>You are signing up as a {role} </h2>
 
-
-						<form className=' font-worksans w-full  flex flex-col bg-emerald-500 gap-3 mx-auto border border-slate-200 p-8 ' onSubmit={handleSubmit}>
-							<h1 className='text-center text-3xl font-bold font-roboto mb-10'>Register</h1>
-
+						<section className='grid grid-cols-2  gap-2 '>
 							<InputField2
 								type={"text"}
 								id={"firstname"}
@@ -249,21 +245,39 @@ const Register = () => {
 								showNote={lastNameFocus && last_name && !validLastName}
 							/>
 							<InputField2
-								type={"text"}
-								id={"city"}
-								label={{ label: "City", className: "  text-nowrap font-sky-500" }}
+								type={"email"}
+								id={"email"}
+								label={{ label: "Email", className: "  text-nowrap font-sky-500" }}
 								autoComplete="off"
-								onChange={(e) => setCity(e.target.value)}
-								value={city}
+								onChange={(e) => setEmail(e.target.value)}
+								value={email}
 								required
-								aria-invalid={validCity ? "false" : "true"}
-								aria-describedby="citynote"
-								onFocus={() => setCityFocus(true)}
-								onBlur={() => setCityFocus(false)}
-								pattern={NAME_REGEX.source}
-								note={<WORD_FIELD_INFO />}
-								showNote={cityFocus && city && !validCity}
+								aria-invalid={validEmail ? "false" : "true"}
+								aria-describedby="emailnote"
+								onFocus={() => setEmailFocus(true)}
+								onBlur={() => setEmailFocus(false)}
+								pattern={EMAIL_REGEX.source}
+								showNote={emailFocus && email && !validEmail}
+								note="Invalid Email"
 							/>
+
+							<InputField2
+								type={"text"}
+								id={"phonenumber"}
+								label={{ label: "Phone Number", className: "  text-nowrap font-sky-500" }}
+								autoComplete="off"
+								onChange={(e) => setPhoneNumber(e.target.value)}
+								value={phone_number}
+								required
+								aria-invalid={validPhoneNumber ? "false" : "true"}
+								aria-describedby="pnnote"
+								onFocus={() => setPhoneNumberFocus(true)}
+								onBlur={() => setPhoneNumberFocus(false)}
+								pattern={PHONE_REGEX.source}
+								showNote={phoneNumberFocus && phone_number && !validPhoneNumber}
+								note={<PHONE_FIELD_INFO error={validPhoneNumber} />}
+							/>
+
 							<InputField2
 								type={"text"}
 								id={"country"}
@@ -282,43 +296,188 @@ const Register = () => {
 							/>
 							<InputField2
 								type={"text"}
-								id={"phonenumber"}
-								label={{ label: "Phone Number", className: "  text-nowrap font-sky-500" }}
+								id={"city"}
+								label={{ label: "City", className: "  text-nowrap font-sky-500" }}
 								autoComplete="off"
-								onChange={(e) => setPhoneNumber(e.target.value)}
-								value={phone_number}
+								onChange={(e) => setCity(e.target.value)}
+								value={city}
 								required
-								aria-invalid={validPhoneNumber ? "false" : "true"}
-								aria-describedby="pnnote"
-								onFocus={() => setPhoneNumberFocus(true)}
-								onBlur={() => setPhoneNumberFocus(false)}
-								pattern={PHONE_REGEX.source}
-								showNote={phoneNumberFocus && phone_number && !validPhoneNumber}
-								note={<PHONE_FIELD_INFO error={validPhoneNumber} />}
+								aria-invalid={validCity ? "false" : "true"}
+								aria-describedby="citynote"
+								onFocus={() => setCityFocus(true)}
+								onBlur={() => setCityFocus(false)}
+								pattern={NAME_REGEX.source}
+								note={<WORD_FIELD_INFO />}
+								showNote={cityFocus && city && !validCity}
 							/>
-							<InputField2
-								type={"email"}
-								id={"email"}
-								label={{ label: "Email", className: "  text-nowrap font-sky-500" }}
-								autoComplete="off"
-								onChange={(e) => setEmail(e.target.value)}
-								value={email}
-								required
-								aria-invalid={validEmail ? "false" : "true"}
-								aria-describedby="emailnote"
-								onFocus={() => setEmailFocus(true)}
-								onBlur={() => setEmailFocus(false)}
-								pattern={EMAIL_REGEX.source}
-								showNote={emailFocus && email && !validEmail}
-								note="Invalid Email"
-							/>
+						</section>
+						<InputField2
+							label={{ label: "Password", className: "font-sky-500" }}
+							type={showPwd ? "text" : "password"}
+							id={"password"}
+							onChange={(e) => setPwd(e.target.value)}
+
+
+							required
+							aria-invalid={validPwd ? "false" : "true"}
+							aria-describedby="pwdnote"
+							onFocus={() => setPwdFocus(true)}
+							onBlur={() => setPwdFocus(false)}
+							note={<PWD_FIELD_INFO />}
+							showNote={PwdFocus && !validPwd}
+							// onClick={() => setShowPwd(!showPwd)}
+							rightIcon={showPwd ? <RiEyeLine onClick={() => setShowPwd(!showPwd)} /> : <RiEyeCloseFill onClick={() => setShowPwd(!showPwd)} />}
+						/>
+						<InputField2
+							label={{ label: " Confirm Password", className: "font-sky-500" }}
+							type={"password"}
+							id={"confirmpwd"}
+							onChange={(e) => setMatchPwd(e.target.value)}
+							value={matchPwd}
+							required
+							aria-invalid={validMatch ? "false" : "true"}
+							aria-describedby="pwdnote"
+							onFocus={() => setMatchFocus(true)}
+							onBlur={() => setMatchFocus(false)}
+							note={"Must match the first password input field."}
+							showNote={matchFocus && !validMatch}
+						/>
+						<fieldset>
+
+						</fieldset>
+						<fieldset className=''>
+							<label htmlFor="bio" className='text-nowrap block font-[500]'>Bio (optional)</label>
+							<textarea className='my-auto resize-none  w-full rounded-md disabled:ml-2 p-2' name="bio" id="bio" placeholder='Tell us a little about yourself' onChange={(e) => setBio(e.target.value)} value={bio}></textarea>
+
+						</fieldset>
+						{radioGroup && (
+							<fieldset className={radioGroup.className}>
+								<legend >{radioGroup.label}</legend>
+								<div className={radioGroup.optionsClassName}>
+									<GenerateComponents componentType={RadioOptions} data={radioGroup.options} />
+								</div>
+							</fieldset>
+						)}
+
+
+
+						<button onClick={handleSubmit} className='bg-blue-800 block p-2 mx-auto  mt-3 disabled:bg-zinc-600 text-slate-200' >Sign Up</button>
+						<span>Have an account? <Link to={"/login"} className='underline'>Sign in</Link></span>
+
+					</>
+					} />
+
+
+				{/* <form className=' font-worksans  flex flex-col bg-emerald-500 gap-2 mx-auto border border-slate-200 p-8 ' onSubmit={handleSubmit}>
+					<p ref={errRef} className={errMsg ? "text-red-500 block font-bold text-3xl text-center" : "sr-only"} aria-live="assertive">{errMsg}</p>
+					<h1 className='text-center text-3xl font-bold font-roboto mb-1'>Join Us!</h1>
+					<h2 className=' font-roboto text-center mb-6 font-[500]'>You are signing up as a {role} </h2>
+
+					<section className='grid grid-cols-2  gap-2 '>
+						<InputField2
+							type={"text"}
+							id={"firstname"}
+							label={{ label: "First Name", className: "  text-nowrap font-sky-500" }}
+							myRef={fnameRef}
+							autoComplete="off"
+							onChange={(e) => setFirstName(e.target.value)}
+							required
+							aria-invalid={validFirstName ? "false" : "true"}
+							aria-describedby="fnamenote"
+							onFocus={() => setFirstNameFocus(true)}
+							onBlur={() => setFirstNameFocus(false)}
+							note={<WORD_FIELD_INFO />}
+							pattern={USER_REGEX.source}
+							showNote={firstNameFocus && first_name && !validFirstName}
+						/>
+						<InputField2
+							type={"text"}
+							id={"lastname"}
+							label={{ label: "Last Name", className: "  text-nowrap font-sky-500" }}
+							autoComplete="off"
+							onChange={(e) => setLastName(e.target.value)}
+							value={last_name}
+							required
+							aria-invalid={validLastName ? "false" : "true"}
+							aria-describedby="lnamenote"
+							onFocus={() => setLastNameFocus(true)}
+							onBlur={() => setLastNameFocus(false)}
+							note={<WORD_FIELD_INFO />}
+							pattern={EMAIL_REGEX.source}
+							showNote={lastNameFocus && last_name && !validLastName}
+						/>
+						<InputField2
+							type={"email"}
+							id={"email"}
+							label={{ label: "Email", className: "  text-nowrap font-sky-500" }}
+							autoComplete="off"
+							onChange={(e) => setEmail(e.target.value)}
+							value={email}
+							required
+							aria-invalid={validEmail ? "false" : "true"}
+							aria-describedby="emailnote"
+							onFocus={() => setEmailFocus(true)}
+							onBlur={() => setEmailFocus(false)}
+							pattern={EMAIL_REGEX.source}
+							showNote={emailFocus && email && !validEmail}
+							note="Invalid Email"
+						/>
+
+						<InputField2
+							type={"text"}
+							id={"phonenumber"}
+							label={{ label: "Phone Number", className: "  text-nowrap font-sky-500" }}
+							autoComplete="off"
+							onChange={(e) => setPhoneNumber(e.target.value)}
+							value={phone_number}
+							required
+							aria-invalid={validPhoneNumber ? "false" : "true"}
+							aria-describedby="pnnote"
+							onFocus={() => setPhoneNumberFocus(true)}
+							onBlur={() => setPhoneNumberFocus(false)}
+							pattern={PHONE_REGEX.source}
+							showNote={phoneNumberFocus && phone_number && !validPhoneNumber}
+							note={<PHONE_FIELD_INFO error={validPhoneNumber} />}
+						/>
+
+						<InputField2
+							type={"text"}
+							id={"country"}
+							label={{ label: "Country", className: "  text-nowrap font-sky-500" }}
+							autoComplete="off"
+							onChange={(e) => setCountry(e.target.value)}
+							value={country}
+							required
+							aria-invalid={validCountry ? "false" : "true"}
+							aria-describedby="countrynote"
+							onFocus={() => setCountryFocus(true)}
+							onBlur={() => setCountryFocus(false)}
+							pattern={NAME_REGEX.source}
+							note={<WORD_FIELD_INFO />}
+							showNote={countryFocus && country && !validCountry}
+						/>
+						<InputField2
+							type={"text"}
+							id={"city"}
+							label={{ label: "City", className: "  text-nowrap font-sky-500" }}
+							autoComplete="off"
+							onChange={(e) => setCity(e.target.value)}
+							value={city}
+							required
+							aria-invalid={validCity ? "false" : "true"}
+							aria-describedby="citynote"
+							onFocus={() => setCityFocus(true)}
+							onBlur={() => setCityFocus(false)}
+							pattern={NAME_REGEX.source}
+							note={<WORD_FIELD_INFO />}
+							showNote={cityFocus && city && !validCity}
+						/>
+					</section>
 							<InputField2
 								label={{ label: "Password", className: "font-sky-500" }}
 								type={showPwd ? "text" : "password"}
 								id={"password"}
 								onChange={(e) => setPwd(e.target.value)}
-
-
 								required
 								aria-invalid={validPwd ? "false" : "true"}
 								aria-describedby="pwdnote"
@@ -348,7 +507,7 @@ const Register = () => {
 							</fieldset>
 							<fieldset className=''>
 								<label htmlFor="bio" className='text-nowrap block font-[500]'>Bio (optional)</label>
-								<textarea className='my-auto   rounded-md disabled:ml-2 p-2' name="bio" id="bio" placeholder='Tell us a little about yourself' onChange={(e) => setBio(e.target.value)} value={bio}></textarea>
+						<textarea className='my-auto  w-full rounded-md disabled:ml-2 p-2' name="bio" id="bio" placeholder='Tell us a little about yourself' onChange={(e) => setBio(e.target.value)} value={bio}></textarea>
 
 							</fieldset>
 							{radioGroup && (
@@ -366,11 +525,11 @@ const Register = () => {
 
 
 
-						</form>
+						</form> */}
 
 
-					</section>
-			)}
+			</section>
+
 			{/* <div className=' foo'>
 				<p>Paragraph</p>
 				<label>I am a label</label>

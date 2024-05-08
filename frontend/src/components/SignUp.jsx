@@ -61,7 +61,7 @@ const SignUp = () => {
 
   console.log(formData)
   const SignUpProps = {
-    formClasses: ' grid grid-cols-2  gap-2 border font-worksans   mx-auto justify-center   p-8 rounded-md',
+    formClasses: ' grid grid-cols-2  gap-2 border font-worksans   mx-auto justify-center   p-6 rounded-md',
     title: {
       className: 'text-[40px] font-roboto font-bold text-center col-span-2',
       label: 'Join Us!',

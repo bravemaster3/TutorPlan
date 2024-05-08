@@ -37,7 +37,7 @@ const About = () => {
     }
   ];
   return (
-    <main className='flex flex-col gap-8 py-4'>
+    <div className='flex flex-col gap-8 py-4'>
       <section id='story'>
         <h2 className='dark:text-slate-200 text-2xl mb-6'>Our Story</h2>
         <p className='dark:text-slate-400'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nam quo voluptate maiores? Soluta delectus magnam vero ducimus, suscipit nobis, corrupti quos accusantium impedit saepe incidunt, quia debitis quas non at.
@@ -67,7 +67,7 @@ const About = () => {
           ))}
         </div>
       </section>
-    </main>
+    </div>
   )
 }
 

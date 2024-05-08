@@ -6,7 +6,7 @@ import { FeaturedCourses, Features, Footer, Hero } from './HomeSections'
 const Home = () => {
   return (
     <>
-      <main className='mx-auto max-w-4xl '>
+      <>
         <Hero />
         <hr className="mx-auto bg-yellow-500 w-1/2 " />
         <Features />
@@ -16,7 +16,7 @@ const Home = () => {
 
 
 
-      </main>
+      </>
       <Footer />
     </>
   )

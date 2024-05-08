@@ -4,16 +4,20 @@ import { AiOutlineUser } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { Modal } from '../Primitives';
-import CalendarModal from './CalendarModal';
+import CalendarModal from './CourseCalendar';
 import useAuth from '../../hooks/useAuth';
-import axios from '../../apiConfig'
+import axios, { getCourses, getOtherUser } from '../../apiConfig'
+import useSWR from 'swr'
+import SkeletonUser from '../Skeletons/SkeletonUser';
+import { PiParallelogramDuotone } from 'react-icons/pi';
 
 const ViewOtherUsers = () => {
-  const { auth } = useAuth();
-  const isTutor = auth.roles === 'tutor'
+  const { auth, isTutor } = useAuth();
+  const cacheKey = `/${auth.roles}s/${auth.userData.id}${isTutor ? '/students' : '/tutors'}`
+  //const isTutor = auth.roles === 'tutor'
   const [numberOtherUsers, setnumberOtherUsers] = useState(0)
   const [modalOpen, setModalOpen] = useState(false);
-
+console.log("other users")
   const openModal = () => {
 
     setModalOpen(true);
@@ -24,59 +28,12 @@ const ViewOtherUsers = () => {
     setModalOpen(false);
   };
   const [otherUsers, setOtherUsers] = useState([])
-
-  useEffect(() => {
-    const fetchOtherUsers = async () => {
-      try {
-        const OTHER_USER_URL = `/${auth.roles}s/${auth.userData.id}/${isTutor ? 'students' : 'tutors'}`
-
-        const response = await axios.get(OTHER_USER_URL);
-        console.log(JSON.stringify(response.data))
-        /*  const uniqueUsersMap = {};
-
-       // Iterate over each user object and store it in the uniqueUsersMap
-        response.data.forEach(user => {
-          uniqueUsersMap[user.id] = user;
-          console.log(user)
-        });
-
-        // Convert the uniqueUsersMap object back to an array
-        const uniqueUsers = Object.values(uniqueUsersMap);
-        console.log(uniqueUsersMap)
-        console.log(uniqueUsers) */
-
-        var flags = {}, uniqueUsers = [], l = response.data.length, i;
-        for (i = 0; i < l; i++) {
-          if (flags[response.data[i].id]) { continue; }
-
-          flags[response.data[i].id] = true;
-          uniqueUsers.push(response.data[i]);
-        }
-
-
-
-        setOtherUsers(uniqueUsers);
-        // setOtherUsers(Object.values(response.data));
-        // setOtherUsers(Object.values(response.data));
-
-
-
-      } catch (error) {
-        console.log(error)
-
-      }
-    }
-    fetchOtherUsers();
-
-  }, [])
-
-  useEffect(() => {
-    setnumberOtherUsers(otherUsers.length)
-  }, [otherUsers])
-
-
-
-
+  const { isLoading,
+    error,
+    data: otherUsersAPI,
+    mutate, } = useSWR(cacheKey, ()=>getOtherUser(`${auth.roles}s`, auth.userData.id, isTutor))
+    //console.log(otherUsersAPI)
+  
   const viewModal = (tutor) => {
     setOtherUsers(tutor)
     console.log("Printing tutor")
@@ -179,14 +136,42 @@ const ViewOtherUsers = () => {
     )
   }
 
+  let content;
+  let currentOther;
+
+  if (isLoading) {
+    console.log("Loading")
+    content = (
+      [...Array(4).keys()].map(i => {
+        return <SkeletonUser key={i} />
+      })
+    )
+  }
+  else if (error) {
+    content = <p>Courses could not be loaded</p>
+  }
+  else {
+     currentOther = (otherUsersAPI.length)
+    
+    content = <>{
+      otherUsersAPI.map((otherUser) => (
+        <UserCard key={otherUser.id} otherUser={otherUser} />
+
+      ))
+    }</>
+  }
+  useEffect(() => {
+    setnumberOtherUsers(currentOther);
+  }, [currentOther]);
   return (
-    <div>
-      <h2 className='text-3xl text-center mx-auto dark:text-slate-200'>You have {numberOtherUsers} {isTutor ? "students" : "tutors"}</h2>
-      <section className='mx-auto flex flex-wrap  p-8'>
-        {otherUsers.map((otherUser) => (
+    <>
+      <h2 className='text-3xl text-center my-11 mx-auto dark:text-slate-200'>{isLoading ? 'Loading your ' :'You have ' } {numberOtherUsers} {isTutor ? "student" : "tutor"}{numberOtherUsers === 1 ? '' : 's'}</h2>
+      <section className='mx-auto flex flex-wrap gap-2 justify-center p-8'>
+        {content}
+        {/* {otherUsers.map((otherUser) => (
           <UserCard key={otherUser.id} otherUser={otherUser} />
 
-        ))}
+        ))} */}
         {modalOpen && (< Modal isOpen={modalOpen} onClose={closeModal} children={<CalendarModal tutor={otherUsers} title={`Appointments with ${otherUsers.first_name}`} />} />)}
 
 
@@ -195,7 +180,7 @@ const ViewOtherUsers = () => {
 
 
 
-    </div>
+    </>
   )
 }
 

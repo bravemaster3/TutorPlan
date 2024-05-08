@@ -7,6 +7,7 @@ import SearchItem from "./SearchItem";
 import RadioOptions from "./RadioOptions";
 import Modal from "./Modal";
 import InputField2 from "./InputFieldWithIcon";
+import TempForm from "./tempForm";
 
 
 export{
@@ -19,4 +20,5 @@ export{
 	RadioOptions,
 	Modal,
 	InputField2,
+	TempForm,
 };

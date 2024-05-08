@@ -16,7 +16,7 @@ const SideBar = () => {
 
   const [expanded, setExpanded] = useState(false)
   return (
-    <aside className='fixed   left-1 top-1/4 z-[50] text-slate-200 shadow-lg rounded-lg bg-gray-700 my-auto flex flex-col    p-2 '>
+    <aside className='fixed top-1/4 z-[50] text-slate-200 shadow-lg rounded-lg bg-gray-700 my-auto flex flex-col p-2 '>
       {/* <nav className=' bg-gray-700 my-auto flex flex-col  text-slate-200  p-2 rounded-lg'> */}
       <button onClick={() => setExpanded(curr => !curr)} className='flex relative flex-col items-center justify-center h-12 mt-2 mb-2 w-12 mx-auto shadow-lg bg-gray-800 text-green-600 hover:bg-green-600 hover:text-slate-200 rounded-3xl hover:rounded-lg transition-all duration-300 ease-linear cursor-pointer group'>
         {expanded ? <BsChevronBarLeft size={24} /> : <BsChevronBarRight size={24} />}
@@ -30,8 +30,6 @@ const SideBar = () => {
         <ul className='flex-1 px-2'>
           <SideBarIcon path={"desk"} icon={<MdOutlineDesk size={32} />} text='Desk' />
           <SideBarIcon path={"calendar"} icon={<PiCalendarBlank size={32} />} text='Calendar' />
-
-
           <SideBarIcon icon={<PiBooks
             size={32} />} text='Courses' path={"mycourses"} />
           <SideBarIcon icon={<PiAddressBook size={32} />} text={isTutor ? 'Students' : 'Tutors'} path={isTutor ? "students" : 'tutors'} />
@@ -42,9 +40,6 @@ const SideBar = () => {
       </SidebarContext.Provider>
 
       {/*  </nav> */}
-
-
-
     </aside>
   )
 }

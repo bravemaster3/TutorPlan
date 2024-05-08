@@ -1,11 +1,64 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { navLinks } from '../constants';
+/* import { navLinks } from '../constants'; */
 import { logo, resized_logo } from '../assets';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth'
+import useLogout from '../hooks/useLogout';
 
 
 const NavBar = () => {
+  const { auth } = useAuth();
+  const navigate = useNavigate();
+  const logout = useLogout();
+
+  const signOut = () => {
+    logout();
+    navigate('/login');
+    console.log('signing out')
+
+
+  }
+  //console.log(auth)
+
+
+  const navLinks = [
+    {
+      id: "home",
+      title: "Home",
+      to: "/"
+    },
+
+    {
+      id: "courses",
+      title: "Courses",
+      to: "/Courses"
+    },
+    {
+      id: "my-desk",
+      title: "My Desk",
+      to: "/mydesk"
+    },
+    {
+      id: "about",
+      title: "About Us",
+      to: "/about"
+    },
+    (auth.userData ?
+      {
+        id: "logout",
+        title: "LOG OUT",
+        to: "/login"
+      } :
+      {
+        id: "login",
+        title: "SIGN IN",
+        to: "/login"
+      }),
+
+  ];
+
+
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [selectedLink, setSelectedLink] = useState('');
 
@@ -13,7 +66,7 @@ const NavBar = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 640 && isMobileMenuOpen) {
         setMobileMenuOpen(false);
@@ -41,8 +94,8 @@ const NavBar = () => {
               <Link
                 to={nav.to}
                 className={`${selectedLink === nav.id ? 'text-green-400' : ''
-                  } ${((index === navLinks.length - 1) && (!isMobileMenuOpen)) ? " text-slate-100 bg-green-500 px-2 py-1 shadow-md rounded-sm" : "text-slate-200 sm:text-slate-900 dark:text-slate-300 hover:text-orange-400"} active:text-green-500 focus:text-green-400`}
-                onClick={() => setSelectedLink(nav.id)}>
+                  } ${((index === navLinks.length - 1) && (!isMobileMenuOpen)) ? ` text-slate-100 ${nav.id === 'logout' ? ' bg-slate-500 ' : '  bg-green-500 '}  px-2 py-1 shadow-md rounded-sm` : "text-slate-200 sm:text-slate-900 dark:text-slate-300 hover:text-orange-400"} active:text-green-500 focus:text-green-400`}
+                onClick={() => { setSelectedLink(nav.id); console.log(nav.id); if (nav.id === 'logout') { signOut() } }}>
                 {nav.title}</Link>
             </li>
           ))}

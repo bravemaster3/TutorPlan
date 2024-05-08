@@ -1,19 +1,31 @@
 import React from 'react'
 import { useState } from 'react'
-import { InputField2, Modal } from '../Primitives'
-import AddCourse from './AddCourse'
+import { InputField2, Modal, TempForm } from '../Primitives'
+/* import AddCourse from './AddCourse' */
 import SignUp from '../SignUp'
 import SignIn from '../SignIn'
 import { AiOutlineEye } from 'react-icons/ai'
 import { RiSearchLine } from 'react-icons/ri'
 import Register from '../Register'
-import Login from '../Login'
 import useAuth from '../../hooks/useAuth'
+import Login from '../Login';
+import AddCourse from './AltAddCourse'
+import { MdOutlineAdd } from 'react-icons/md'
+import useFormContext from '../../hooks/useFormContext'
+import CalendarModal from './CourseCalendar'
+import CourseForm from './CourseForm'
+import useFormCoursesContext from '../../hooks/useFormCoursesContext'
+//import { FormProvider } from '../../context/FormProvider'
 
 
 const UserDesk = () => {
-  const { auth } = useAuth();
-  console.log(auth.userData.first_name)
+  
+  const { auth, isTutor } = useAuth();
+  const { editMode, setEditMode } = useFormContext();
+  const {reset, setReset} = useFormCoursesContext;
+  // console.log("i am a tutor", isTutor)
+  //console.log("Edit enabled?", editMode)
+
   const inputFieldData =
   {
     label: { label: 'Password', className: 'font-worksans font-[500] ' },
@@ -34,22 +46,35 @@ const UserDesk = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const openModal = () => {
-    setModalOpen(true);
-    console.log("opening modal")
+    // console.log("opening modal")
+    setModalOpen(true)
+    // setEditMode(true)
+
   };
 
   const closeModal = () => {
     setModalOpen(false);
+    // setEditMode(false)
+
   };
+  //console.log(auth.userData)
 
   return (
-    <div>
-      <h2 className='text-3xl text-center mx-auto dark:text-slate-200'> Welcome {auth.userData.first_name} </h2>
-      <section className='flex flex-col h-full '>
-        <h2 className='text-center bg-blue-800'>
+    <>{/* className='bg-blue-600 flex flex-col h-screen w-full' */}
+      <h2 className='text-[3rem] h-fit w-fit  my-11 bg-purple-500 dark:text-slate-200'> Welcome, {auth.userData.first_name} </h2>
+      <section className='flex flex-col bg-yellow-800 w-3/4 items-center mx-auto '>
+        <div className="w-[360px]">
+          <button className=" m-auto rounded-full bg-zinc-700 w-20 h-20  flex items-center justify-center text-slate-200" onClick={openModal}>
+            <MdOutlineAdd size={30} className=" w-full h-full p-1 rounded-full hover:bg-orange-500 hover:text-slate-100" />
+          </button>
+        </div>
+       
+          <CourseForm />
+
+        
 
 
-        </h2>
+
 
 
 
@@ -131,10 +156,11 @@ const UserDesk = () => {
         </form>
  */}
       </section>
+      {/* <FormProvider> */}
+      <Modal isOpen={modalOpen} onClose={closeModal} children={<AddCourse />} />
+      {/* </FormProvider> */}
 
-      {/* <Modal isOpen={modalOpen} onClose={closeModal} children={<SignIn />} /> */}
-
-    </div>
+    </>
   )
 }
 

@@ -32,6 +32,7 @@ const InputField = ({ label, id, inputClasses, containerClasses, type, placehold
         {...(hasDefaultChecked ? { defaultChecked: defaultChecked } : {})}
 
       />
+      {disabled && <span className='w-full'> <hr /> </span>}
 
     </div>
   )

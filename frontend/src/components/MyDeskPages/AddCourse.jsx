@@ -42,18 +42,7 @@ const AddCourse = () => {
     // console.log(accountTypeSignUp) // Add this line
     const url = `${API_BASE_URL}/${accountTypeSignUp}s`
     console.log(formData)
-    /*  const data = formData */
-    /*   axios
-        .post(url, data, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((response) => {
-          console.log(response)
-        })
-        .catch((error) => {
-          alert("An error has occured. Signup was unsuccessful")
-          console.log(error)
-        }) */
+    
 
     navigateTo("/login")
   }
@@ -161,8 +150,6 @@ const AddCourse = () => {
   };
   return (
     <main>
-
-
       <BaseForm{...AddCourseProps} /></main>
   )
 }

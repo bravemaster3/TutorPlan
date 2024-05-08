@@ -1,6 +1,7 @@
 import {  MdOutlineDesk, MdOutlineDirectionsRun, MdOutlineEditCalendar, MdOutlinePushPin, MdOutlineSchedule } from "react-icons/md";
 import {  courses, facebook, instagram, linkedin, my_desk, my_desk_courses, twitter  } from "../assets";
-
+/* import useAuth from '../hooks/useAuth'
+const { auth } = useAuth(); */
 
 export const navLinks = [
      {
@@ -28,7 +29,7 @@ export const navLinks = [
     id: "login",
     title: "SIGN IN",
     to: "/login"
-  },
+  }
 
 ];
 export const heroContent={

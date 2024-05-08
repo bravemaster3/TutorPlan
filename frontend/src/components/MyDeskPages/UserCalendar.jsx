@@ -9,7 +9,7 @@ const UserCalendar = () => {
 
   return (
     <>
-      <span className=' text-center mx-auto dark:text-slate-200'>
+      <span className=' text-center mx-auto my-11 dark:text-slate-200'>
         <h2 className='text-3xl'>Calendar</h2>
         <p>Shows all appointments here</p>
         <p>Option for tutors to drag and drop courses</p>

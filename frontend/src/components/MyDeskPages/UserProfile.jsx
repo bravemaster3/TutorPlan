@@ -3,7 +3,7 @@ import { AiOutlineUser } from 'react-icons/ai'
 import { BaseForm, GenerateComponents, InputField, RadioOptions } from '../Primitives'
 import { useNavigate } from 'react-router'
 import useAuth from '../../hooks/useAuth'
-import axios from '../../apiConfig'
+import axios, { updateUser } from '../../apiConfig'
 import md5 from 'md5';
 
 // TO-DO:
@@ -18,6 +18,7 @@ const UserProfile = () => {
   const { setAuth } = useAuth();
   const isTutor = auth.roles === 'tutor'
   const mydict = auth.userData
+  
   /*  console.log(mydict) */
   const { id, __class__, updated_at, created_at, email, ...filteredDict } = auth.userData;
   /*   console.log(filteredDict); */
@@ -55,19 +56,21 @@ const UserProfile = () => {
     if (editMode) {
       // console.log("saving")
       try {
-        const response = await axios.put(UPDATE_USER_URL,
+        /* const response = await axios.put(UPDATE_USER_URL,
           JSON.stringify(formData),
           {
             headers: { 'Content-Type': 'application/json' }
             // withCredentials: true
           }
 
-        );
+        ); */
+        const response = await updateUser(`${auth.roles}s`, auth.userData.id, formData)
+        console.log("updated!")
 
         setAuth(prev => {
           // console.log(JSON.stringify(prev))
           // console.log(JSON.stringify(response?.data))
-          return { ...prev, userData: response.data }
+          return { ...prev, userData: response }
 
         })
 
@@ -103,7 +106,7 @@ const UserProfile = () => {
     handleFormSubmit: handleSignUp,
     formFields: [
       {
-        label: { label: 'Firsts Name', className: ' font-[500] text-nowrap ' },
+        label: { label: 'First Name: ', className: ' font-[500] text-nowrap ' },
         id: 'firstName',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px]  ',
@@ -114,7 +117,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'Last Name', className: ' font-[500] text-nowrap ' },
+        label: { label: 'Last Name: ', className: ' font-[500] text-nowrap ' },
         id: 'lastName',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px]',
@@ -126,7 +129,7 @@ const UserProfile = () => {
       },
 
       {
-        label: { label: 'Phone Number', className: 'font-[500] text-nowrap ' },
+        label: { label: 'Phone Number: ', className: 'font-[500] text-nowrap ' },
         id: 'phoneNumber',
         type: 'tel',
         inputClasses: 'px-4 rounded-[8px] py-[4px]',
@@ -138,7 +141,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'Country', className: 'font-[500] ' },
+        label: { label: 'Country: ', className: 'font-[500] ' },
         id: 'country',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px] col-span-2',
@@ -149,7 +152,7 @@ const UserProfile = () => {
         onChange: handleChange,
       },
       {
-        label: { label: 'City', className: 'font-[500]' },
+        label: { label: 'City: ', className: 'font-[500]' },
         id: 'city',
         type: 'text',
         inputClasses: 'px-4 rounded-[8px] py-[4px]',
@@ -269,17 +272,17 @@ const UserProfile = () => {
       }
     }, [editMode, initialValues])
   } */
-
+  console.log("Profile")
   return (
-    <div className='mx-auto w-1/2'>
-      <h2 className='text-3xl text-center mx-auto dark:text-slate-200'>Profile</h2>
+    <>
+      <h2 className='text-3xl text-center mx-auto my-11 dark:text-slate-200'>Profile</h2>
       <AiOutlineUser
         size={32}
-        className="w-20 h-20  rounded-full border mx-auto mb-4 border-slate-700 group-hover:border-slate-200 "
+        className="w-20 h-20  rounded-full border mx-auto mb-3 border-slate-700 group-hover:border-slate-200 "
       />
       <p className='text-xl text-center mx-auto dark:text-slate-200 mb-8'>{email}</p>
       <BaseForm{...SignUpProps} modal={false} />
-    </div>
+    </>
   )
 }
 

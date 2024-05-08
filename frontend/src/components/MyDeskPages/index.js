@@ -1,6 +1,6 @@
 import AddCourse from "./AddCourse";
 import BookingPolicy from "./BookingPolicy";
-import CalendarModal from "./CalendarModal";
+import CalendarModal from "./CourseCalendar";
 import SideBar from "./SideBar";
 import UserCalendar from "./UserCalendar";
 import UserCourses from "./UserCourses";
