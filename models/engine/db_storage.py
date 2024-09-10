@@ -12,6 +12,7 @@ from models.availability import Availability
 from models.booking import Booking
 from models.student import Student
 
+
 ValidClasses = [Course, Tutor, Availability, Booking, Student]
 classes = {
         "Course": Course, "Tutor": Tutor,
@@ -19,9 +20,8 @@ classes = {
         "Student": Student
         }
 
-
 class DBStorage():
-    """This class is use to handle the MYSQL database for the
+    """This class is use to handle the PostgreSQL database for the
         TutorPlan website.
 
         Private class attributes:
@@ -41,25 +41,29 @@ class DBStorage():
 
     def __init__(self):
         """create an instance of engine with self.__engine and link it to
-            the MYSQL database
-            dialect: mysql
-            driver: mysqldb
+            the PostgreSQL database
+            dialect: postgresql
+            driver: psycopg2
         """
-        # retrive all environment variables that is neccessary to
-        # connect to the tutorplan mysql server
-        USER = os.getenv("TUTORPLAN_MYSQL_USER")
-        PASWD = os.getenv("TUTORPLAN_MYSQL_PWD")
-        HOST = os.getenv("TUTORPLAN_MYSQL_HOST")
-        DB = os.getenv("TUTORPLAN_MYSQL_DB")
-        # USER = secure.USER
-        # PASWD = secure.PASWD
-        # HOST = secure.HOST
-        # DB = secure.DB
+        # retrieve all environment variables that are necessary to
+        # connect to the iAmReady PostgreSQL server
+        USER = os.getenv("TUTORPLAN_PSQL_USER")
+        PASWD = os.getenv("TUTORPLAN_PSQL_PWD")
+        HOST = os.getenv("TUTORPLAN_PSQL_HOST")
+        DB = os.getenv("TUTORPLAN_PSQL_DB")
+        PORT = os.getenv("TUTORPLAN_PSQL_PORT", 5432)
 
-        # create an instance of create_engine that link to
-        # the tutorplan mysql server
+
+        # self.__engine = create_engine(
+        #         'postgresql+psycopg2://{}:{}@{}:{}/{}'.format(USER, PASWD, HOST, PORT, DB),
+        #         pool_pre_ping=True
+        #         )
+
+        # create an instance of create_engine that links to
+        # the iAmReady PostgreSQL server
+
         self.__engine = create_engine(
-                'mysql+mysqldb://{}:{}@{}/{}'.format(USER, PASWD, HOST, DB),
+                'postgresql+psycopg2://{}:{}@{}/{}'.format(USER, PASWD, HOST, DB),
                 pool_pre_ping=True
                 )
 
@@ -90,8 +94,8 @@ class DBStorage():
             self.__session.delete(obj)
 
     def all(self, cls=None):
-        """return all objects of each classes otherwise
-            return objects that belongs to cls if it's not None
+        """return all objects of each class, otherwise
+            return objects that belong to cls if it's not None
         """
         objs_dict = {}
         if cls in ValidClasses:
@@ -111,7 +115,7 @@ class DBStorage():
         self.__session.remove()
 
     def get(self, cls, id):
-        """retrive an object with the specified cls and id"""
+        """retrieve an object with the specified cls and id"""
         if cls in classes.values():
             all_cls = self.all(cls)
             for key, value in classes.items():
@@ -126,7 +130,7 @@ class DBStorage():
             return None
 
     def count(self, cls=None):
-        """count the number of objects in storage that belongs to cls"""
+        """count the number of objects in storage that belong to cls"""
         count = 0
         if cls in classes.values():
             all_cls = self.all(cls)

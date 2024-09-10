@@ -27,3 +27,4 @@ typing-extensions==4.10.0
 tzlocal==5.2
 werkzeug==3.0.1
 zipp==3.18.1
+psycopg2-binary==2.9.9
